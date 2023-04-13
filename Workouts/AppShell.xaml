@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="WorkoutsApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:workouts="clr-namespace:WorkoutsApp.Pages.Workouts"
+    xmlns:settings="clr-namespace:WorkoutsApp.Pages.Settings"
+    FlyoutBehavior="Disabled">
+    <TabBar IsEnabled="{Binding IsBusy}">
+        <Tab Route="Workouts" Title="Workouts">
+            <Tab.Icon>
+                <FontImageSource FontFamily="FAS" Glyph="{StaticResource GymIcon}"></FontImageSource>
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate workouts:WorkoutsPage}" />
+        </Tab>
+        <Tab Route="Settings" Title="Settings">
+            <Tab.Icon>
+                <FontImageSource FontFamily="FAS" Glyph="{StaticResource SettingsIcon}"></FontImageSource>
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate settings:Settings}" />
+        </Tab>
+    </TabBar>
+
+</Shell>

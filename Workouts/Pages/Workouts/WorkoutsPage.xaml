@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<templates:BasePage
+    x:Class="WorkoutsApp.Pages.Workouts.WorkoutsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:workouts="clr-namespace:WorkoutsApp.Pages.Workouts"
+    xmlns:templates="clr-namespace:WorkoutsApp.Pages.Templates"
+    Title="Workouts"
+    x:DataType="workouts:WorkoutsViewModel"
+    BindingContext="{Binding}"
+    RootViewModel="{Binding}">
+
+    <StackLayout>
+        <Label FontSize="20" Text="Lista allenamenti" />
+        <ListView ItemsSource="{Binding Workouts}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid Padding="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </StackLayout>
+
+</templates:BasePage>

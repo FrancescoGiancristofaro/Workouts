@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<templates:BasePage
+    x:Class="WorkoutsApp.Pages.Exercises.ExercisesListPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:exercise="clr-namespace:WorkoutsApp.Pages.Exercises"
+    xmlns:models="clr-namespace:WorkoutsApp.Models.DB"
+    xmlns:templates="clr-namespace:WorkoutsApp.Pages.Templates"
+    x:DataType="exercise:ExercisesListViewModel"
+    BindingContext="{Binding}"
+    PageTitle="Lista Esercizi"
+    RootViewModel="{Binding}">
+
+    <StackLayout BackgroundColor="Transparent">
+
+        <Grid Margin="0,20,0,20" ColumnDefinitions="2*,*">
+            <Frame
+                Grid.Column="0"
+                Padding="5"
+                BackgroundColor="White"
+                CornerRadius="25">
+                <Grid ColumnDefinitions="Auto,*">
+                    <Label
+                        Grid.Column="0"
+                        Margin="10,0,0,0"
+                        FontFamily="FAS"
+                        FontSize="15"
+                        HorizontalOptions="Start"
+                        HorizontalTextAlignment="Center"
+                        Text="{StaticResource SearchIcon}"
+                        TextColor="Black"
+                        VerticalOptions="Center"
+                        VerticalTextAlignment="Center" />
+                    <Entry
+                        Grid.Column="1"
+                        Margin="10,0,0,0"
+                        ClearButtonVisibility="WhileEditing"
+                        Placeholder="Testo da cercare"
+                        PlaceholderColor="Black"
+                        Text="{Binding TextToSearch}"
+                        TextColor="Black">
+                        <Entry.Behaviors>
+                            <behaviors:EventToCommandBehavior Command="{Binding FilterCommand}" EventName="TextChanged" />
+                        </Entry.Behaviors>
+                    </Entry>
+                </Grid>
+
+            </Frame>
+            <Frame Grid.Column="1" Padding="5">
+                <Picker
+                    HorizontalOptions="Center"
+                    ItemsSource="{Binding Categories}"
+                    SelectedItem="{Binding SelectedCategory}"
+                    TextColor="Black"
+                    TitleColor="Black">
+                    <Picker.Behaviors>
+                        <behaviors:EventToCommandBehavior Command="{Binding FilterCommand}" EventName="SelectedIndexChanged" />
+                    </Picker.Behaviors>
+                </Picker>
+            </Frame>
+
+        </Grid>
+
+        <Frame
+            Padding="10"
+            BackgroundColor="{StaticResource WorkoutsDarkBlue}"
+            BorderColor="Transparent"
+            CornerRadius="25"
+            HorizontalOptions="End">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding AddNewExerciseCommand}" />
+            </Frame.GestureRecognizers>
+            <Grid ColumnDefinitions="Auto,Auto">
+                <Label
+                    Grid.Column="0"
+                    Margin="0,0,5,0"
+                    HorizontalOptions="StartAndExpand"
+                    Text="Aggiungi"
+                    TextColor="White" />
+                <Label
+                    Grid.Column="1"
+                    FontFamily="FAS"
+                    FontSize="20"
+                    HorizontalOptions="End"
+                    Text="{StaticResource AddButton}"
+                    TextColor="{StaticResource WorkoutsYellow}" />
+            </Grid>
+        </Frame>
+
+        <ListView
+            x:Name="ListView"
+            Margin="0,10,0,0"
+            HasUnevenRows="True"
+            ItemsSource="{Binding Exercises}"
+            VerticalScrollBarVisibility="Never">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:Exercise">
+                    <ViewCell>
+                        <Grid BackgroundColor="Transparent">
+                            <Frame BackgroundColor="{StaticResource WorkoutsYellow}" HasShadow="True">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <Grid
+                                        Grid.Column="0"
+                                        Padding="10"
+                                        RowDefinitions="Auto,Auto">
+                                        <Label
+                                            Grid.Row="0"
+                                            FontAttributes="Bold"
+                                            FontSize="17"
+                                            HorizontalOptions="StartAndExpand"
+                                            TextColor="Black"
+                                            TextTransform="Uppercase">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding Name}" />
+                                                    <Span Text=" - " />
+                                                    <Span Text="{Binding Category}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label
+                                            Grid.Row="1"
+                                            FontAttributes="Bold"
+                                            FontSize="11"
+                                            HorizontalOptions="StartAndExpand"
+                                            Text="{Binding Description}"
+                                            TextColor="Black" />
+                                    </Grid>
+                                    <Label
+                                        Grid.Column="1"
+                                        FontFamily="FAS"
+                                        FontSize="20"
+                                        HorizontalOptions="End"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{StaticResource TrashIcon}"
+                                        TextColor="Black"
+                                        VerticalOptions="Center"
+                                        VerticalTextAlignment="Center">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={x:Reference ListView}, Path=BindingContext.DeleteExerciseCommand}" CommandParameter="{Binding Id}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
+                                </Grid>
+                            </Frame>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Label
+            FontSize="10"
+            IsVisible="{Binding IsExercisesListEmpty}"
+            Text="Nessun esercizio trovato" />
+
+    </StackLayout>
+
+</templates:BasePage>

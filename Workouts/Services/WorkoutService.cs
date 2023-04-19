@@ -3,24 +3,17 @@ using WorkoutsApp.Repositories;
 
 namespace WorkoutsApp.Services
 {
-    public interface IWorkoutService
+    public interface IWorkoutService : IService<Workouts>
     {
-        Task<IList<Workouts>> GetAllWorkouts();
     }
 
-    public class WorkoutService : IWorkoutService
+    public class WorkoutService : BaseService<Workouts>, IWorkoutService
     {
         private readonly IWorkoutsRepository _workoutsRepository;
 
-        public WorkoutService(IWorkoutsRepository workoutsRepository)
+        public WorkoutService(IWorkoutsRepository workoutsRepository) : base(workoutsRepository)
         {
             _workoutsRepository = workoutsRepository;
-        }
-
-
-        public async Task<IList<Workouts>> GetAllWorkouts()
-        {
-            return await _workoutsRepository.GetAllWorkouts();
         }
     }
 }

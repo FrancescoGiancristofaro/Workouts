@@ -5,6 +5,7 @@ namespace WorkoutsApp
 {
     public partial class BaseViewModel : ObservableObject
     {
+
         [ObservableProperty]
         bool isBusy;
 
@@ -17,6 +18,12 @@ namespace WorkoutsApp
         [RelayCommand]
         protected virtual void Disappearing()
         {
+
+        }
+
+        protected async Task ManageException(Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Attenzione", ex.Message, "OK");
 
         }
 

@@ -28,7 +28,6 @@ namespace WorkoutsApp.Settings
             await Database.CreateTableAsync<ExerciseDetails>();
             await Database.CreateTableAsync<ExerciseSeries>();
             await Database.CreateTableAsync<SeriesDetail>();
-            //await Database.InsertAsync(new Workouts(){Name = "Provatttt"});
         }
 
     }

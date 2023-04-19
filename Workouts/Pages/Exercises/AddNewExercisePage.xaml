@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<templates:BasePage
+    x:Class="WorkoutsApp.Pages.Exercises.AddNewExercisePage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:WorkoutsApp.Pages.Templates.Components"
+    xmlns:exercise="clr-namespace:WorkoutsApp.Pages.Exercises"
+    xmlns:models="clr-namespace:WorkoutsApp.Models.DB"
+    xmlns:templates="clr-namespace:WorkoutsApp.Pages.Templates"
+    x:DataType="exercise:AddNewExerciseViewModel"
+    BindingContext="{Binding}"
+    PageTitle="Nuovo esercizio"
+    RootViewModel="{Binding}">
+
+    <StackLayout
+        Margin="0,20,0,0"
+        BackgroundColor="Transparent"
+        Spacing="20">
+
+
+        <components:WorkoutsEntry
+            Placeholder="Nome"
+            Text="{Binding Name}"
+            TopLabel="Nome" />
+
+        <components:WorkoutsEntry
+            Placeholder="Descrizione"
+            Text="{Binding Description}"
+            TopLabel="Descrizione" />
+
+        <Frame>
+            <StackLayout>
+                <Label
+                    TextColor="Black"
+                    FontAttributes="Bold"
+                    HorizontalOptions="Start"
+                    HorizontalTextAlignment="Start"
+                    Text="Categoria" />
+
+                <Picker
+                    ItemsSource="{Binding Categories}"
+                    SelectedItem="{Binding SelectedCategory}"
+                    TextColor="Black"
+                    TitleColor="Black" />
+                <BoxView HeightRequest="1" Color="Black" />
+            </StackLayout>
+        </Frame>
+
+        <Button VerticalOptions="End" Command="{Binding SaveExerciseCommand}" Text="Salva" />
+
+    </StackLayout>
+
+</templates:BasePage>

@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using WorkoutsApp.Extensions;
 using WorkoutsApp.Services;
 
@@ -10,13 +11,17 @@ namespace WorkoutsApp.Pages.Workouts
     {
         private readonly IWorkoutService _workoutService;
 
-        [ObservableProperty]
-        ObservableCollection<Models.DB.Workouts> workouts;
+        [ObservableProperty] ObservableCollection<Models.DB.Workouts> _workouts;
 
-        [ObservableProperty]
-        bool isWorkoutsListEmpty;
+        [ObservableProperty] bool _isWorkoutsListEmpty;
 
-        public WorkoutsViewModel(IWorkoutService workoutService)
+        [RelayCommand]
+        public void AddNewWorkout()
+        {
+
+        }
+
+        public WorkoutsViewModel(IWorkoutService workoutService) 
         {
             _workoutService = workoutService;
         }
@@ -42,12 +47,12 @@ namespace WorkoutsApp.Pages.Workouts
         private async Task RefreshWorkoutsList()
         {
             Workouts = new ObservableCollection<Models.DB.Workouts>();
-            var wo = await _workoutService.GetAllWorkouts();
+            var wo = await _workoutService.GetAll();
             foreach (var item in wo)
             {
                 Workouts.Add(item);
             }
-            IsWorkoutsListEmpty = Workouts.SafeAny();
+            IsWorkoutsListEmpty = !Workouts.SafeAny();
         }
 
 

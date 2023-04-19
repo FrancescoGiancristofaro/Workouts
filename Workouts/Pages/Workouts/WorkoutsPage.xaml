@@ -3,33 +3,68 @@
     x:Class="WorkoutsApp.Pages.Workouts.WorkoutsPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:workouts="clr-namespace:WorkoutsApp.Pages.Workouts"
+    xmlns:models="clr-namespace:WorkoutsApp.Models.DB"
     xmlns:templates="clr-namespace:WorkoutsApp.Pages.Templates"
-    Title="Workouts"
+    xmlns:workouts="clr-namespace:WorkoutsApp.Pages.Workouts"
     x:DataType="workouts:WorkoutsViewModel"
     BindingContext="{Binding}"
+    PageTitle="Lista Allenamenti"
     RootViewModel="{Binding}">
 
-    <StackLayout>
-        <Label FontSize="20" Text="Lista allenamenti" />
-        <ListView ItemsSource="{Binding Workouts}">
+    <StackLayout BackgroundColor="Transparent">
+        <Frame
+            Padding="10"
+            BackgroundColor="Transparent"
+            BorderColor="Transparent"
+            HorizontalOptions="End">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding AddNewWorkoutCommand}" />
+            </Frame.GestureRecognizers>
+            <Grid ColumnDefinitions="Auto,Auto">
+                <Label
+                    Grid.Column="0"
+                    Margin="0,0,5,0"
+                    HorizontalOptions="StartAndExpand"
+                    Text="Aggiungi" />
+                <Label
+                    Grid.Column="1"
+                    FontFamily="FAS"
+                    FontSize="20"
+                    HorizontalOptions="End"
+                    Text="{StaticResource AddButton}"
+                    TextColor="{StaticResource WorkoutsYellow}" />
+            </Grid>
+        </Frame>
+
+        <ListView
+            Margin="0,10,0,0"
+            HasUnevenRows="True"
+            ItemsSource="{Binding Workouts}"
+            VerticalScrollBarVisibility="Never">
             <ListView.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="models:Workouts">
                     <ViewCell>
-                        <Grid Padding="10">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
+                        <Grid BackgroundColor="Transparent">
+                            <Frame BackgroundColor="{StaticResource WorkoutsYellow}" HasShadow="True">
+                                <Grid Padding="10" ColumnDefinitions="*">
+                                    <Label
+                                        FontAttributes="Bold"
+                                        FontSize="17"
+                                        HorizontalOptions="StartAndExpand"
+                                        Text="{Binding Name}"
+                                        TextColor="Black" />
+                                </Grid>
+                            </Frame>
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <Label
+            FontSize="10"
+            IsVisible="{Binding IsWorkoutsListEmpty}"
+            Text="Nessun allenamento trovato" />
+
     </StackLayout>
 
 </templates:BasePage>

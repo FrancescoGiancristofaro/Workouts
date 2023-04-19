@@ -12,12 +12,19 @@
                 <ResourceDictionary Source="Pages/Templates/BasePageTemplate.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <x:String x:Key="GymIcon">&#xf44b;</x:String>
+            <x:String x:Key="AddButton">&#x2b;</x:String>
+            <x:String x:Key="TrashIcon">&#xf1f8;</x:String>
+            <x:String x:Key="SearchIcon">&#xf002;</x:String>
             <x:String x:Key="SettingsIcon">&#xf013;</x:String>
+            <x:String x:Key="DatabaseIcon">&#xf1c0;</x:String>
             <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
             <converters:ConditionalConverter x:Key="ConditionalConverter" />
             <x:Double x:Key="opacity20">0.2</x:Double>
             <x:Double x:Key="opacity50">0.5</x:Double>
             <x:Double x:Key="opacityFull">1</x:Double>
+            <Color x:Key="WorkoutsBlue">#7bc0fc</Color>
+            <Color x:Key="WorkoutsDarkBlue">#0058AB</Color>
+            <Color x:Key="WorkoutsYellow">#FBD914</Color>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

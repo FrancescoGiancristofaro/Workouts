@@ -10,7 +10,14 @@
                 AbsoluteLayout.LayoutFlags="All"
                 IsEnabled="{TemplateBinding RootViewModel.IsBusy,
                                             Converter={StaticResource InverseBooleanConverter}}">
-                <ContentPresenter />
+                <Grid Margin="20" RowDefinitions="Auto, *">
+                    <Label
+                        Grid.Row="0"
+                        FontAttributes="Bold"
+                        FontSize="25"
+                        Text="{TemplateBinding PageTitle}" />
+                    <ContentPresenter Grid.Row="1" />
+                </Grid>
             </StackLayout>
             <StackLayout
                 AbsoluteLayout.LayoutBounds="0,0,1,1"
@@ -19,9 +26,11 @@
                 IsVisible="{TemplateBinding RootViewModel.IsBusy}"
                 Opacity="0.5">
                 <ActivityIndicator
+                    HeightRequest="100"
                     HorizontalOptions="CenterAndExpand"
                     IsRunning="True"
                     VerticalOptions="CenterAndExpand"
+                    WidthRequest="100"
                     Color="Orange" />
             </StackLayout>
 

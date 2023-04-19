@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Maui;
+using WorkoutsApp.Pages.Exercises;
 using WorkoutsApp.Pages.Workouts;
 using WorkoutsApp.Repositories;
 using WorkoutsApp.Services;
@@ -28,28 +29,42 @@ public static class MauiProgram
         RegisterServices(builder.Services);
         RegisterRepositories(builder.Services);
         RegisterViewModels(builder.Services);
-        RegistePages(builder.Services);
+        RegisterPages(builder.Services);
+
+        RegisterRoutes();
+
         return builder.Build();
 	}
 
-    public static void RegisterDatabase(IServiceCollection serviceCollection)
+    private static void RegisterDatabase(IServiceCollection serviceCollection)
     {
         serviceCollection.AddSingleton<DBManager>();
     }
-    public static void RegisterServices(IServiceCollection serviceCollection)
+    private static void RegisterServices(IServiceCollection serviceCollection)
     {
         serviceCollection.AddTransient<IWorkoutService, WorkoutService>();
+        serviceCollection.AddTransient<IExerciseService, ExerciseService>();
     }
-    public static void RegisterRepositories(IServiceCollection serviceCollection)
+    private static void RegisterRepositories(IServiceCollection serviceCollection)
     {
         serviceCollection.AddTransient<IWorkoutsRepository, WorkoutsRepository>();
+        serviceCollection.AddTransient<IExerciseRepository, ExerciseRepository>();
     }
-    public static void RegisterViewModels(IServiceCollection serviceCollection)
+    private static void RegisterViewModels(IServiceCollection serviceCollection)
     {
         serviceCollection.AddTransient<WorkoutsViewModel>();
+        serviceCollection.AddTransient<ExercisesListViewModel>();
+        serviceCollection.AddTransient<AddNewExerciseViewModel>();
     }
-    public static void RegistePages(IServiceCollection serviceCollection)
+    private static void RegisterPages(IServiceCollection serviceCollection)
     {
         serviceCollection.AddTransient<WorkoutsPage>();
+        serviceCollection.AddTransient<AddNewExercisePage>();
+        serviceCollection.AddTransient<ExercisesListPage>();
+    }
+
+    private static void RegisterRoutes()
+    {
+        Routing.RegisterRoute("addnewexercise", typeof(AddNewExercisePage));
     }
 }

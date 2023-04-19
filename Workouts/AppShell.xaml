@@ -3,19 +3,27 @@
     x:Class="WorkoutsApp.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:workouts="clr-namespace:WorkoutsApp.Pages.Workouts"
+    xmlns:exercises="clr-namespace:WorkoutsApp.Pages.Exercises"
     xmlns:settings="clr-namespace:WorkoutsApp.Pages.Settings"
-    FlyoutBehavior="Disabled">
+    xmlns:workouts="clr-namespace:WorkoutsApp.Pages.Workouts"
+    FlyoutBehavior="Disabled"
+    NavBarIsVisible="False">
     <TabBar IsEnabled="{Binding IsBusy}">
-        <Tab Route="Workouts" Title="Workouts">
+        <Tab Title="Workouts" Route="Workouts">
             <Tab.Icon>
-                <FontImageSource FontFamily="FAS" Glyph="{StaticResource GymIcon}"></FontImageSource>
+                <FontImageSource FontFamily="FAS" Glyph="{StaticResource GymIcon}" />
             </Tab.Icon>
             <ShellContent ContentTemplate="{DataTemplate workouts:WorkoutsPage}" />
         </Tab>
-        <Tab Route="Settings" Title="Settings">
+        <Tab Title="Exercises Pool" Route="Exercises">
             <Tab.Icon>
-                <FontImageSource FontFamily="FAS" Glyph="{StaticResource SettingsIcon}"></FontImageSource>
+                <FontImageSource FontFamily="FAS" Glyph="{StaticResource DatabaseIcon}" />
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate exercises:ExercisesListPage}" />
+        </Tab>
+        <Tab Title="Settings" Route="Settings">
+            <Tab.Icon>
+                <FontImageSource FontFamily="FAS" Glyph="{StaticResource SettingsIcon}" />
             </Tab.Icon>
             <ShellContent ContentTemplate="{DataTemplate settings:Settings}" />
         </Tab>

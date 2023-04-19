@@ -7,6 +7,16 @@ public partial class BasePage : ContentPage
             "RootViewModel", typeof(BaseViewModel), typeof(BasePage),
             defaultValue: default(BaseViewModel));
 
+    public static readonly BindableProperty PageTitleProperty =
+        BindableProperty.Create(
+            "PageTitle", typeof(string), typeof(BasePage),
+            defaultValue: default(string));
+
+    public string PageTitle
+    {
+        get => (string)GetValue(PageTitleProperty);
+        set => SetValue(PageTitleProperty, value);
+    }
     public BaseViewModel RootViewModel
     {
         get => (BaseViewModel)GetValue(RootViewModelProperty);

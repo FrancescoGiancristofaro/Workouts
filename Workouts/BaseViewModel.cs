@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace WorkoutsApp
 {
-    public partial class BaseViewModel : ObservableObject
+    public partial class BaseViewModel : ObservableObject, IBaseViewModel
     {
 
         [ObservableProperty]
@@ -21,11 +21,9 @@ namespace WorkoutsApp
 
         }
 
-        protected async Task ManageException(Exception ex)
+        public async Task ManageException(object ex)
         {
-            await Shell.Current.DisplayAlert("Attenzione", ex.Message, "OK");
-
+            await Shell.Current.DisplayAlert("Attenzione", ex.ToString(), "OK");
         }
-
     }
 }

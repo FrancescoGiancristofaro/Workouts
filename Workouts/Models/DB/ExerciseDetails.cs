@@ -12,7 +12,6 @@ namespace WorkoutsApp.Models.DB
         [PrimaryKey,AutoIncrement]
         public int? Id { get; set; }
         public int IdExercise { get; set; }
-        public DateTime RecoveryTime { get; set; }
         public string Note { get; set; }
     }
 }

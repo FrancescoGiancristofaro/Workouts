@@ -16,9 +16,9 @@ namespace WorkoutsApp.Pages.Workouts
         [ObservableProperty] bool _isWorkoutsListEmpty;
 
         [RelayCommand]
-        public void AddNewWorkout()
+        public async void AddNewWorkout()
         {
-
+            await Shell.Current.GoToAsync("addnewworkout");
         }
 
         public WorkoutsViewModel(IWorkoutService workoutService) 

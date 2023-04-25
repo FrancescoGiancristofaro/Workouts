@@ -9,6 +9,13 @@ namespace WorkoutsApp;
 
 public static class MauiProgram
 {
+    public static class Routes
+    {
+        public const string AddSeriesPage = "addseries";
+        public const string AddNewWorkoutPage = "addnewworkout";
+        public const string AddNewExcercisePage = "addnewexercise";
+        public const string SelectExercisePage = "selectexercise";
+    }
 	public static MauiApp CreateMauiApp()
 	{
 		var builder = MauiApp.CreateBuilder();
@@ -44,6 +51,7 @@ public static class MauiProgram
     {
         serviceCollection.AddTransient<IWorkoutService, WorkoutService>();
         serviceCollection.AddTransient<IExerciseService, ExerciseService>();
+        serviceCollection.AddSingleton<IPopupService, PopupService>();
     }
     private static void RegisterRepositories(IServiceCollection serviceCollection)
     {
@@ -55,16 +63,25 @@ public static class MauiProgram
         serviceCollection.AddTransient<WorkoutsViewModel>();
         serviceCollection.AddTransient<ExercisesListViewModel>();
         serviceCollection.AddTransient<AddNewExerciseViewModel>();
+        serviceCollection.AddTransient<AddNewWorkoutViewModel>();
+        serviceCollection.AddTransient<SelectExercisesViewModel>();
+        serviceCollection.AddTransient<AddSeriesViewModel>();
     }
     private static void RegisterPages(IServiceCollection serviceCollection)
     {
         serviceCollection.AddTransient<WorkoutsPage>();
         serviceCollection.AddTransient<AddNewExercisePage>();
         serviceCollection.AddTransient<ExercisesListPage>();
+        serviceCollection.AddTransient<SelectExercisesPage>();
+        serviceCollection.AddTransient<AddNewWorkoutPage>();
+        serviceCollection.AddTransient<AddSeriesPage>();
     }
 
     private static void RegisterRoutes()
     {
         Routing.RegisterRoute("addnewexercise", typeof(AddNewExercisePage));
+        Routing.RegisterRoute("addnewworkout", typeof(AddNewWorkoutPage));
+        Routing.RegisterRoute("selectexercise", typeof(SelectExercisesPage));
+        Routing.RegisterRoute("addseries", typeof(AddSeriesPage));
     }
 }

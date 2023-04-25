@@ -32,7 +32,7 @@
                     FontSize="20"
                     HorizontalOptions="End"
                     Text="{StaticResource AddButton}"
-                    TextColor="{StaticResource WorkoutsYellow}" />
+                    TextColor="{StaticResource Secondary}" />
             </Grid>
         </Frame>
 
@@ -45,7 +45,7 @@
                 <DataTemplate x:DataType="models:Workouts">
                     <ViewCell>
                         <Grid BackgroundColor="Transparent">
-                            <Frame BackgroundColor="{StaticResource WorkoutsYellow}" HasShadow="True">
+                            <Frame BackgroundColor="{StaticResource Secondary}" HasShadow="True">
                                 <Grid Padding="10" ColumnDefinitions="*">
                                     <Label
                                         FontAttributes="Bold"

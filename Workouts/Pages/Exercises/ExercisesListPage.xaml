@@ -64,7 +64,7 @@
 
         <Frame
             Padding="10"
-            BackgroundColor="{StaticResource WorkoutsDarkBlue}"
+            BackgroundColor="{StaticResource Primary}"
             BorderColor="Transparent"
             CornerRadius="25"
             HorizontalOptions="End">
@@ -84,7 +84,7 @@
                     FontSize="20"
                     HorizontalOptions="End"
                     Text="{StaticResource AddButton}"
-                    TextColor="{StaticResource WorkoutsYellow}" />
+                    TextColor="{StaticResource Secondary}" />
             </Grid>
         </Frame>
 
@@ -98,7 +98,7 @@
                 <DataTemplate x:DataType="models:Exercise">
                     <ViewCell>
                         <Grid BackgroundColor="Transparent">
-                            <Frame BackgroundColor="{StaticResource WorkoutsYellow}" HasShadow="True">
+                            <Frame BackgroundColor="{StaticResource Secondary}" HasShadow="True">
                                 <Grid ColumnDefinitions="*,Auto">
                                     <Grid
                                         Grid.Column="0"

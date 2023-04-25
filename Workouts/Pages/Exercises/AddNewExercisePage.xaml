@@ -31,22 +31,20 @@
         <Frame>
             <StackLayout>
                 <Label
-                    TextColor="Black"
                     FontAttributes="Bold"
                     HorizontalOptions="Start"
                     HorizontalTextAlignment="Start"
                     Text="Categoria" />
 
-                <Picker
-                    ItemsSource="{Binding Categories}"
-                    SelectedItem="{Binding SelectedCategory}"
-                    TextColor="Black"
-                    TitleColor="Black" />
-                <BoxView HeightRequest="1" Color="Black" />
+                <Picker ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}" />
+                <BoxView HeightRequest="1" />
             </StackLayout>
         </Frame>
 
-        <Button VerticalOptions="End" Command="{Binding SaveExerciseCommand}" Text="Salva" />
+        <Button
+            Command="{Binding SaveExerciseCommand}"
+            Text="Salva"
+            VerticalOptions="End" />
 
     </StackLayout>
 

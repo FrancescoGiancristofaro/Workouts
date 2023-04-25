@@ -15,7 +15,8 @@
                         Grid.Row="0"
                         FontAttributes="Bold"
                         FontSize="25"
-                        Text="{TemplateBinding PageTitle}" />
+                        Text="{TemplateBinding PageTitle}"
+                        TextColor="{StaticResource Secondary}" />
                     <ContentPresenter Grid.Row="1" />
                 </Grid>
             </StackLayout>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<templates:BasePage
+    x:Class="WorkoutsApp.Pages.Workouts.AddNewWorkoutPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:WorkoutsApp.Pages.Templates.Components"
+    xmlns:dtos="clr-namespace:WorkoutsApp.Models.Dtos"
+    xmlns:models="clr-namespace:WorkoutsApp.Models.DB"
+    xmlns:templates="clr-namespace:WorkoutsApp.Pages.Templates"
+    xmlns:workouts="clr-namespace:WorkoutsApp.Pages.Workouts"
+    x:DataType="workouts:AddNewWorkoutViewModel"
+    BindingContext="{Binding}"
+    PageTitle="Nuovo Allenamento"
+    RootViewModel="{Binding}">
+    <StackLayout Spacing="20">
+        <components:WorkoutsEntry
+            Margin="0,20,0,0"
+            Placeholder="Nome"
+            Text="{Binding Name}"
+            TopLabel="Nome" />
+        <Label FontSize="15" Text="Lista esercizi" TextColor="White" />
+
+        <Frame
+            Padding="10"
+            BackgroundColor="{StaticResource Primary}"
+            BorderColor="Transparent"
+            CornerRadius="25"
+            HorizontalOptions="End">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding SelectExerciseCommand}" />
+            </Frame.GestureRecognizers>
+            <Grid ColumnDefinitions="Auto,Auto">
+                <Label
+                    Grid.Column="0"
+                    Margin="0,0,5,0"
+                    HorizontalOptions="StartAndExpand"
+                    Text="Aggiungi"
+                    TextColor="White" />
+                <Label
+                    Grid.Column="1"
+                    FontFamily="FAS"
+                    FontSize="20"
+                    HorizontalOptions="End"
+                    Text="{StaticResource AddButton}"
+                    TextColor="{StaticResource Secondary}" />
+            </Grid>
+        </Frame>
+
+        <ScrollView>
+            <ListView HeightRequest="400"
+                x:Name="ListView"
+                Margin="0,10,0,0"
+                ItemsSource="{Binding SelectableExercises}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="dtos:SelectableExerciseDto">
+                        <ViewCell>
+                            <Grid BackgroundColor="Transparent">
+                                <Frame BackgroundColor="{StaticResource Tertiary}" HasShadow="True">
+                                    <Grid Padding="10" RowDefinitions="Auto,Auto,Auto">
+                                        <Grid Grid.Row="0" ColumnDefinitions="Auto,Auto">
+                                            <Label
+                                                Grid.Column="0"
+                                                FontAttributes="Bold"
+                                                FontSize="17"
+                                                HorizontalOptions="StartAndExpand"
+                                                TextColor="Black"
+                                                TextTransform="Uppercase">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding Exercise.Name}" />
+                                                        <Span Text=" - " />
+                                                        <Span Text="{Binding Exercise.Category}" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                            <Label
+                                                Grid.Column="1"
+                                                FontAttributes="Bold"
+                                                FontSize="11"
+                                                HorizontalOptions="End"
+                                                Text="{Binding Exercise.Description}"
+                                                TextColor="Black" />
+                                        </Grid>
+                                        <Button
+                                            Grid.Row="1"
+                                            Command="{Binding Source={x:Reference ListView}, Path=BindingContext.OpenAddSeriesPopupCommand}"
+                                            CommandParameter="{Binding}"
+                                            Text="Aggiungi serie" />
+                                        <ListView
+                                            x:Name="InnerListView"
+                                            Grid.Row="2"
+                                            Margin="0,10,0,0"
+                                            ItemsSource="{Binding Series}">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate x:DataType="dtos:SeriesDto">
+                                                    <ViewCell>
+                                                        <Grid BackgroundColor="Transparent">
+                                                            <Frame BackgroundColor="{StaticResource Secondary}" HasShadow="True">
+                                                                <StackLayout>
+
+                                                                    <Label Text="{Binding Repetitions}" />
+                                                                    <Label Text="{Binding Weight}" />
+                                                                    <Label Text="{Binding RecoveryTime}" />
+                                                                </StackLayout>
+                                                            </Frame>
+                                                        </Grid>
+                                                    </ViewCell>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+
+                                    </Grid>
+                                </Frame>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </ScrollView>
+    </StackLayout>
+</templates:BasePage>

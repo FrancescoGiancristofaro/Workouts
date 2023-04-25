@@ -43,10 +43,10 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#0058AB" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#13C4A3" />
 
 		<!-- Splash Screen -->
-		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#0058AB" BaseSize="128,128" />
+		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#32322C" BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -72,6 +72,9 @@
 	  <Compile Update="Pages\Templates\BasePageTemplate.xaml.cs">
 	    <DependentUpon>BasePageTemplate.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Pages\Workouts\AddNewWorkoutPage.xaml.cs">
+	    <DependentUpon>AddNewWorkoutPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\Workouts\WorkoutsPage.xaml.cs">
 	    <DependentUpon>WorkoutsPage.xaml</DependentUpon>
 	  </Compile>
@@ -93,7 +96,19 @@
 	  <MauiXaml Update="Pages\Templates\BasePageTemplate.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\Templates\BasePopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\Templates\Components\WorkoutsEntry.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Workouts\AddNewWorkoutPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Workouts\AddSeriesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Workouts\SelectExercisesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
@@ -121,6 +136,11 @@
 	  <PackageReference Include="CommunityToolkit.Maui">
 	    <Version>5.0.0</Version>
 	  </PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Pages\Templates\CustomViews\" />
+	  <Folder Include="Platforms\Android\Renderers\" />
 	</ItemGroup>
 
 </Project>

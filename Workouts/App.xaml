@@ -3,7 +3,8 @@
     x:Class="WorkoutsApp.App"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:converters="clr-namespace:WorkoutsApp.Converters">
+    xmlns:converters="clr-namespace:WorkoutsApp.Converters"
+    xmlns:views="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -22,9 +23,6 @@
             <x:Double x:Key="opacity20">0.2</x:Double>
             <x:Double x:Key="opacity50">0.5</x:Double>
             <x:Double x:Key="opacityFull">1</x:Double>
-            <Color x:Key="WorkoutsBlue">#7bc0fc</Color>
-            <Color x:Key="WorkoutsDarkBlue">#0058AB</Color>
-            <Color x:Key="WorkoutsYellow">#FBD914</Color>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -69,7 +69,7 @@ namespace WorkoutsApp.Pages.Workouts
                 SelectableExercises = new ObservableCollection<SelectableExerciseDto>();
                 foreach (var item in exercisesInput)
                 {
-                    SelectableExercises.Add(new SelectableExerciseDto() { Exercise = item.Exercise, IsSelected = item.IsSelected });
+                    SelectableExercises.Add(new SelectableExerciseDto() { Exercise = item.Exercise, IsSelected = item.IsSelected, Series = item.Series });
                 }
             }
         }

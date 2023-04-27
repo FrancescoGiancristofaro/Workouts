@@ -5,6 +5,7 @@ using WorkoutsApp.Repositories;
 using WorkoutsApp.Services;
 using WorkoutsApp.Settings;
 
+
 namespace WorkoutsApp;
 
 public static class MauiProgram

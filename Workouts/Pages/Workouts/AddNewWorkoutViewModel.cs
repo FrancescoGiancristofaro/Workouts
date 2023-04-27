@@ -51,7 +51,7 @@ namespace WorkoutsApp.Pages.Workouts
         {
             if (query.ContainsKey("exercises") && query["exercises"] is ObservableCollection<SelectableExerciseDto> exercisesInput)
             {
-                SelectableExercises = exercisesInput;
+                SelectableExercises = new ObservableCollection<SelectableExerciseDto>(exercisesInput.Where(x=>x.IsSelected));
             }
         }
     }

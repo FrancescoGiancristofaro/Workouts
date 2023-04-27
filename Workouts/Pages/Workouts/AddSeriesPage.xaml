@@ -3,35 +3,44 @@
     x:Class="WorkoutsApp.Pages.Workouts.AddSeriesPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:components="clr-namespace:WorkoutsApp.Pages.Templates.Components"
     xmlns:templates="clr-namespace:WorkoutsApp.Pages.Templates"
     xmlns:workouts="clr-namespace:WorkoutsApp.Pages.Workouts"
     x:DataType="workouts:AddSeriesViewModel"
     BindingContext="{Binding}"
     RootViewModel="{Binding}">
-    <Frame CornerRadius="25" BackgroundColor="{StaticResource Primary}">
-        <StackLayout Padding="50,20,50,20"  BackgroundColor="{StaticResource Primary}" Spacing="20">
-        <Label
-            FontAttributes="Bold"
-            FontSize="25"
-            Text="Aggiungi serie"
-            TextColor="White" />
-        <components:WorkoutsEntry
-            Keyboard="Numeric"
-            Placeholder="Numero ripetizioni"
-            Text="{Binding Reps}"
-            TopLabel="Numero ripetizioni" />
-        <components:WorkoutsEntry
-            Keyboard="Numeric"
-            Placeholder="Peso"
-            Text="{Binding Weight}"
-            TopLabel="Peso" />
-        <components:WorkoutsEntry
-            Keyboard="Numeric"
-            Placeholder="Tempo di recupero"
-            Text="{Binding RecoveryTime}"
-            TopLabel="Tempo di recupero" />
-        <Button Command="{Binding AddSeriesCommand}" Text="Aggiungi" />
-    </StackLayout>
+    <Frame BackgroundColor="{StaticResource Primary}" CornerRadius="25">
+        <StackLayout
+            Padding="50,20,50,20"
+            BackgroundColor="{StaticResource Primary}"
+            Spacing="20">
+            <Label
+                FontAttributes="Bold"
+                FontSize="25"
+                Text="Aggiungi serie"
+                TextColor="White" />
+
+            <components:WorkoutsEntry
+                Keyboard="Numeric"
+                Placeholder="Numero ripetizioni"
+                Text="{Binding Reps}"
+                TopLabel="Numero ripetizioni" />
+
+            <components:WorkoutsEntry
+                Keyboard="Numeric"
+                Placeholder="Peso"
+                Text="{Binding Weight}"
+                TopLabel="Peso" />
+
+            <components:WorkoutsEntry
+                Keyboard="Numeric"
+                Placeholder="Tempo di recupero"
+                Text="{Binding RecoveryTime}"
+                TopLabel="Tempo di recupero"
+                FocusedCommand="{Binding UnformatCommand}"
+                UnfocusedCommand="{Binding FormatCommand}" />
+            <Button Command="{Binding AddSeriesCommand}" Text="Aggiungi" />
+        </StackLayout>
     </Frame>
 </templates:BasePopup>

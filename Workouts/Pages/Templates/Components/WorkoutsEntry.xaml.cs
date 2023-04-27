@@ -1,3 +1,5 @@
+using System.Windows.Input;
+
 namespace WorkoutsApp.Pages.Templates.Components;
 
 public partial class WorkoutsEntry
@@ -42,6 +44,25 @@ public partial class WorkoutsEntry
         set => SetValue(KeyboardProperty, value);
     }
 
+    public static readonly BindableProperty FocusedCommandProperty =
+        BindableProperty.Create(
+            "FocusedCommand", typeof(ICommand), typeof(WorkoutsEntry),
+            defaultValue: default(ICommand));
+    public ICommand FocusedCommand
+    {
+        get => (ICommand)GetValue(FocusedCommandProperty);
+        set => SetValue(FocusedCommandProperty, value);
+    }
+
+    public static readonly BindableProperty UnfocusedCommandProperty =
+        BindableProperty.Create(
+            "UnfocusedCommand", typeof(ICommand), typeof(WorkoutsEntry),
+            defaultValue: default(ICommand));
+    public ICommand UnfocusedCommand
+    {
+        get => (ICommand)GetValue(UnfocusedCommandProperty);
+        set => SetValue(UnfocusedCommandProperty, value);
+    }
     public WorkoutsEntry()
 	{
 		InitializeComponent();

@@ -23,6 +23,8 @@ namespace WorkoutsApp.Pages.Workouts
         [RelayCommand]
         async void AddSeries()
         {
+            FormatRecoveryTime();
+
             StringBuilder sb = new StringBuilder(RecoveryTime);
             if (RecoveryTime[RecoveryTime.Length - 3] == ':')
                 sb.Remove(RecoveryTime.Length-3, 1);

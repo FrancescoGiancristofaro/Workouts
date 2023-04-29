@@ -3,9 +3,12 @@
     x:Class="WorkoutsApp.Pages.Workouts.AddNewWorkoutPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:components="clr-namespace:WorkoutsApp.Pages.Templates.Components"
     xmlns:dtos="clr-namespace:WorkoutsApp.Models.Dtos"
     xmlns:models="clr-namespace:WorkoutsApp.Models.DB"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:system="clr-namespace:System;assembly=System.Runtime"
     xmlns:templates="clr-namespace:WorkoutsApp.Pages.Templates"
     xmlns:workouts="clr-namespace:WorkoutsApp.Pages.Workouts"
     x:DataType="workouts:AddNewWorkoutViewModel"
@@ -15,11 +18,9 @@
     <StackLayout Spacing="20">
         <components:WorkoutsEntry
             Margin="0,20,0,0"
-            Placeholder="Nome"
+            Placeholder="Nome allenamento"
             Text="{Binding Name}"
-            TopLabel="Nome" />
-        <Label FontSize="15" Text="Lista esercizi" TextColor="White" />
-
+            TopLabel="Nome allenamento" />
         <Frame
             Padding="10"
             BackgroundColor="{StaticResource Primary}"
@@ -34,7 +35,7 @@
                     Grid.Column="0"
                     Margin="0,0,5,0"
                     HorizontalOptions="StartAndExpand"
-                    Text="Aggiungi"
+                    Text="Aggiungi esercizio"
                     TextColor="White" />
                 <Label
                     Grid.Column="1"
@@ -47,16 +48,29 @@
         </Frame>
 
         <ScrollView>
-            <ListView HeightRequest="400"
+            <ListView
                 x:Name="ListView"
-                Margin="0,10,0,0"
+                HeightRequest="500"
+                InputTransparent="False"
                 ItemsSource="{Binding SelectableExercises}">
+                <ListView.GestureRecognizers>
+                    <DropGestureRecognizer AllowDrop="True" Drop="DropGestureRecognizer_Drop_1" />
+                </ListView.GestureRecognizers>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="dtos:SelectableExerciseDto">
                         <ViewCell>
-                            <Grid BackgroundColor="Transparent">
+                            <Grid
+                                x:Name="Exercise"
+                                Margin="0,10,0,0"
+                                BackgroundColor="Transparent">
+                                <Grid.GestureRecognizers>
+                                    <DragGestureRecognizer CanDrag="True" DragStarting="DragGestureRecognizer_DragStarting_1" />
+                                </Grid.GestureRecognizers>
                                 <Frame BackgroundColor="{StaticResource Tertiary}" HasShadow="True">
-                                    <Grid Padding="10" RowDefinitions="Auto,Auto,Auto">
+                                    <Grid
+                                        Padding="10,10,10,0"
+                                        RowDefinitions="Auto,Auto,*,Auto"
+                                        RowSpacing="10">
                                         <Grid Grid.Row="0" ColumnDefinitions="Auto,Auto">
                                             <Label
                                                 Grid.Column="0"
@@ -81,34 +95,110 @@
                                                 Text="{Binding Exercise.Description}"
                                                 TextColor="Black" />
                                         </Grid>
-                                        <Button
+                                        <Grid
                                             Grid.Row="1"
-                                            Command="{Binding Source={x:Reference ListView}, Path=BindingContext.OpenAddSeriesPopupCommand}"
-                                            CommandParameter="{Binding}"
-                                            Text="Aggiungi serie" />
+                                            BackgroundColor="{StaticResource Secondary}"
+                                            RowDefinitions="*,Auto">
+                                            <Grid Grid.Row="0" ColumnDefinitions="*,*,*,*">
+                                                <Label
+                                                    Grid.Column="0"
+                                                    FontAttributes="Bold"
+                                                    HorizontalTextAlignment="Center"
+                                                    Text="Ripetizioni"
+                                                    TextColor="Black" />
+                                                <Label
+                                                    Grid.Column="1"
+                                                    FontAttributes="Bold"
+                                                    HorizontalTextAlignment="Center"
+                                                    Text="Peso"
+                                                    TextColor="Black" />
+                                                <Label
+                                                    Grid.Column="2"
+                                                    FontAttributes="Bold"
+                                                    HorizontalTextAlignment="Center"
+                                                    Text="Recupero"
+                                                    TextColor="Black" />
+                                            </Grid>
+                                            <BoxView
+                                                Grid.Row="1"
+                                                HeightRequest="1"
+                                                Color="Black" />
+                                        </Grid>
                                         <ListView
                                             x:Name="InnerListView"
                                             Grid.Row="2"
-                                            Margin="0,10,0,0"
+                                            HasUnevenRows="True"
                                             ItemsSource="{Binding Series}">
                                             <ListView.ItemTemplate>
                                                 <DataTemplate x:DataType="dtos:SeriesDto">
                                                     <ViewCell>
-                                                        <Grid BackgroundColor="Transparent">
-                                                            <Frame BackgroundColor="{StaticResource Secondary}" HasShadow="True">
-                                                                <StackLayout>
+                                                        <Grid
+                                                            Margin="0,10,0,0"
+                                                            BackgroundColor="Transparent"
+                                                            RowDefinitions="*,*">
+                                                            <Grid Grid.Row="0" ColumnDefinitions="*,*,*,*">
+                                                                <Label
+                                                                    Grid.Column="0"
+                                                                    FontSize="20"
+                                                                    HorizontalTextAlignment="Center"
+                                                                    Text="{Binding Repetitions}"
+                                                                    TextColor="Black" />
+                                                                <Label
+                                                                    Grid.Column="1"
+                                                                    FontSize="20"
+                                                                    HorizontalTextAlignment="Center"
+                                                                    Text="{Binding Weight}"
+                                                                    TextColor="Black" />
+                                                                <Label
+                                                                    Grid.Column="2"
+                                                                    FontSize="20"
+                                                                    HorizontalTextAlignment="Center"
+                                                                    Text="{Binding RecoveryTime}"
+                                                                    TextColor="Black" />
+                                                                <Label
+                                                                    Grid.Column="3"
+                                                                    FontFamily="FAS"
+                                                                    FontSize="20"
+                                                                    HorizontalOptions="End"
+                                                                    HorizontalTextAlignment="Center"
+                                                                    Text="{StaticResource TrashIcon}"
+                                                                    TextColor="{StaticResource Black}"
+                                                                    VerticalTextAlignment="Center">
+                                                                    <Label.GestureRecognizers>
+                                                                        <TapGestureRecognizer Command="{Binding Source={x:Reference ListView}, Path=BindingContext.DeleteSeriesCommand}">
+                                                                            <TapGestureRecognizer.CommandParameter>
+                                                                                <MultiBinding Converter="{StaticResource SeriesExerciseConverter}">
+                                                                                    <Binding />
+                                                                                    <Binding Path="BindingContext" Source="{x:Reference Exercise}" />
+                                                                                </MultiBinding>
+                                                                            </TapGestureRecognizer.CommandParameter>
+                                                                        </TapGestureRecognizer>
+                                                                    </Label.GestureRecognizers>
+                                                                </Label>
+                                                            </Grid>
+                                                            <BoxView
+                                                                Grid.Row="1"
+                                                                HeightRequest="1"
+                                                                Color="Transparent" />
 
-                                                                    <Label Text="{Binding Repetitions}" />
-                                                                    <Label Text="{Binding Weight}" />
-                                                                    <Label Text="{Binding RecoveryTime}" />
-                                                                </StackLayout>
-                                                            </Frame>
                                                         </Grid>
                                                     </ViewCell>
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
                                         </ListView>
-
+                                        <Frame
+                                            Grid.Row="3"
+                                            Padding="5"
+                                            HorizontalOptions="Center">
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={x:Reference ListView}, Path=BindingContext.OpenAddSeriesPopupCommand}" CommandParameter="{Binding}" />
+                                            </Frame.GestureRecognizers>
+                                            <Label
+                                                FontFamily="FAS"
+                                                FontSize="20"
+                                                Text="{StaticResource AddButton}"
+                                                TextColor="{StaticResource Primary}" />
+                                        </Frame>
                                     </Grid>
                                 </Frame>
                             </Grid>

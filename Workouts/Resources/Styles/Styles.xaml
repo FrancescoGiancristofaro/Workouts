@@ -165,6 +165,8 @@
     </Style>
 
     <Style TargetType="ListView">
+        <Setter Property="IsPullToRefreshEnabled" Value="False" />
+        <Setter Property="SelectionMode" Value="None" />
         <Setter Property="SeparatorVisibility" Value="None" />
         <Setter Property="HasUnevenRows" Value="True" />
         <Setter Property="HorizontalScrollBarVisibility" Value="Never" />

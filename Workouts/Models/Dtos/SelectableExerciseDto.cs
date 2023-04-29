@@ -5,7 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using WorkoutsApp.Extensions;
 using WorkoutsApp.Models.DB;
+using WorkoutsApp.Pages.Workouts;
 
 namespace WorkoutsApp.Models.Dtos
 {

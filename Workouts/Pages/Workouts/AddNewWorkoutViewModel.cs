@@ -36,6 +36,16 @@ namespace WorkoutsApp.Pages.Workouts
                 exercise.Series.Add(series);
         }
 
+        [RelayCommand]
+        async void DeleteSeries(object parameters)
+        {
+            var res = await Shell.Current.DisplayAlert("Attenzione","Sei sicuro di voler eliminare la serie", "Ok", "Annulla");
+            if(!res)
+                return;
+            var tuple = parameters as Tuple<SeriesDto, SelectableExerciseDto>;
+            tuple.Item2.Series.Remove(tuple.Item1);
+        }
+
         public AddNewWorkoutViewModel(IPopupService popupService,IExerciseService exerciseService)
         {
             _popupService = popupService;

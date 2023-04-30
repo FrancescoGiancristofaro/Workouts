@@ -15,6 +15,8 @@ namespace WorkoutsApp.Models.Dtos
     {
         [ObservableProperty] Exercise _exercise;
         [ObservableProperty] bool _isSelected;
+        [ObservableProperty] bool _isBeingDragged;
+        [ObservableProperty] bool _isBeingDraggedOver;
         [ObservableProperty] ObservableCollection<SeriesDto> _series = new ();
 
     }

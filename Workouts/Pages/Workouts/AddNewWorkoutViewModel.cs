@@ -54,9 +54,6 @@ namespace WorkoutsApp.Pages.Workouts
         void ItemDraggedOver(SelectableExerciseDto item)
         {
 
-            //rimuovo draggato
-            SelectableExercises.Remove(_exerciseDragged);
-
             var indexItemToInsertBefore = SelectableExercises.IndexOf(item);
             SelectableExercises.Insert(indexItemToInsertBefore, _exerciseDragged);
 
@@ -92,6 +89,8 @@ namespace WorkoutsApp.Pages.Workouts
         [RelayCommand]
         async void ItemDropped(SelectableExerciseDto item)
         {
+            //rimuovo draggato
+            SelectableExercises.Remove(_exerciseDragged);
             //rimuovo draggato
             //SelectableExercises.Remove(_exerciseDragged);
 

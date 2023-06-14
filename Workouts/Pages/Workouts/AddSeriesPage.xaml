@@ -34,11 +34,11 @@
                 TopLabel="Peso" />
 
             <components:WorkoutsEntry
+                FocusedCommand="{Binding UnformatCommand}"
                 Keyboard="Numeric"
                 Placeholder="Tempo di recupero"
                 Text="{Binding RecoveryTime}"
                 TopLabel="Tempo di recupero"
-                FocusedCommand="{Binding UnformatCommand}"
                 UnfocusedCommand="{Binding FormatCommand}" />
             <Button Command="{Binding AddSeriesCommand}" Text="Aggiungi" />
         </StackLayout>

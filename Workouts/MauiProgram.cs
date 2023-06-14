@@ -10,13 +10,7 @@ namespace WorkoutsApp;
 
 public static class MauiProgram
 {
-    public static class Routes
-    {
-        public const string AddSeriesPage = "addseries";
-        public const string AddNewWorkoutPage = "addnewworkout";
-        public const string AddNewExcercisePage = "addnewexercise";
-        public const string SelectExercisePage = "selectexercise";
-    }
+    
 	public static MauiApp CreateMauiApp()
 	{
 		var builder = MauiApp.CreateBuilder();
@@ -39,7 +33,7 @@ public static class MauiProgram
         RegisterViewModels(builder.Services);
         RegisterPages(builder.Services);
 
-        RegisterRoutes();
+        AppRoutes.RegisterRoutes();
 
         return builder.Build();
 	}
@@ -77,12 +71,5 @@ public static class MauiProgram
         serviceCollection.AddTransient<AddNewWorkoutPage>();
         serviceCollection.AddTransient<AddSeriesPage>();
     }
-
-    private static void RegisterRoutes()
-    {
-        Routing.RegisterRoute("addnewexercise", typeof(AddNewExercisePage));
-        Routing.RegisterRoute("addnewworkout", typeof(AddNewWorkoutPage));
-        Routing.RegisterRoute("selectexercise", typeof(SelectExercisesPage));
-        Routing.RegisterRoute("addseries", typeof(AddSeriesPage));
-    }
+    
 }

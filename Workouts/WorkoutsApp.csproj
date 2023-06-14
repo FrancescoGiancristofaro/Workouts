@@ -145,7 +145,6 @@
 	<ItemGroup>
 	  <Folder Include="Helpers\" />
 	  <Folder Include="Pages\Templates\CustomViews\" />
-	  <Folder Include="Platforms\Android\Renderers\" />
 	</ItemGroup>
 
 </Project>

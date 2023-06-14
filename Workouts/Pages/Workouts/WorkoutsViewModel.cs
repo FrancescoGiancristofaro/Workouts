@@ -18,7 +18,7 @@ namespace WorkoutsApp.Pages.Workouts
         [RelayCommand]
         public async void AddNewWorkout()
         {
-            await Shell.Current.GoToAsync("addnewworkout");
+            await Shell.Current.GoToAsync(AppRoutes.AddNewWorkoutPage);
         }
 
         public WorkoutsViewModel(IWorkoutService workoutService) 

@@ -30,7 +30,7 @@ namespace WorkoutsApp.Pages.Exercises
         [RelayCommand]
         public async void AddNewExercise()
         {
-            await Shell.Current.GoToAsync("addnewexercise");
+            await Shell.Current.GoToAsync(AppRoutes.AddNewExercisePage);
         }
 
         [RelayCommand]

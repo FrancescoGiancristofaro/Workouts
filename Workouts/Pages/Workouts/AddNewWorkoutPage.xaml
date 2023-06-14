@@ -15,13 +15,15 @@
     BindingContext="{Binding}"
     PageTitle="Nuovo Allenamento"
     RootViewModel="{Binding}">
-    <StackLayout Spacing="20">
+    <Grid RowDefinitions="Auto,*">
         <!--<components:WorkoutsEntry
             Margin="0,20,0,0"
             Placeholder="Nome allenamento"
             Text="{Binding Name}"
             TopLabel="Nome allenamento" />-->
+
         <Frame
+            Grid.Row="0"
             Margin="0,20,0,0"
             Padding="10"
             BackgroundColor="{StaticResource Primary}"
@@ -48,9 +50,13 @@
             </Grid>
         </Frame>
 
-        <ScrollView>
+        <ScrollView
+            x:Name="ScrollView"
+            Grid.Row="1"
+            Orientation="Vertical">
             <ListView
                 x:Name="ListView"
+                HasUnevenRows="True"
                 HeightRequest="500"
                 InputTransparent="False"
                 ItemsSource="{Binding SelectableExercises}">
@@ -60,24 +66,7 @@
                             <Grid
                                 x:Name="Exercise"
                                 Margin="0,10,0,0"
-                                BackgroundColor="Transparent"
-                                IsVisible="{Binding IsBeingDragged, Converter={StaticResource InverseBooleanConverter}}">
-                                <Grid.GestureRecognizers>
-                                    <DropGestureRecognizer
-                                        AllowDrop="True"
-                                        DragLeaveCommand="{Binding BindingContext.ItemDragLeaveCommand, Source={x:Reference ListView}}"
-                                        DragLeaveCommandParameter="{Binding}"
-                                        DragOverCommand="{Binding BindingContext.ItemDraggedOverCommand, Source={x:Reference ListView}}"
-                                        DragOverCommandParameter="{Binding}"
-                                        Drop="DropGestureRecognizer_Drop_Collection"
-                                        DropCommand="{Binding BindingContext.ItemDroppedCommand, Source={x:Reference ListView}}"
-                                        DropCommandParameter="{Binding}" />
-                                    <DragGestureRecognizer
-                                        CanDrag="True"
-                                        DragStarting="DragGestureRecognizer_DragStarting_Collection"
-                                        DragStartingCommand="{Binding BindingContext.ItemDraggedCommand, Source={x:Reference ListView}}"
-                                        DragStartingCommandParameter="{Binding}" />
-                                </Grid.GestureRecognizers>
+                                BackgroundColor="Transparent">
                                 <Frame BackgroundColor="{StaticResource Tertiary}" HasShadow="True">
                                     <Grid
                                         Padding="10,10,10,0"
@@ -116,7 +105,7 @@
                                                     Grid.Column="0"
                                                     FontAttributes="Bold"
                                                     HorizontalTextAlignment="Center"
-                                                    Text="Ripetizioni"
+                                                    Text="Reps"
                                                     TextColor="Black" />
                                                 <Label
                                                     Grid.Column="1"
@@ -192,12 +181,12 @@
                                                                 Grid.Row="1"
                                                                 HeightRequest="1"
                                                                 Color="Transparent" />
-
                                                         </Grid>
                                                     </ViewCell>
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>
                                         </ListView>
+
                                         <Frame
                                             Grid.Row="3"
                                             Padding="5"
@@ -220,5 +209,5 @@
             </ListView>
 
         </ScrollView>
-    </StackLayout>
+    </Grid>
 </templates:BasePage>

@@ -59,7 +59,7 @@
                 HasUnevenRows="True"
                 HeightRequest="500"
                 InputTransparent="False"
-                ItemsSource="{Binding SelectableExercises}">
+                ItemsSource="{Binding ExercisesList}">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="dtos:SelectableExerciseDto">
                         <ViewCell>

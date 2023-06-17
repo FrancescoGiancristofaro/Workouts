@@ -12,12 +12,15 @@ using WorkoutsApp.Services;
 
 namespace WorkoutsApp.Pages.Workouts
 {
-    public partial class SelectExercisesViewModel : BaseViewModel, IQueryAttributable
+    [QueryProperty(nameof(SelectedExercises),"exercises")]
+    public partial class SelectExercisesViewModel : BaseViewModel
     {
+        public ObservableCollection<SelectableExerciseDto> SelectedExercises { get; set; }
+
         private readonly IExerciseService _exerciseService;
+        
         [ObservableProperty] bool _isExercisesListEmpty;
-        [ObservableProperty] ObservableCollection<SelectableExerciseDto> _selectableExercises = new ();
-        private IEnumerable<SelectableExerciseDto> _selectedExercises = Enumerable.Empty<SelectableExerciseDto>();
+        [ObservableProperty] ObservableCollection<SelectableExerciseDto> _exercisesList = new();
 
         [RelayCommand]
         void SelectExercise(SelectableExerciseDto exercise)
@@ -28,22 +31,19 @@ namespace WorkoutsApp.Pages.Workouts
         [RelayCommand]
         async void AddSelectedExercises()
         {
-            var returnValue = new Dictionary<string, object>() { { "exercises", SelectableExercises.Where(x=>x.IsSelected) } };
-            await Shell.Current.GoToAsync("..",returnValue);
-
+            await Shell.Current.GoToAsync("..", "exercises", ExercisesList);
         }
 
         public SelectExercisesViewModel(IExerciseService exerciseService)
         {
             _exerciseService = exerciseService;
         }
-        protected override async void Appearing()
+        protected override async Task Appearing()
         {
             IsBusy = true;
             try
             {
-                if (!SelectableExercises.SafeAny())
-                    await RefreshExercisesList();
+                await RefreshExercisesList();
             }
             catch (Exception ex)
             {
@@ -55,22 +55,12 @@ namespace WorkoutsApp.Pages.Workouts
             }
 
         }
-
-        public void ApplyQueryAttributes(IDictionary<string, object> query)
-        {
-            if (query.ContainsKey("exercises") && query["exercises"] is IEnumerable<SelectableExerciseDto> selectedExercises)
-            {
-                _selectedExercises = selectedExercises;
-            }
-        }
-
         private async Task RefreshExercisesList()
         {
-            SelectableExercises = new ObservableCollection<SelectableExerciseDto>();
             var exercises = await _exerciseService.GetAll();
             foreach (var item in exercises)
             {
-                SelectableExercises.Add(new SelectableExerciseDto() { Exercise = item, IsSelected = _selectedExercises.Any(x => x.Exercise.Id == item.Id) });
+                ExercisesList.Add(new SelectableExerciseDto() { Exercise = item, IsSelected = SelectedExercises.SafeAny(x => x.Exercise.Id == item.Id) });
             }
         }
     }

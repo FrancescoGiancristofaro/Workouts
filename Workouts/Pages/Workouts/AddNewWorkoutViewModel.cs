@@ -15,19 +15,21 @@ using WorkoutsApp.Services;
 
 namespace WorkoutsApp.Pages.Workouts
 {
-    public partial class AddNewWorkoutViewModel : BaseViewModel, IQueryAttributable
+    [QueryProperty(nameof(SelectedExercises), "exercises")]
+    public partial class AddNewWorkoutViewModel : BaseViewModel
     {
+        public ObservableCollection<SelectableExerciseDto> SelectedExercises { get; set; }
+
         private readonly IPopupService _popupService;
         private readonly IExerciseService _exerciseService;
 
         [ObservableProperty] string _name;
-        [ObservableProperty] ObservableCollection<SelectableExerciseDto> _selectableExercises = new();
+        public ObservableCollection<SelectableExerciseDto> ExercisesList { get; set; } = new ();
 
         [RelayCommand]
         async void SelectExercise()
         {
-            var selectedExercises = new Dictionary<string, object>() { { "exercises", SelectableExercises } };
-            await Shell.Current.GoToAsync(AppRoutes.SelectExercisesPage,selectedExercises);
+            await Shell.Current.GoToAsync(AppRoutes.SelectExercisesPage,"exercises", ExercisesList);
         }
 
         [RelayCommand]
@@ -55,17 +57,25 @@ namespace WorkoutsApp.Pages.Workouts
             _exerciseService = exerciseService;
         }
 
-        protected override void Appearing()
+        protected override async Task Appearing()
         {
-            
-        }
-
-        public void ApplyQueryAttributes(IDictionary<string, object> query)
-        {
-            if (query.ContainsKey("exercises") && query["exercises"] is IEnumerable<SelectableExerciseDto> exercisesInput)
+            IsBusy = true;
+            if (SelectedExercises.SafeAny())
             {
-                SelectableExercises = new ObservableCollection<SelectableExerciseDto>(exercisesInput);
+                foreach (var selectableExerciseDto in SelectedExercises)
+                {
+                    var item = ExercisesList.FirstOrDefault(x => x.Exercise.Id == selectableExerciseDto.Exercise.Id);
+                    if (selectableExerciseDto.IsSelected && item is null)
+                    {
+                        ExercisesList.Add(selectableExerciseDto);
+                    }
+                    if(!selectableExerciseDto.IsSelected && item is not null)
+                    {
+                        ExercisesList.Remove(item);
+                    }
+                }
             }
+            IsBusy = false;
         }
     }
 }

@@ -19,7 +19,7 @@
                     x:Name="ListView"
                     Margin="0,10,0,0"
                     HasUnevenRows="True"
-                    ItemsSource="{Binding SelectableExercises}"
+                    ItemsSource="{Binding ExercisesList}"
                     SeparatorVisibility="None"
                     VerticalScrollBarVisibility="Never">
                     <ListView.ItemTemplate>

@@ -12,5 +12,10 @@ namespace WorkoutsApp.Extensions
         {
             return collection is not null && collection.Any();
         }
+
+        public static bool SafeAny<T>(this IEnumerable<T> collection,Func<T,bool> predicate)
+        {
+            return collection is not null && collection.Any(predicate);
+        }
     }
 }

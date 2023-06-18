@@ -4,6 +4,7 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:components="clr-namespace:WorkoutsApp.Pages.Templates.Components"
     xmlns:exercise="clr-namespace:WorkoutsApp.Pages.Exercises"
     xmlns:models="clr-namespace:WorkoutsApp.Models.DB"
     xmlns:templates="clr-namespace:WorkoutsApp.Pages.Templates"
@@ -12,9 +13,12 @@
     PageTitle="Lista Esercizi"
     RootViewModel="{Binding}">
 
-    <StackLayout BackgroundColor="Transparent">
+    <Grid BackgroundColor="Transparent" RowDefinitions="Auto,*,Auto">
 
-        <Grid Margin="0,20,0,20" ColumnDefinitions="2*,*">
+        <Grid
+            Grid.Row="0"
+            Margin="0,20,0,0"
+            ColumnDefinitions="2*,*">
             <Frame
                 Grid.Column="0"
                 Padding="5"
@@ -47,8 +51,19 @@
                 </Grid>
 
             </Frame>
-            <Frame Grid.Column="1" Padding="5">
+            <Frame
+                Grid.Column="1"
+                Padding="5"
+                BackgroundColor="White">
+                <Frame.Behaviors>
+                    <behaviors:AnimationBehavior>
+                        <behaviors:AnimationBehavior.AnimationType>
+                            <behaviors:FadeAnimation Opacity="0.5" />
+                        </behaviors:AnimationBehavior.AnimationType>
+                    </behaviors:AnimationBehavior>
+                </Frame.Behaviors>
                 <Picker
+                    x:Name="Picker"
                     HorizontalOptions="Center"
                     ItemsSource="{Binding Categories}"
                     SelectedItem="{Binding SelectedCategory}"
@@ -62,37 +77,15 @@
 
         </Grid>
 
-        <Frame
-            Padding="10"
-            BackgroundColor="{StaticResource Primary}"
-            BorderColor="Transparent"
-            CornerRadius="25"
-            HorizontalOptions="End">
-            <Frame.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding AddNewExerciseCommand}" />
-            </Frame.GestureRecognizers>
-            <Grid ColumnDefinitions="Auto,Auto">
-                <Label
-                    Grid.Column="0"
-                    Margin="0,0,5,0"
-                    HorizontalOptions="StartAndExpand"
-                    Text="Aggiungi"
-                    TextColor="White" />
-                <Label
-                    Grid.Column="1"
-                    FontFamily="FAS"
-                    FontSize="20"
-                    HorizontalOptions="End"
-                    Text="{StaticResource AddButton}"
-                    TextColor="{StaticResource Secondary}" />
-            </Grid>
-        </Frame>
-
         <ListView
             x:Name="ListView"
+            Grid.Row="1"
             Margin="0,10,0,0"
             HasUnevenRows="True"
             ItemsSource="{Binding Exercises}"
+            MaximumHeightRequest="450"
+            SeparatorVisibility="None"
+            VerticalOptions="Center"
             VerticalScrollBarVisibility="Never">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="models:Exercise">
@@ -149,10 +142,32 @@
             </ListView.ItemTemplate>
         </ListView>
         <Label
+            Grid.Row="1"
             FontSize="10"
+            HorizontalOptions="Center"
             IsVisible="{Binding IsExercisesListEmpty}"
-            Text="Nessun esercizio trovato" />
+            Text="Nessun esercizio trovato"
+            VerticalOptions="Center" />
 
-    </StackLayout>
+        <Frame
+            Grid.Row="2"
+            Margin="0,10,0,0"
+            Padding="10"
+            BackgroundColor="{StaticResource Primary}"
+            BorderColor="Transparent"
+            CornerRadius="25"
+            HorizontalOptions="Center"
+            VerticalOptions="End">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding AddNewExerciseCommand}" />
+            </Frame.GestureRecognizers>
+            <Label
+                FontFamily="FAS"
+                FontSize="30"
+                HorizontalOptions="End"
+                Text="{StaticResource AddCircleButton}"
+                TextColor="{StaticResource Secondary}" />
+        </Frame>
+    </Grid>
 
 </templates:BasePage>

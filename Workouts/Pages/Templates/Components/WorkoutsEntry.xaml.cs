@@ -1,9 +1,27 @@
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
+using Microsoft.Maui.Platform;
 
 namespace WorkoutsApp.Pages.Templates.Components;
 
 public partial class WorkoutsEntry
 {
+    [RelayCommand]
+    void TapFrame()
+    {
+        Entry.Focus();
+    }
+
+    public static readonly BindableProperty MaxLengthProperty =
+        BindableProperty.Create(
+            "MaxLength", typeof(string), typeof(WorkoutsEntry),
+            defaultValue: default(string));
+    public string MaxLength
+    {
+        get => (string)GetValue(MaxLengthProperty);
+        set => SetValue(MaxLengthProperty, value);
+    }
+
     public static readonly BindableProperty TopLabelProperty =
         BindableProperty.Create(
             "TopLabel", typeof(string), typeof(WorkoutsEntry),
@@ -62,6 +80,16 @@ public partial class WorkoutsEntry
     {
         get => (ICommand)GetValue(UnfocusedCommandProperty);
         set => SetValue(UnfocusedCommandProperty, value);
+    }
+
+    public static readonly BindableProperty TextChangedCommandProperty =
+        BindableProperty.Create(
+            "TextChangedCommand", typeof(ICommand), typeof(WorkoutsEntry),
+            defaultValue: default(ICommand));
+    public ICommand TextChangedCommand
+    {
+        get => (ICommand)GetValue(TextChangedCommandProperty);
+        set => SetValue(TextChangedCommandProperty, value);
     }
     public WorkoutsEntry()
 	{

@@ -58,6 +58,7 @@ namespace WorkoutsApp.Pages.Workouts
         private async Task RefreshExercisesList()
         {
             var exercises = await _exerciseService.GetAll();
+            IsExercisesListEmpty = !exercises.SafeAny();
             foreach (var item in exercises)
             {
                 ExercisesList.Add(new SelectableExerciseDto() { Exercise = item, IsSelected = SelectedExercises.SafeAny(x => x.Exercise.Id == item.Id) });

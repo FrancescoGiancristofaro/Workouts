@@ -69,7 +69,7 @@ public static class MauiProgram
         serviceCollection.AddTransient<ExercisesListPage>();
         serviceCollection.AddTransient<SelectExercisesPage>();
         serviceCollection.AddTransient<AddNewWorkoutPage>();
-        serviceCollection.AddTransient<AddSeriesPage>();
+        serviceCollection.AddTransient<AddSeriesPopup>();
     }
     
 }

@@ -79,6 +79,9 @@
 	  <Compile Update="Pages\Workouts\AddNewWorkoutPage.xaml.cs">
 	    <DependentUpon>AddNewWorkoutPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Pages\Workouts\AddSeriesPopup.xaml.cs">
+	    <DependentUpon>AddSeriesPopup.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\Workouts\WorkoutsPage.xaml.cs">
 	    <DependentUpon>WorkoutsPage.xaml</DependentUpon>
 	  </Compile>
@@ -106,10 +109,13 @@
 	  <MauiXaml Update="Pages\Templates\Components\WorkoutsEntry.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\Templates\Components\WorkoutsPicker.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\Workouts\AddNewWorkoutPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\Workouts\AddSeriesPage.xaml">
+	  <MauiXaml Update="Pages\Workouts\AddSeriesPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\Workouts\SelectExercisesPage.xaml">
@@ -143,6 +149,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="Constants\" />
 	  <Folder Include="Helpers\" />
 	  <Folder Include="Pages\Templates\CustomViews\" />
 	</ItemGroup>

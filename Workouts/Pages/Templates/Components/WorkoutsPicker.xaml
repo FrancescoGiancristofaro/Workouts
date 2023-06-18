@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="WorkoutsApp.Pages.Templates.Components.WorkoutsPicker"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="WorkutsPickerControl">
+    <Frame BackgroundColor="Transparent" BindingContext="{x:Reference WorkutsPickerControl}">
+        <Frame.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding TapFrameCommand}" />
+        </Frame.GestureRecognizers>
+        <StackLayout>
+            <Label
+                FontAttributes="Bold"
+                HorizontalOptions="Start"
+                HorizontalTextAlignment="Start"
+                TextColor="{StaticResource Tertiary}"
+                Text="{Binding TopLabel}" />
+
+            <Picker
+                x:Name="Picker"
+                ItemsSource="{Binding ItemsSource}"
+                SelectedItem="{Binding SelectedItem}" />
+
+            <BoxView
+                BackgroundColor="{StaticResource Tertiary}"
+                HeightRequest="1" />
+        </StackLayout>
+    </Frame>
+</ContentView>

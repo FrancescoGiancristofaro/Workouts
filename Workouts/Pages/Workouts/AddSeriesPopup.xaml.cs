@@ -1,8 +1,8 @@
 namespace WorkoutsApp.Pages.Workouts;
 
-public partial class AddSeriesPage
+public partial class AddSeriesPopup
 {
-	public AddSeriesPage(AddSeriesViewModel vm)
+	public AddSeriesPopup(AddSeriesViewModel vm)
 	{
 		BindingContext = vm;
 		InitializeComponent();

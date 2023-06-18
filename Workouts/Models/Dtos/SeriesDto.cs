@@ -10,7 +10,7 @@ namespace WorkoutsApp.Models.Dtos
     public partial class SeriesDto : ObservableObject
     {
         [ObservableProperty]  int _repetitions;
-        [ObservableProperty]  int _recoveryTime;
+        [ObservableProperty]  int _secondsRecoveryTime;
         [ObservableProperty] double _weight;
     }
 }

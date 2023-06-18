@@ -154,7 +154,7 @@
                                                                     Grid.Column="2"
                                                                     FontSize="20"
                                                                     HorizontalTextAlignment="Center"
-                                                                    Text="{Binding RecoveryTime}"
+                                                                    Text="{Binding SecondsRecoveryTime, Converter={StaticResource SecondsRecoveryToStringConverter}}"
                                                                     TextColor="Black" />
                                                                 <Label
                                                                     Grid.Column="3"

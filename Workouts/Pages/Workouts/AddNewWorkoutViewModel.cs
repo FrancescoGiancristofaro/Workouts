@@ -35,7 +35,7 @@ namespace WorkoutsApp.Pages.Workouts
         [RelayCommand]
         async void OpenAddSeriesPopup(SelectableExerciseDto exercise)
         {
-            var res = await _popupService.ShowPopup(typeof(AddSeriesPage), exercise.Series.LastOrDefault());
+            var res = await _popupService.ShowPopup(typeof(AddSeriesPopup), exercise.Series.LastOrDefault());
             if(res is SeriesDto series)
                 exercise.Series.Add(series);
         }

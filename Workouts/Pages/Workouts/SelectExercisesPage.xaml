@@ -13,8 +13,11 @@
     PageTitle="Seleziona Esercizi"
     RootViewModel="{Binding}">
     <StackLayout VerticalOptions="End">
-        <Grid RowDefinitions="*,*">
-            <ScrollView VerticalOptions="Start" Grid.Row="0" HeightRequest="500" >
+        <Grid RowDefinitions="*,Auto">
+            <ScrollView
+                Grid.Row="0"
+                HeightRequest="500"
+                VerticalOptions="Start">
                 <ListView
                     x:Name="ListView"
                     Margin="0,10,0,0"
@@ -76,11 +79,16 @@
             <Label
                 Grid.Row="0"
                 FontSize="10"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
                 IsVisible="{Binding IsExercisesListEmpty}"
-                Text="Nessun esercizio trovato" />
+                Text="Nessun esercizio trovato"
+                VerticalOptions="Center"
+                VerticalTextAlignment="Center" />
             <Button
                 Grid.Row="1"
                 Command="{Binding AddSelectedExercisesCommand}"
+                IsEnabled="{Binding IsExercisesListEmpty, Converter={StaticResource InverseBooleanConverter}}"
                 Text="Aggiungi selezionati"
                 VerticalOptions="End" />
         </Grid>

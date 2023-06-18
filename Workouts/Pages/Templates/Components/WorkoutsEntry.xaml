@@ -6,6 +6,9 @@
     xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     x:Name="WorkutsEntryConrol">
     <Frame BackgroundColor="Transparent" BindingContext="{x:Reference WorkutsEntryConrol}">
+        <Frame.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding TapFrameCommand}" />
+        </Frame.GestureRecognizers>
         <Grid RowDefinitions="Auto,Auto,Auto">
             <Label
                 Grid.Row="0"
@@ -14,16 +17,21 @@
                 Text="{Binding TopLabel}"
                 TextColor="{StaticResource Tertiary}" />
             <Entry
+                x:Name="Entry"
                 Grid.Row="1"
                 Margin="0,10,0,0"
                 Keyboard="{Binding Keyboard}"
+                MaxLength="{Binding MaxLength}"
                 Placeholder="{Binding Placeholder}"
                 PlaceholderColor="LightGray"
                 Text="{Binding Text}"
-                TextColor="White"
-                >
+                TextColor="White">
                 <Entry.Behaviors>
                     <behaviors:EventToCommandBehavior Command="{Binding UnfocusedCommand}" EventName="Unfocused" />
+                    <behaviors:EventToCommandBehavior
+                        x:TypeArguments="TextChangedEventArgs"
+                        Command="{Binding TextChangedCommand}"
+                        EventName="TextChanged" />
                     <behaviors:EventToCommandBehavior Command="{Binding FocusedCommand}" EventName="Focused" />
                 </Entry.Behaviors>
             </Entry>

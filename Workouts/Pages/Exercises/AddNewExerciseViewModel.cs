@@ -46,6 +46,7 @@ namespace WorkoutsApp.Pages.Exercises
         protected override async Task Appearing()
         {
             Categories = Enum.GetValues(typeof(ExerciseCategory)).Cast<ExerciseCategory>().Select(x=>x.ToString()).ToList();
+            SelectedCategory = Categories.First();
         }
 
         public AddNewExerciseViewModel(IExerciseService exerciseService)

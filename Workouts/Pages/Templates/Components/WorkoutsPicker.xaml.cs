@@ -48,7 +48,7 @@ public partial class WorkoutsPicker
     public static readonly BindableProperty SelectedItemProperty =
         BindableProperty.Create(
             "SelectedItem", typeof(object), typeof(WorkoutsPicker),
-            defaultValue: default(object));
+            defaultValue: default(object),BindingMode.TwoWay);
     public object SelectedItem
     {
         get => (object)GetValue(SelectedItemProperty);

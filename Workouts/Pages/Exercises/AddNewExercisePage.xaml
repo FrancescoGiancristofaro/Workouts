@@ -30,12 +30,11 @@
 
 
         <components:WorkoutsPicker
-            ItemDisplayBinding="{Binding SelectedCategory.Name}"
             ItemsSource="{Binding Categories}"
             SelectedItem="{Binding SelectedCategory}"
             TopLabel="Categoria" />
 
-        <Frame>
+        <!--<Frame>
             <StackLayout>
                 <Label
                     FontAttributes="Bold"
@@ -44,12 +43,11 @@
                     Text="Categoria" />
 
                 <Picker
-                    ItemDisplayBinding="{Binding SelectedCategory.Name}"
                     ItemsSource="{Binding Categories}"
                     SelectedItem="{Binding SelectedCategory}" />
                 <BoxView HeightRequest="1" />
             </StackLayout>
-        </Frame>
+        </Frame>-->
         <Button
             Command="{Binding SaveExerciseCommand}"
             Text="Salva"

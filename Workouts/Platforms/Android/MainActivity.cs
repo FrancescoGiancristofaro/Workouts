@@ -1,7 +1,10 @@
 ﻿using Android.App;
+using Android.Content;
 using Android.Content.PM;
 using Android.Graphics.Drawables;
 using Android.OS;
+using Android.Views;
+using Android.Views.Animations;
 using Android.Views.InputMethods;
 
 namespace WorkoutsApp;
@@ -13,7 +16,6 @@ public class MainActivity : MauiAppCompatActivity
     {
         CommunityToolkit.Maui.Core.Handlers.PopupHandler.PopUpMapper.AppendToMapping("CornerRadius", (handler, view) =>
         {
-
             var popup = (Android.App.Dialog)handler.PlatformView;
             var drawable = new GradientDrawable();
             drawable.SetShape(ShapeType.Rectangle);
@@ -22,15 +24,21 @@ public class MainActivity : MauiAppCompatActivity
             popup.Window.SetBackgroundDrawable(drawable);
 
         });
+        //Microsoft.Maui.Handlers.PageHandler.Mapper.AppendToMapping("CloseKeyboard", (handler, view) =>
+        //{
+        //    var viewGroup = handler.PlatformView as Android.Views.ViewGroup;
+        //    viewGroup.ViewAttachedToWindow += (sender, args) =>
+        //    {
 
+        //    };
+        //    viewGroup.ViewDetachedFromWindow += (sender, args) =>
+        //    {
+
+        //    };
+        //});
         Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("Focused", (handler, view) =>
         {
-            handler.PlatformView.ViewDetachedFromWindow += (sender, args) =>
-            {
-                InputMethodManager inputMethodManager = GetSystemService(InputMethodService) as InputMethodManager;
-                inputMethodManager?.HideSoftInputFromWindow(handler.PlatformView.WindowToken, HideSoftInputFlags.None);
-                inputMethodManager?.HideSoftInputFromWindow(handler.PlatformView.WindowToken, HideSoftInputFlags.None);
-            };
+            
             handler.PlatformView.FocusChange += (sender, args) =>
             {
                 InputMethodManager inputMethodManager = GetSystemService(InputMethodService) as InputMethodManager;

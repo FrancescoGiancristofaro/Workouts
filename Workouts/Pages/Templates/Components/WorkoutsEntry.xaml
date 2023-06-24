@@ -35,10 +35,6 @@
                     <behaviors:EventToCommandBehavior Command="{Binding FocusedCommand}" EventName="Focused" />
                 </Entry.Behaviors>
             </Entry>
-            <BoxView
-                Grid.Row="2"
-                BackgroundColor="{StaticResource Tertiary}"
-                HeightRequest="1" />
         </Grid>
     </Frame>
 </ContentView>

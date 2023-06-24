@@ -6,10 +6,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WorkoutsApp.Constants;
+using Repositories.Constants;
+using Repositories.Models;
+using Services.Services;
+using WorkoutsApp.Dtos;
 using WorkoutsApp.Extensions;
-using WorkoutsApp.Models.DB;
-using WorkoutsApp.Models.Dtos;
 using WorkoutsApp.Services;
 
 namespace WorkoutsApp.Pages.Exercises

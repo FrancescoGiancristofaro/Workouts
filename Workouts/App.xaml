@@ -22,6 +22,7 @@
             <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
             <converters:ConditionalConverter x:Key="ConditionalConverter" />
             <converters:SecondsRecoveryToStringConverter x:Key="SecondsRecoveryToStringConverter" />
+            <converters:IsCollectionEmptyConverter x:Key="IsCollectionEmptyConverter" />
             <converters:SeriesExerciseConverter x:Key="SeriesExerciseConverter" />
             <x:Double x:Key="opacity20">0.2</x:Double>
             <x:Double x:Key="opacity50">0.5</x:Double>

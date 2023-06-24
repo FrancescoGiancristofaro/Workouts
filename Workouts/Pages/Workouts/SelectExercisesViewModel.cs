@@ -6,9 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Services.Services;
 using WorkoutsApp.Extensions;
 using WorkoutsApp.Models.Dtos;
 using WorkoutsApp.Services;
+using SelectableExerciseDto = WorkoutsApp.Dtos.SelectableExerciseDto;
 
 namespace WorkoutsApp.Pages.Workouts
 {
@@ -61,7 +63,9 @@ namespace WorkoutsApp.Pages.Workouts
             IsExercisesListEmpty = !exercises.SafeAny();
             foreach (var item in exercises)
             {
-                ExercisesList.Add(new SelectableExerciseDto() { Exercise = item, IsSelected = SelectedExercises.SafeAny(x => x.Exercise.Id == item.Id) });
+                var inputExercise = SelectedExercises.FirstOrDefault(x => x.Exercise.Id == item.Id);
+                var series = inputExercise?.Series ?? new ObservableCollection<SeriesDto>();
+                ExercisesList.Add(new SelectableExerciseDto() { Exercise = item, IsSelected = inputExercise is not null,Series = series });
             }
         }
     }

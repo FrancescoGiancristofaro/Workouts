@@ -8,10 +8,11 @@ using System.Windows.Input;
 using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Services.Services;
 using WorkoutsApp.Extensions;
-using WorkoutsApp.Models.DB;
 using WorkoutsApp.Models.Dtos;
 using WorkoutsApp.Services;
+using SelectableExerciseDto = WorkoutsApp.Dtos.SelectableExerciseDto;
 
 namespace WorkoutsApp.Pages.Workouts
 {
@@ -24,12 +25,18 @@ namespace WorkoutsApp.Pages.Workouts
         private readonly IExerciseService _exerciseService;
 
         [ObservableProperty] string _name;
-        public ObservableCollection<SelectableExerciseDto> ExercisesList { get; set; } = new ();
+        [ObservableProperty] ObservableCollection<SelectableExerciseDto> _exercisesList = new();
 
         [RelayCommand]
         async void SelectExercise()
         {
-            await Shell.Current.GoToAsync(AppRoutes.SelectExercisesPage,"exercises", ExercisesList);
+            await Shell.Current.GoToAsync(AppRoutes.SelectExercisesPage, "exercises", ExercisesList);
+        }
+
+        [RelayCommand]
+        async void CreateWorkout()
+        {
+            await Shell.Current.GoToAsync(AppRoutes.SelectExercisesPage, "exercises", ExercisesList);
         }
 
         [RelayCommand]
@@ -60,21 +67,14 @@ namespace WorkoutsApp.Pages.Workouts
         protected override async Task Appearing()
         {
             IsBusy = true;
+            var list = new ObservableCollection<SelectableExerciseDto>();
             if (SelectedExercises.SafeAny())
             {
-                foreach (var selectableExerciseDto in SelectedExercises)
-                {
-                    var item = ExercisesList.FirstOrDefault(x => x.Exercise.Id == selectableExerciseDto.Exercise.Id);
-                    if (selectableExerciseDto.IsSelected && item is null)
-                    {
-                        ExercisesList.Add(selectableExerciseDto);
-                    }
-                    if(!selectableExerciseDto.IsSelected && item is not null)
-                    {
-                        ExercisesList.Remove(item);
-                    }
-                }
+
+                foreach (var selectableExerciseDto in SelectedExercises.Where(x=>x.IsSelected))
+                    list.Add(selectableExerciseDto);
             }
+            ExercisesList = list;
             IsBusy = false;
         }
     }

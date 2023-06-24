@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:components="clr-namespace:WorkoutsApp.Pages.Templates.Components"
     xmlns:dtos="clr-namespace:WorkoutsApp.Models.Dtos"
-    xmlns:models="clr-namespace:WorkoutsApp.Models.DB"
+    xmlns:dtos1="clr-namespace:WorkoutsApp.Dtos"
     xmlns:templates="clr-namespace:WorkoutsApp.Pages.Templates"
     xmlns:workouts="clr-namespace:WorkoutsApp.Pages.Workouts"
     x:DataType="workouts:SelectExercisesViewModel"
@@ -13,7 +13,7 @@
     PageTitle="Seleziona Esercizi"
     RootViewModel="{Binding}">
     <StackLayout VerticalOptions="End">
-        <Grid RowDefinitions="*,Auto">
+        <Grid RowDefinitions="*,Auto" RowSpacing="20">
             <ScrollView
                 Grid.Row="0"
                 HeightRequest="500"
@@ -26,7 +26,7 @@
                     SeparatorVisibility="None"
                     VerticalScrollBarVisibility="Never">
                     <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="dtos:SelectableExerciseDto">
+                        <DataTemplate x:DataType="dtos1:SelectableExerciseDto">
                             <ViewCell>
                                 <Grid Margin="0,20,0,0" BackgroundColor="Transparent">
                                     <Frame BackgroundColor="{StaticResource Tertiary}" HasShadow="True">

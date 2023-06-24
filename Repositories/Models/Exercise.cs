@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Repositories.Constants;
 using SQLite;
-using WorkoutsApp.Constants;
 
-namespace WorkoutsApp.Models.DB
+namespace Repositories.Models
 {
     public class Exercise : IAmAModel
     {

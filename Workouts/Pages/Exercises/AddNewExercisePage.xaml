@@ -5,7 +5,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:components="clr-namespace:WorkoutsApp.Pages.Templates.Components"
     xmlns:exercise="clr-namespace:WorkoutsApp.Pages.Exercises"
-    xmlns:models="clr-namespace:WorkoutsApp.Models.DB"
     xmlns:templates="clr-namespace:WorkoutsApp.Pages.Templates"
     x:DataType="exercise:AddNewExerciseViewModel"
     BindingContext="{Binding}"

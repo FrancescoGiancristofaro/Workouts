@@ -1,7 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using WorkoutsApp.Constants;
-using WorkoutsApp.Models.DB;
+using Repositories.Constants;
+using Repositories.Models;
+using Services.Services;
 using WorkoutsApp.Services;
 
 namespace WorkoutsApp.Pages.Exercises

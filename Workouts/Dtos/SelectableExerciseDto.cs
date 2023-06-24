@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
-using WorkoutsApp.Extensions;
-using WorkoutsApp.Models.DB;
-using WorkoutsApp.Pages.Workouts;
+using Repositories.Models;
+using WorkoutsApp.Models.Dtos;
 
-namespace WorkoutsApp.Models.Dtos
+namespace WorkoutsApp.Dtos
 {
     public partial class SelectableExerciseDto : ObservableObject
     {

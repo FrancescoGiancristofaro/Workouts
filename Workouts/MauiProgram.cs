@@ -1,9 +1,10 @@
 ﻿using CommunityToolkit.Maui;
+using Repositories.Repositories;
+using Repositories.Settings;
+using Services.Services;
 using WorkoutsApp.Pages.Exercises;
 using WorkoutsApp.Pages.Workouts;
-using WorkoutsApp.Repositories;
 using WorkoutsApp.Services;
-using WorkoutsApp.Settings;
 
 
 namespace WorkoutsApp;
@@ -40,7 +41,7 @@ public static class MauiProgram
 
     private static void RegisterDatabase(IServiceCollection serviceCollection)
     {
-        serviceCollection.AddSingleton<DBManager>();
+        serviceCollection.AddSingleton<DBManager>((s)=>new DBManager(FileSystem.AppDataDirectory));
     }
     private static void RegisterServices(IServiceCollection serviceCollection)
     {

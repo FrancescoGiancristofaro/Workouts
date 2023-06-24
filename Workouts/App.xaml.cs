@@ -16,7 +16,7 @@ public partial class App : Application
     }
 
     protected override void OnStart()
-    {
+    { 
         AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
     }
     private void RegisterAndroidHandlers()

@@ -1,7 +1,7 @@
-﻿using WorkoutsApp.Models.DB;
-using WorkoutsApp.Settings;
+﻿using Repositories.Models;
+using Repositories.Settings;
 
-namespace WorkoutsApp.Repositories
+namespace Repositories.Repositories
 {
     public interface IRepository<T> where T : IAmAModel, new()
     {

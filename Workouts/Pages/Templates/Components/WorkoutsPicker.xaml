@@ -13,17 +13,14 @@
                 FontAttributes="Bold"
                 HorizontalOptions="Start"
                 HorizontalTextAlignment="Start"
-                TextColor="{StaticResource Tertiary}"
-                Text="{Binding TopLabel}" />
+                Text="{Binding TopLabel}"
+                TextColor="{StaticResource Tertiary}" />
 
             <Picker
                 x:Name="Picker"
                 ItemsSource="{Binding ItemsSource}"
                 SelectedItem="{Binding SelectedItem}" />
 
-            <BoxView
-                BackgroundColor="{StaticResource Tertiary}"
-                HeightRequest="1" />
         </StackLayout>
     </Frame>
 </ContentView>

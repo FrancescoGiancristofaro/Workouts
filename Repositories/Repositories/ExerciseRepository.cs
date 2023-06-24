@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WorkoutsApp.Models.DB;
-using WorkoutsApp.Settings;
+﻿using Repositories.Models;
+using Repositories.Settings;
 
-namespace WorkoutsApp.Repositories
+namespace Repositories.Repositories
 {
     public interface IExerciseRepository : IRepository<Exercise>
     {

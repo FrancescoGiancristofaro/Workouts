@@ -1,10 +1,10 @@
 ﻿using SQLite;
 
-namespace WorkoutsApp.Models.DB
+namespace Repositories.Models
 {
     public class Workouts : IAmAModel
     {
-        [PrimaryKey,AutoIncrement]
+        [PrimaryKey, AutoIncrement]
         public int? Id { get; set; }
 
         public string Name { get; set; }

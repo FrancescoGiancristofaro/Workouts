@@ -6,11 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using SQLite;
 
-namespace WorkoutsApp.Models.DB
+namespace Repositories.Models
 {
     public class WorkoutSession : IAmAModel
     {
-        [PrimaryKey,AutoIncrement]
+        [PrimaryKey, AutoIncrement]
         public int? Id { get; set; }
         public int IdWorkout { get; set; }
         public DateTime StartDate { get; set; }

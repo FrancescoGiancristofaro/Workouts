@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using SQLite;
 
-namespace WorkoutsApp.Models.DB
+namespace Repositories.Models
 {
     public class ExerciseSeries : IAmAModel
     {
-        [PrimaryKey,AutoIncrement]
+        [PrimaryKey, AutoIncrement]
         public int? Id { get; set; }
         public int IdExerciseDetail { get; set; }
         public int IdSeries { get; set; }

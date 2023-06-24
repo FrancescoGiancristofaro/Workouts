@@ -3,48 +3,36 @@
     x:Class="WorkoutsApp.Pages.Workouts.AddNewWorkoutPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-    xmlns:components="clr-namespace:WorkoutsApp.Pages.Templates.Components"
     xmlns:dtos="clr-namespace:WorkoutsApp.Models.Dtos"
-    xmlns:models="clr-namespace:WorkoutsApp.Models.DB"
-    xmlns:sys="clr-namespace:System;assembly=mscorlib"
-    xmlns:system="clr-namespace:System;assembly=System.Runtime"
+    xmlns:dtos1="clr-namespace:WorkoutsApp.Dtos"
     xmlns:templates="clr-namespace:WorkoutsApp.Pages.Templates"
     xmlns:workouts="clr-namespace:WorkoutsApp.Pages.Workouts"
     x:DataType="workouts:AddNewWorkoutViewModel"
     BindingContext="{Binding}"
     PageTitle="Nuovo Allenamento"
     RootViewModel="{Binding}">
-    <Grid RowDefinitions="Auto,*">
-        <!--<components:WorkoutsEntry
-            Margin="0,20,0,0"
-            Placeholder="Nome allenamento"
-            Text="{Binding Name}"
-            TopLabel="Nome allenamento" />-->
-
+    <Grid RowDefinitions="Auto,*,Auto">
         <Frame
             Grid.Row="0"
             Margin="0,20,0,0"
             Padding="10"
             BackgroundColor="{StaticResource Primary}"
             BorderColor="Transparent"
-            CornerRadius="25"
-            HorizontalOptions="End">
+            CornerRadius="25">
             <Frame.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding SelectExerciseCommand}" />
             </Frame.GestureRecognizers>
-            <Grid ColumnDefinitions="Auto,Auto">
+            <Grid ColumnDefinitions="*,Auto">
                 <Label
                     Grid.Column="0"
                     Margin="0,0,5,0"
-                    HorizontalOptions="StartAndExpand"
+                    HorizontalOptions="End"
                     Text="Aggiungi esercizio"
                     TextColor="White" />
                 <Label
                     Grid.Column="1"
                     FontFamily="FAS"
                     FontSize="20"
-                    HorizontalOptions="End"
                     Text="{StaticResource AddButton}"
                     TextColor="{StaticResource Secondary}" />
             </Grid>
@@ -53,15 +41,15 @@
         <ScrollView
             x:Name="ScrollView"
             Grid.Row="1"
+            HeightRequest="450"
             Orientation="Vertical">
             <ListView
                 x:Name="ListView"
                 HasUnevenRows="True"
-                HeightRequest="500"
                 InputTransparent="False"
                 ItemsSource="{Binding ExercisesList}">
                 <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="dtos:SelectableExerciseDto">
+                    <DataTemplate x:DataType="dtos1:SelectableExerciseDto">
                         <ViewCell>
                             <Grid
                                 x:Name="Exercise"
@@ -125,10 +113,9 @@
                                                 HeightRequest="1"
                                                 Color="Black" />
                                         </Grid>
-                                        <ListView
+                                        <ListView 
                                             x:Name="InnerListView"
                                             Grid.Row="2"
-                                            HasUnevenRows="True"
                                             ItemsSource="{Binding Series}">
                                             <ListView.ItemTemplate>
                                                 <DataTemplate x:DataType="dtos:SeriesDto">
@@ -187,19 +174,19 @@
                                             </ListView.ItemTemplate>
                                         </ListView>
 
-                                        <Frame
+
+                                        <Label
                                             Grid.Row="3"
                                             Padding="5"
-                                            HorizontalOptions="Center">
-                                            <Frame.GestureRecognizers>
+                                            FontFamily="FAS"
+                                            FontSize="20"
+                                            HorizontalOptions="Center"
+                                            Text="{StaticResource AddButton}"
+                                            TextColor="{StaticResource Primary}">
+                                            <Label.GestureRecognizers>
                                                 <TapGestureRecognizer Command="{Binding Source={x:Reference ListView}, Path=BindingContext.OpenAddSeriesPopupCommand}" CommandParameter="{Binding}" />
-                                            </Frame.GestureRecognizers>
-                                            <Label
-                                                FontFamily="FAS"
-                                                FontSize="20"
-                                                Text="{StaticResource AddButton}"
-                                                TextColor="{StaticResource Primary}" />
-                                        </Frame>
+                                            </Label.GestureRecognizers>
+                                        </Label>
                                     </Grid>
                                 </Frame>
                             </Grid>
@@ -209,5 +196,12 @@
             </ListView>
 
         </ScrollView>
+
+        <Button
+            Grid.Row="2"
+            Command="{Binding CreateWorkoutCommand}"
+            IsEnabled="{Binding ExercisesList, Converter={StaticResource IsCollectionEmptyConverter}}"
+            Text="Crea workout"
+            VerticalOptions="EndAndExpand" />
     </Grid>
 </templates:BasePage>

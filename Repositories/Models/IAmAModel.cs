@@ -1,4 +1,4 @@
-﻿namespace WorkoutsApp.Models.DB
+﻿namespace Repositories.Models
 {
     public interface IAmAModel
     {

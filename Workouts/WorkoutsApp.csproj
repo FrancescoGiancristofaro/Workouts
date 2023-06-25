@@ -103,6 +103,9 @@
 	  <Compile Update="Pages\Workouts\AddSeriesPopup.xaml.cs">
 	    <DependentUpon>AddSeriesPopup.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Pages\Workouts\Wizard\ExerciseConfigurationPage.xaml.cs">
+	    <DependentUpon>ExerciseConfigurationPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\Workouts\WorkoutsPage.xaml.cs">
 	    <DependentUpon>WorkoutsPage.xaml</DependentUpon>
 	  </Compile>
@@ -140,6 +143,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\Workouts\SelectExercisesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Workouts\Wizard\ExerciseConfigurationPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

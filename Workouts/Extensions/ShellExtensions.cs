@@ -8,7 +8,7 @@ namespace WorkoutsApp.Extensions
 {
     public static class ShellExtensions
     {
-        public static async Task GoToAsync(this Shell shell, string route, string key, object dataToPass)
+        public static async Task GoToAsync<T>(this Shell shell, string route, string key, T dataToPass)
         {
             var parameters = new Dictionary<string, object>() { { key, dataToPass } };
             await shell.GoToAsync(route, parameters);

@@ -4,6 +4,7 @@ using Repositories.Settings;
 using Services.Services;
 using WorkoutsApp.Pages.Exercises;
 using WorkoutsApp.Pages.Workouts;
+using WorkoutsApp.Pages.Workouts.Wizard;
 using WorkoutsApp.Services;
 
 
@@ -62,6 +63,7 @@ public static class MauiProgram
         serviceCollection.AddTransient<AddNewWorkoutViewModel>();
         serviceCollection.AddTransient<SelectExercisesViewModel>();
         serviceCollection.AddTransient<AddSeriesViewModel>();
+        serviceCollection.AddTransient<ExerciseConfigurationViewModel>();
     }
     private static void RegisterPages(IServiceCollection serviceCollection)
     {
@@ -71,6 +73,7 @@ public static class MauiProgram
         serviceCollection.AddTransient<SelectExercisesPage>();
         serviceCollection.AddTransient<AddNewWorkoutPage>();
         serviceCollection.AddTransient<AddSeriesPopup>();
+        serviceCollection.AddTransient<ExerciseConfigurationPage>();
     }
     
 }

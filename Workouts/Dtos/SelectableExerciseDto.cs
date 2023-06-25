@@ -9,6 +9,5 @@ namespace WorkoutsApp.Dtos
     {
         [ObservableProperty] Exercise _exercise;
         [ObservableProperty] bool _isSelected;
-        [ObservableProperty] ObservableCollection<SeriesDto> _series = new ();
     }
 }

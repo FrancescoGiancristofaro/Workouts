@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<templates:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    xmlns:templates="clr-namespace:WorkoutsApp.Pages.Templates"
+                    xmlns:wizard="clr-namespace:WorkoutsApp.Pages.Workouts.Wizard"
+                    x:Class="WorkoutsApp.Pages.Workouts.Wizard.ExerciseConfigurationPage"
+                    x:DataType="wizard:ExerciseConfigurationViewModel"
+                    BindingContext="{Binding}"
+                    PageTitle="Nuovo Allenamento"
+                    RootViewModel="{Binding}">
+    <VerticalStackLayout>
+        <Label 
+            Text="Welcome to .NET MAUI!"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+    </VerticalStackLayout>
+</templates:BasePage>

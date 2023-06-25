@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Repositories.Constants;
 using Repositories.Models;
+using Services.Dtos;
 using Services.Services;
 using WorkoutsApp.Dtos;
 using WorkoutsApp.Extensions;
@@ -23,7 +24,7 @@ namespace WorkoutsApp.Pages.Exercises
 
         [ObservableProperty] ExerciseCategory _selectedCategory;
 
-        [ObservableProperty] ObservableCollection<Exercise> _exercises;
+        [ObservableProperty] ObservableCollection<ExerciseDto> _exercises;
 
         [ObservableProperty] bool _isExercisesListEmpty;
         [ObservableProperty] string _textToSearch = string.Empty;
@@ -50,8 +51,7 @@ namespace WorkoutsApp.Pages.Exercises
                 if(!result)
                     return;
                 IsBusy = true;
-                var ex = await _exerciseService.GetById((int)data);
-                await _exerciseService.Delete(ex);
+                await _exerciseService.DeleteExerciseByIdAsync((int)data);
                 await RefreshExercisesList();
             }
             catch (Exception ex)
@@ -88,8 +88,8 @@ namespace WorkoutsApp.Pages.Exercises
 
         private async Task RefreshExercisesList(ExerciseFiltersDto filters = null)
         {
-            Exercises = new ObservableCollection<Exercise>();
-            var ex = await _exerciseService.GetAll();
+            Exercises = new ObservableCollection<ExerciseDto>();
+            var ex = await _exerciseService.GetExerciseListAsync();
 
             if (filters == null)
             {

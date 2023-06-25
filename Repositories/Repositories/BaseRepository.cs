@@ -6,7 +6,7 @@ namespace Repositories.Repositories
     public interface IRepository<T> where T : IAmAModel, new()
     {
         Task<IList<T>> GetAll();
-        Task Insert(T item);
+        Task<T> Insert(T item);
         Task Delete(T item);
         Task<T> GetById(int id);
 
@@ -26,9 +26,10 @@ namespace Repositories.Repositories
             return await _dbManager.Database.Table<T>().ToListAsync();
         }
 
-        public async Task Insert(T item)
+        public async Task<T> Insert(T item)
         {
             await _dbManager.Database.InsertAsync(item);
+            return item;
         }
 
         public async Task Delete(T item)

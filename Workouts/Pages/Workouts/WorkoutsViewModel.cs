@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using Services.Services;
 using WorkoutsApp.Extensions;
 using Repositories.Models;
+using Services.Dtos;
 using WorkoutsApp.Services;
 
 
@@ -13,7 +14,7 @@ namespace WorkoutsApp.Pages.Workouts
     {
         private readonly IWorkoutService _workoutService;
 
-        [ObservableProperty] ObservableCollection<Repositories.Models.Workouts> _workouts;
+        [ObservableProperty] ObservableCollection<WorkoutsDto> _workouts;
 
         [ObservableProperty] bool _isWorkoutsListEmpty;
 
@@ -48,8 +49,8 @@ namespace WorkoutsApp.Pages.Workouts
 
         private async Task RefreshWorkoutsList()
         {
-            Workouts = new ObservableCollection<Repositories.Models.Workouts>();
-            var wo = await _workoutService.GetAll();
+            Workouts = new ObservableCollection<WorkoutsDto>();
+            var wo = await _workoutService.GetWorkoutsAsync();
             foreach (var item in wo)
             {
                 Workouts.Add(item);

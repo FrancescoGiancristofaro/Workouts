@@ -60,7 +60,7 @@ namespace WorkoutsApp.Pages.Workouts
         }
         private async Task RefreshExercisesList()
         {
-            var exercises = await _exerciseService.GetAll();
+            var exercises = await _exerciseService.GetExerciseListAsync();
             IsExercisesListEmpty = !exercises.SafeAny();
             foreach (var item in exercises)
             {

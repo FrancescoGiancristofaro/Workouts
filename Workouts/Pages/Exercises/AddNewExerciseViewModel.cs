@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Repositories.Constants;
 using Repositories.Models;
+using Services.Dtos;
 using Services.Services;
 using WorkoutsApp.Services;
 
@@ -28,8 +29,8 @@ namespace WorkoutsApp.Pages.Exercises
                     return;
                 }
 
-                var ex = new Exercise() { Name = ExerciseName, Description = Description, Category = category };
-                await _exerciseService.Insert(ex);
+                var ex = new ExerciseDto() { Name = ExerciseName, Description = Description, Category = category };
+                await _exerciseService.InsertExerciseAsync(ex);
 
                 await Shell.Current.GoToAsync("..");
 

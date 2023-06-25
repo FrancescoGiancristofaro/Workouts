@@ -1,6 +1,8 @@
-﻿using CommunityToolkit.Maui;
+﻿using AutoMapper;
+using CommunityToolkit.Maui;
 using Repositories.Repositories;
 using Repositories.Settings;
+using Services.Automapper;
 using Services.Services;
 using WorkoutsApp.Pages.Exercises;
 using WorkoutsApp.Pages.Workouts;
@@ -30,6 +32,7 @@ public static class MauiProgram
 
         builder.Services.AddTransient<AppShell>();
         RegisterDatabase(builder.Services);
+        RegisterAutomapper(builder.Services);
         RegisterServices(builder.Services);
         RegisterRepositories(builder.Services);
         RegisterViewModels(builder.Services);
@@ -39,6 +42,16 @@ public static class MauiProgram
 
         return builder.Build();
 	}
+
+    private static void RegisterAutomapper(IServiceCollection serviceCollection)
+    {
+        var config = new MapperConfiguration(c => {
+            c.AddProfile<ExerciseProfile>();
+            c.AddProfile<SeriesProfile>();
+            c.AddProfile<WorkoutsProfile>();
+        });
+        serviceCollection.AddSingleton(s => config.CreateMapper());
+    }
 
     private static void RegisterDatabase(IServiceCollection serviceCollection)
     {

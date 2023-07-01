@@ -41,7 +41,7 @@ namespace WorkoutsApp.Pages.Workouts
         {
             _exerciseService = exerciseService;
         }
-        protected override async Task Appearing()
+        public override async void PrepareModel()
         {
             IsBusy = true;
             try

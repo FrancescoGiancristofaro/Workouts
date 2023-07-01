@@ -26,4 +26,12 @@ public partial class BasePage : ContentPage
 	{
 		InitializeComponent();
 	}
+
+    protected override bool OnBackButtonPressed()
+    {
+        //if (RootViewModel.IsBusy)
+        //    return true;
+        //RootViewModel.NavigateBack();
+        return true;
+    }
 }

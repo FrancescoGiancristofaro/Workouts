@@ -29,7 +29,7 @@ namespace WorkoutsApp.Pages.Workouts
             _workoutService = workoutService;
         }
 
-        protected override async Task Appearing()
+        public override async void OnAppearing()
         {
             IsBusy = true;
             try

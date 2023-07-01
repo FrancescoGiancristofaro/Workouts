@@ -13,6 +13,8 @@ using Services.Services;
 using WorkoutsApp.Dtos;
 using WorkoutsApp.Extensions;
 using WorkoutsApp.Services;
+using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging.Messages;
 
 namespace WorkoutsApp.Pages.Exercises
 {
@@ -23,6 +25,7 @@ namespace WorkoutsApp.Pages.Exercises
         public IEnumerable<ExerciseCategory> Categories => Enum.GetValues(typeof(ExerciseCategory)).Cast<ExerciseCategory>();
 
         [ObservableProperty] ExerciseCategory _selectedCategory;
+        [ObservableProperty] ExerciseFiltersDto _filters;
 
         [ObservableProperty] ObservableCollection<ExerciseDto> _exercises;
 
@@ -38,8 +41,8 @@ namespace WorkoutsApp.Pages.Exercises
         [RelayCommand]
         public async void Filter()
         {
-            var filters = new ExerciseFiltersDto() { TextToSearch = TextToSearch, Category = SelectedCategory };
-            await RefreshExercisesList(filters);
+            Filters = new ExerciseFiltersDto() { TextToSearch = TextToSearch, Category = SelectedCategory };
+            await RefreshExercisesList(Filters);
         }
 
         [RelayCommand]
@@ -52,7 +55,6 @@ namespace WorkoutsApp.Pages.Exercises
                     return;
                 IsBusy = true;
                 await _exerciseService.DeleteExerciseByIdAsync((int)data);
-                await RefreshExercisesList();
             }
             catch (Exception ex)
             {
@@ -67,9 +69,13 @@ namespace WorkoutsApp.Pages.Exercises
         public ExercisesListViewModel(IExerciseService exerciseService)
         {
             _exerciseService = exerciseService;
+            WeakReferenceMessenger.Default.Register<ValueChangedMessage<ExerciseOperation>>(this, async (r, m) =>
+            {
+                await RefreshExercisesList(Filters);
+            });
         }
 
-        protected override async Task Appearing()
+        public override async void OnAppearing()
         {
             IsBusy = true;
             try

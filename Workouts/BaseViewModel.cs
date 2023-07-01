@@ -7,32 +7,37 @@ namespace WorkoutsApp
     {
 
         [ObservableProperty]
-        bool isBusy;
+        static bool isBusy;
 
-
-        [RelayCommand]
-        protected virtual async Task Appearing()
+        public BaseViewModel()
         {
         }
 
-        [RelayCommand]
-        protected virtual async Task Disappearing()
+        public virtual void PrepareModel()
+        {
+        }
+
+
+        public virtual void ReversePrepareModel()
         {
 
         }
-        [RelayCommand]
-        protected virtual async Task BaseAppearing()
-        {
 
-            await Appearing();
+        public virtual void OnAppearing()
+        {
+        }
+
+
+        public virtual void OnDisappearing()
+        {
 
         }
 
-        [RelayCommand]
-        protected virtual async Task BaseDisappearing()
+        public virtual void NavigateBack()
         {
-            await Disappearing();
+            Shell.Current.GoToAsync("..");
         }
+
         public async Task ManageException(object ex)
         {
             await Shell.Current.DisplayAlert("Attenzione", ex.ToString(), "OK");

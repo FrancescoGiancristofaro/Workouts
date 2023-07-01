@@ -1,17 +1,32 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<templates:BasePage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                    xmlns:templates="clr-namespace:WorkoutsApp.Pages.Templates"
-                    xmlns:wizard="clr-namespace:WorkoutsApp.Pages.Workouts.Wizard"
-                    x:Class="WorkoutsApp.Pages.Workouts.Wizard.ExerciseConfigurationPage"
-                    x:DataType="wizard:ExerciseConfigurationViewModel"
-                    BindingContext="{Binding}"
-                    PageTitle="Nuovo Allenamento"
-                    RootViewModel="{Binding}">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+<templates:BasePage
+    x:Class="WorkoutsApp.Pages.Workouts.Wizard.ExerciseConfigurationPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:WorkoutsApp.Converters"
+    xmlns:templates="clr-namespace:WorkoutsApp.Pages.Templates"
+    xmlns:wizard="clr-namespace:WorkoutsApp.Pages.Workouts.Wizard"
+    x:DataType="wizard:ExerciseConfigurationViewModel"
+    BindingContext="{Binding}"
+    PageTitle="{Binding CurrentExercise.Exercise.Name}"
+    RootViewModel="{Binding}">
+    <StackLayout>
+
+        <Grid Margin="0,20,0,20" RowDefinitions="*,*" RowSpacing="20">
+            <StackLayout Grid.Row="0">
+                <Label FontSize="Medium" Text="{Binding CurrentExercise.Exercise.Name}" />
+                <Label FontSize="Medium" Text="{Binding CurrentExercise.Exercise.Name}" />
+                <Label FontSize="Medium" Text="{Binding CurrentExercise.Exercise.Name}" />
+                <Label FontSize="Medium" Text="{Binding CurrentExercise.Exercise.Name}" />
+            </StackLayout>
+
+            <Button
+                Grid.Row="1"
+                Margin="0,0,0,0"
+                Command="{Binding NextCommand}"
+                Text="{Binding IsLastExercise, Converter={StaticResource ConditionalConverter}, ConverterParameter={converters:ConditionalConverterParameter TrueValue='Crea allenamento', FalseValue='Prossimo esericizio'}}"
+                VerticalOptions="EndAndExpand" />
+        </Grid>
+    </StackLayout>
+
 </templates:BasePage>

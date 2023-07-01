@@ -7,8 +7,8 @@
     xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:components="clr-namespace:WorkoutsApp.Pages.Templates.Components"
     xmlns:exercise="clr-namespace:WorkoutsApp.Pages.Exercises"
-    xmlns:templates="clr-namespace:WorkoutsApp.Pages.Templates"
     xmlns:models1="clr-namespace:Repositories.Models;assembly=Repositories"
+    xmlns:templates="clr-namespace:WorkoutsApp.Pages.Templates"
     x:DataType="exercise:ExercisesListViewModel"
     BindingContext="{Binding}"
     PageTitle="Lista Esercizi"
@@ -165,7 +165,7 @@
             <Label
                 FontFamily="FAS"
                 FontSize="30"
-                HorizontalOptions="End"
+                HorizontalOptions="Center"
                 Text="{StaticResource AddCircleButton}"
                 TextColor="{StaticResource Secondary}" />
         </Frame>

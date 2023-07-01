@@ -7,8 +7,8 @@
     x:Name="BaseWorkoutsPage"
     BackgroundColor="{StaticResource Primary}"
     ControlTemplate="{StaticResource MyControlTemplate}">
-    <ContentPage.Behaviors>
-        <behaviors:EventToCommandBehavior Command="{Binding Source={x:Reference BaseWorkoutsPage}, Path=BindingContext.BaseAppearingCommand}" EventName="Appearing" />
-        <behaviors:EventToCommandBehavior Command="{Binding Source={x:Reference BaseWorkoutsPage}, Path=BindingContext.BaseDisappearingCommand}" EventName="Disappearing" />
-    </ContentPage.Behaviors>
+    <!--<ContentPage.Behaviors>
+        <behaviors:EventToCommandBehavior Command="{Binding Source={x:Reference BaseWorkoutsPage}, Path=BindingContext.AppearingCommand}" EventName="Appearing" />
+        <behaviors:EventToCommandBehavior Command="{Binding Source={x:Reference BaseWorkoutsPage}, Path=BindingContext.DisappearingCommand}" EventName="Disappearing" />
+    </ContentPage.Behaviors>-->
 </ContentPage>

@@ -37,7 +37,9 @@ namespace WorkoutsApp.Pages.Workouts
         [RelayCommand]
         async void Next()
         {
-            await Shell.Current.GoToAsync(AppRoutes.SelectExercisesPage, "exercises", ExercisesList);
+            var copy = ExercisesList.SelectMany(x => x).Select(x => new SelectableExerciseDto()
+                { IsSelected = false, Exercise = x.Exercise });
+            await Shell.Current.GoToAsync(AppRoutes.ExerciseConfigurationPage, "exercises", copy.ToList());
         }
 
         //[RelayCommand]
@@ -65,17 +67,29 @@ namespace WorkoutsApp.Pages.Workouts
             _exerciseService = exerciseService;
         }
 
-        protected override async Task Appearing()
+        public override async void ReversePrepareModel()
         {
-            IsBusy = true;
-            var list = new ObservableCollection<ExercisesCategoryGroupedDto>();
-            if (SelectedExercises.SafeAny())
+            try
             {
-                foreach (var group in SelectedExercises.GroupBy(x=>x.Exercise.Category))
-                   list.Add(new ExercisesCategoryGroupedDto(group.Key, group.ToList()));
+                IsBusy = true;
+                await Task.Delay(1);
+                var list = new ObservableCollection<ExercisesCategoryGroupedDto>();
+                if (SelectedExercises.SafeAny())
+                {
+                    foreach (var group in SelectedExercises.GroupBy(x => x.Exercise.Category))
+                        list.Add(new ExercisesCategoryGroupedDto(group.Key, group.ToList()));
+                }
+
+                ExercisesList = list;
             }
-            ExercisesList = list;
-            IsBusy = false;
+            catch (Exception ex)
+            {
+                await ManageException(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
     }
 }

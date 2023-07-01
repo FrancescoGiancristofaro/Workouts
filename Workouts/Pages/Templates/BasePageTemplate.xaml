@@ -2,14 +2,11 @@
 <ResourceDictionary
     x:Class="WorkoutsApp.Pages.Templates.BasePageTemplate"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:WorkoutsApp.Converters">
     <ControlTemplate x:Key="MyControlTemplate">
         <AbsoluteLayout>
-            <StackLayout
-                AbsoluteLayout.LayoutBounds="0,0,1,1"
-                AbsoluteLayout.LayoutFlags="All"
-                IsEnabled="{TemplateBinding RootViewModel.IsBusy,
-                                            Converter={StaticResource InverseBooleanConverter}}">
+            <StackLayout AbsoluteLayout.LayoutBounds="1,1,1,1" AbsoluteLayout.LayoutFlags="All">
                 <Grid Margin="20" RowDefinitions="Auto, *">
                     <Label
                         Grid.Row="0"
@@ -17,15 +14,21 @@
                         FontSize="25"
                         Text="{TemplateBinding PageTitle}"
                         TextColor="{StaticResource Secondary}" />
-                    <ContentPresenter Grid.Row="1" />
+                    <ContentPresenter
+                        Grid.Row="1"
+                        IsEnabled="{TemplateBinding RootViewModel.IsBusy,
+                                                    Converter={StaticResource InverseBooleanConverter}}"
+                        Opacity="{TemplateBinding RootViewModel.IsBusy,
+                                                  Converter={StaticResource ConditionalConverter},
+                                                  ConverterParameter={converters:ConditionalConverterParameter TrueValue='0.5',
+                                                                                                               FalseValue='1'}}" />
                 </Grid>
             </StackLayout>
             <StackLayout
                 AbsoluteLayout.LayoutBounds="0,0,1,1"
                 AbsoluteLayout.LayoutFlags="All"
                 BackgroundColor="Transparent"
-                IsVisible="{TemplateBinding RootViewModel.IsBusy}"
-                Opacity="0.5">
+                IsVisible="{TemplateBinding RootViewModel.IsBusy}">
                 <ActivityIndicator
                     HeightRequest="100"
                     HorizontalOptions="CenterAndExpand"
@@ -36,9 +39,5 @@
             </StackLayout>
 
         </AbsoluteLayout>
-        <!--<StackLayout>
-            <ActivityIndicator IsRunning="{TemplateBinding RootViewModel.IsBusy}" Color="Orange" />
-            <ContentPresenter />
-        </StackLayout>-->
     </ControlTemplate>
 </ResourceDictionary>

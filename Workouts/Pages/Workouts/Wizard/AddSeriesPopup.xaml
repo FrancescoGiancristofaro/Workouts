@@ -38,9 +38,9 @@
                 MaxLength="5"
                 Placeholder="0:00"
                 Text="{Binding RecoveryTime}"
-                UnfocusedCommand="{Binding UnfocusedCommand}"
                 TextChangedCommand="{Binding TextChangedCommand}"
-                TopLabel="Tempo di recupero" />
+                TopLabel="Tempo di recupero"
+                UnfocusedCommand="{Binding UnfocusedCommand}" />
             <Button Command="{Binding AddSeriesCommand}" Text="Aggiungi" />
         </StackLayout>
     </Frame>

@@ -6,9 +6,16 @@
     xmlns:exercises="clr-namespace:WorkoutsApp.Pages.Exercises"
     xmlns:settings="clr-namespace:WorkoutsApp.Pages.Settings"
     xmlns:workouts="clr-namespace:WorkoutsApp.Pages.Workouts"
+    xmlns:schedules="clr-namespace:WorkoutsApp.Pages.Schedules"
     FlyoutBehavior="Disabled"
     NavBarIsVisible="False">
     <TabBar IsEnabled="{Binding IsBusy}">
+        <Tab Title="Schedules" Route="Schedules">
+            <Tab.Icon>
+                <FontImageSource FontFamily="FAS" Glyph="{StaticResource ScheduleIcon}" />
+            </Tab.Icon>
+            <ShellContent ContentTemplate="{DataTemplate schedules:SchedulesPage}" />
+        </Tab>
         <Tab Title="Workouts" Route="Workouts">
             <Tab.Icon>
                 <FontImageSource FontFamily="FAS" Glyph="{StaticResource GymIcon}" />

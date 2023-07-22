@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using CommunityToolkit.Maui.Views;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Services.Constants;
+using Services.Dtos;
 using Services.Services;
+using System.Collections.ObjectModel;
 using WorkoutsApp.Dtos;
 using WorkoutsApp.Extensions;
-using WorkoutsApp.Models.Dtos;
 using WorkoutsApp.Services;
 using SelectableExerciseDto = WorkoutsApp.Dtos.SelectableExerciseDto;
 
@@ -24,9 +18,18 @@ namespace WorkoutsApp.Pages.Workouts
 
         private readonly IPopupService _popupService;
         private readonly IExerciseService _exerciseService;
+        private readonly ICacheService _cacheService;
 
         [ObservableProperty] string _name;
+        [ObservableProperty] string _description;
         [ObservableProperty] ObservableCollection<ExercisesCategoryGroupedDto> _exercisesList = new();
+
+        public AddNewWorkoutViewModel(IPopupService popupService, IExerciseService exerciseService, ICacheService cacheService)
+        {
+            _popupService = popupService;
+            _exerciseService = exerciseService;
+            _cacheService = cacheService;
+        }
 
         [RelayCommand]
         async void SelectExercise()
@@ -37,35 +40,22 @@ namespace WorkoutsApp.Pages.Workouts
         [RelayCommand]
         async void Next()
         {
+            if (string.IsNullOrEmpty(Name))
+            {
+                await Shell.Current.DisplayAlert("Attenzione", "Scegliere un nome", "Ok");
+                return;
+            }
+
             var copy = ExercisesList.SelectMany(x => x).Select(x => new SelectableExerciseDto()
-                { IsSelected = false, Exercise = x.Exercise });
+            { IsSelected = false, Exercise = x.Exercise });
+
+            var cachedWorkouts = WorkoutWizardDto.Create(Name, Description,copy.Select(x=>x.Exercise));
+            
+            _cacheService.Add(CacheKeys.WorkoutWizardProgression, cachedWorkouts);
+
             await Shell.Current.GoToAsync(AppRoutes.ExerciseConfigurationPage, "exercises", copy.ToList());
         }
 
-        //[RelayCommand]
-        //async void OpenAddSeriesPopup(SelectableExerciseDto exercise)
-        //{
-        //    var res = await _popupService.ShowPopup(typeof(AddSeriesPopup), exercise.Series.LastOrDefault());
-        //    if(res is SeriesDto series)
-        //        exercise.Series.Add(series);
-        //}
-
-        //[RelayCommand]
-        //async void DeleteSeries(object parameters)
-        //{
-        //    var res = await Shell.Current.DisplayAlert("Attenzione","Sei sicuro di voler eliminare la serie", "Ok", "Annulla");
-        //    if(!res)
-        //        return;
-        //    var tuple = parameters as Tuple<SeriesDto, SelectableExerciseDto>;
-        //    tuple.Item2.Series.Remove(tuple.Item1);
-        //}
-
-
-        public AddNewWorkoutViewModel(IPopupService popupService,IExerciseService exerciseService)
-        {
-            _popupService = popupService;
-            _exerciseService = exerciseService;
-        }
 
         public override async void ReversePrepareModel()
         {
@@ -90,6 +80,12 @@ namespace WorkoutsApp.Pages.Workouts
             {
                 IsBusy = false;
             }
+        }
+
+        public override async Task NavigateBack()
+        {
+            _cacheService.Remove(CacheKeys.WorkoutWizardProgression);
+            await base.NavigateBack();
         }
     }
 }

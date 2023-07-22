@@ -13,8 +13,7 @@ namespace Services.Automapper
     {
         public WorkoutsProfile()
         {
-            CreateMap<Workouts, WorkoutsDto>()
-                .ReverseMap();
+            CreateMap<Workouts, WorkoutsDto>();
         }
     }
 }

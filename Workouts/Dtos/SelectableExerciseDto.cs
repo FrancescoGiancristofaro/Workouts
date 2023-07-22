@@ -1,8 +1,5 @@
-﻿using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
-using Repositories.Models;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using Services.Dtos;
-using WorkoutsApp.Models.Dtos;
 
 namespace WorkoutsApp.Dtos
 {

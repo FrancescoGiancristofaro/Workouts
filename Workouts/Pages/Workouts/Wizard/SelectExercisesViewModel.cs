@@ -9,7 +9,6 @@ using CommunityToolkit.Mvvm.Input;
 using Services.Services;
 using WorkoutsApp.Dtos;
 using WorkoutsApp.Extensions;
-using WorkoutsApp.Models.Dtos;
 using WorkoutsApp.Services;
 using SelectableExerciseDto = WorkoutsApp.Dtos.SelectableExerciseDto;
 

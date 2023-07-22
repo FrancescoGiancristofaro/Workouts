@@ -5,6 +5,7 @@ using Repositories.Settings;
 using Services.Automapper;
 using Services.Services;
 using WorkoutsApp.Pages.Exercises;
+using WorkoutsApp.Pages.Schedules;
 using WorkoutsApp.Pages.Workouts;
 using WorkoutsApp.Pages.Workouts.Wizard;
 using WorkoutsApp.Services;
@@ -40,6 +41,8 @@ public static class MauiProgram
 
         AppRoutes.RegisterRoutes();
 
+        var cache = builder.Services.BuildServiceProvider().GetRequiredService<ICacheService>();
+        cache.SetScope("Workouts");
         return builder.Build();
 	}
 
@@ -62,6 +65,7 @@ public static class MauiProgram
         serviceCollection.AddTransient<IWorkoutService, WorkoutService>();
         serviceCollection.AddTransient<IExerciseService, ExerciseService>();
         serviceCollection.AddSingleton<IPopupService, PopupService>();
+        serviceCollection.AddSingleton<ICacheService>(_ => new CacheService(FileSystem.Current.AppDataDirectory));
     }
     private static void RegisterRepositories(IServiceCollection serviceCollection)
     {
@@ -77,9 +81,11 @@ public static class MauiProgram
         serviceCollection.AddTransient<SelectExercisesViewModel>();
         serviceCollection.AddTransient<AddSeriesViewModel>();
         serviceCollection.AddTransient<ExerciseConfigurationViewModel>();
+        serviceCollection.AddTransient<SchedulesViewModel>();
     }
     private static void RegisterPages(IServiceCollection serviceCollection)
     {
+        serviceCollection.AddTransient<SchedulesPage>();
         serviceCollection.AddTransient<WorkoutsPage>();
         serviceCollection.AddTransient<AddNewExercisePage>();
         serviceCollection.AddTransient<ExercisesListPage>();

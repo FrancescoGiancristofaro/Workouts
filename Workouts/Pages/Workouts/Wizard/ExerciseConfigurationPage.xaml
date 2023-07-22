@@ -4,29 +4,86 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:converters="clr-namespace:WorkoutsApp.Converters"
+    xmlns:dtos="clr-namespace:WorkoutsApp.Dtos"
+    xmlns:dtos1="clr-namespace:Services.Dtos;assembly=Services"
     xmlns:templates="clr-namespace:WorkoutsApp.Pages.Templates"
     xmlns:wizard="clr-namespace:WorkoutsApp.Pages.Workouts.Wizard"
     x:DataType="wizard:ExerciseConfigurationViewModel"
     BindingContext="{Binding}"
-    PageTitle="{Binding CurrentExercise.Exercise.Name}"
     RootViewModel="{Binding}">
-    <StackLayout>
+    <StackLayout Spacing="20">
+        <Label
+            FontAttributes="Bold"
+            FontSize="25"
+            Text="{Binding CurrentExercise.Exercise.Name}"
+            TextColor="{StaticResource Secondary}" />
 
-        <Grid Margin="0,20,0,20" RowDefinitions="*,*" RowSpacing="20">
-            <StackLayout Grid.Row="0">
-                <Label FontSize="Medium" Text="{Binding CurrentExercise.Exercise.Name}" />
-                <Label FontSize="Medium" Text="{Binding CurrentExercise.Exercise.Name}" />
-                <Label FontSize="Medium" Text="{Binding CurrentExercise.Exercise.Name}" />
-                <Label FontSize="Medium" Text="{Binding CurrentExercise.Exercise.Name}" />
-            </StackLayout>
 
+        <ScrollView Margin="20">
+            <CollectionView
+                x:Name="ListView"
+                Header="{Binding .}"
+                ItemsSource="{Binding Series}">
+                <CollectionView.HeaderTemplate>
+                    <DataTemplate>
+                        <StackLayout BackgroundColor="Transparent">
+                            <Grid ColumnDefinitions="*,*,*,*">
+                                <Label Grid.Column="0" Text="Reps" />
+                                <Label Grid.Column="1" Text="Weight" />
+                                <Label Grid.Column="2" Text="Recovery" />
+                            </Grid>
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.HeaderTemplate>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="dtos1:SeriesDto">
+                        <Grid Margin="0,10,0,0" BackgroundColor="Transparent">
+                            <Grid ColumnDefinitions="*,*,*,*">
+                                <Label Grid.Column="0" Text="{Binding Repetitions}" />
+                                <Label Grid.Column="1" Text="{Binding Weight}" />
+                                <Label Grid.Column="2" Text="{Binding SecondsRecoveryTime, Converter={StaticResource SecondsRecoveryToStringConverter}}" />
+                                <Label
+                                    Grid.Column="3"
+                                    FontFamily="FAS"
+                                    HorizontalOptions="End"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{StaticResource TrashIcon}"
+                                    TextColor="Black"
+                                    VerticalOptions="Center"
+                                    VerticalTextAlignment="Center">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={x:Reference ListView}, Path=BindingContext.DeleteSeriesCommand}" CommandParameter="{Binding}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </Grid>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+
+
+        <StackLayout>
+            <Label
+                FontFamily="FAS"
+                FontSize="30"
+                HorizontalOptions="Center"
+                HorizontalTextAlignment="Center"
+                Text="{StaticResource AddCircleButton}"
+                TextColor="{StaticResource Blue100Accent}">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Source={x:Reference ListView}, Path=BindingContext.OpenAddSeriesPopupCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
+        </StackLayout>
+
+        <StackLayout>
             <Button
-                Grid.Row="1"
-                Margin="0,0,0,0"
                 Command="{Binding NextCommand}"
                 Text="{Binding IsLastExercise, Converter={StaticResource ConditionalConverter}, ConverterParameter={converters:ConditionalConverterParameter TrueValue='Crea allenamento', FalseValue='Prossimo esericizio'}}"
-                VerticalOptions="EndAndExpand" />
-        </Grid>
+                VerticalOptions="End" />
+        </StackLayout>
+
     </StackLayout>
 
 </templates:BasePage>

@@ -8,7 +8,6 @@
     xmlns:templates="clr-namespace:WorkoutsApp.Pages.Templates"
     x:DataType="exercise:AddNewExerciseViewModel"
     BindingContext="{Binding}"
-    PageTitle="Nuovo esercizio"
     RootViewModel="{Binding}">
 
     <StackLayout
@@ -16,7 +15,11 @@
         BackgroundColor="Transparent"
         Spacing="20">
 
-
+        <Label
+            FontAttributes="Bold"
+            FontSize="25"
+            Text="Nuovo esercizio"
+            TextColor="{StaticResource Secondary}" />
         <components:WorkoutsEntry
             Placeholder="Nome"
             Text="{Binding ExerciseName}"

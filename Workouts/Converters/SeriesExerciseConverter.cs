@@ -4,7 +4,8 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WorkoutsApp.Models.Dtos;
+using Services.Dtos;
+using WorkoutsApp.Dtos;
 using SelectableExerciseDto = WorkoutsApp.Dtos.SelectableExerciseDto;
 
 namespace WorkoutsApp.Converters

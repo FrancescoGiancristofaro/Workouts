@@ -8,6 +8,7 @@ namespace Services.Services
     public interface IWorkoutService 
     {
         Task<IEnumerable<WorkoutsDto>> GetWorkoutsAsync();
+        Task CreateWorkoutsAsync(WorkoutWizardDto dto);
     }
 
     public class WorkoutService : IWorkoutService
@@ -24,6 +25,11 @@ namespace Services.Services
         public async Task<IEnumerable<WorkoutsDto>> GetWorkoutsAsync()
         {
             return (await _workoutsRepository.GetAll()).Select(x => _mapper.Map<WorkoutsDto>(x));
+        }
+
+        public Task CreateWorkoutsAsync(WorkoutWizardDto dto)
+        {
+            throw new NotImplementedException();
         }
     }
 }

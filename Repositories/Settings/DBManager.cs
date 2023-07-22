@@ -39,7 +39,7 @@ namespace Repositories.Settings
             Database = new SQLiteAsyncConnection(_databasePath, SqlLiteSettings.Flags);
             await Database.CreateTableAsync<Workouts>();
             await Database.CreateTableAsync<WorkoutSession>();
-            await Database.CreateTableAsync<WorkoutDetail>();
+            await Database.CreateTableAsync<WorkoutExercises>();
             await Database.CreateTableAsync<Exercise>();
             await Database.CreateTableAsync<ExerciseDetails>();
             await Database.CreateTableAsync<ExerciseSeries>();

@@ -6,38 +6,29 @@
     xmlns:converters="clr-namespace:WorkoutsApp.Converters">
     <ControlTemplate x:Key="MyControlTemplate">
         <AbsoluteLayout>
-            <StackLayout AbsoluteLayout.LayoutBounds="1,1,1,1" AbsoluteLayout.LayoutFlags="All">
-                <Grid Margin="20" RowDefinitions="Auto, *">
-                    <Label
-                        Grid.Row="0"
-                        FontAttributes="Bold"
-                        FontSize="25"
-                        Text="{TemplateBinding PageTitle}"
-                        TextColor="{StaticResource Secondary}" />
-                    <ContentPresenter
-                        Grid.Row="1"
-                        IsEnabled="{TemplateBinding RootViewModel.IsBusy,
-                                                    Converter={StaticResource InverseBooleanConverter}}"
-                        Opacity="{TemplateBinding RootViewModel.IsBusy,
-                                                  Converter={StaticResource ConditionalConverter},
-                                                  ConverterParameter={converters:ConditionalConverterParameter TrueValue='0.5',
-                                                                                                               FalseValue='1'}}" />
-                </Grid>
-            </StackLayout>
-            <StackLayout
+            <Grid
+                Margin="20"
                 AbsoluteLayout.LayoutBounds="0,0,1,1"
                 AbsoluteLayout.LayoutFlags="All"
-                BackgroundColor="Transparent"
-                IsVisible="{TemplateBinding RootViewModel.IsBusy}">
+                RowDefinitions="*">
+                <ContentPresenter
+                    Grid.Row="0"
+                    IsEnabled="{TemplateBinding RootViewModel.IsBusy,
+                                                Converter={StaticResource InverseBooleanConverter}}"
+                    Opacity="{TemplateBinding RootViewModel.IsBusy,
+                                              Converter={StaticResource ConditionalConverter},
+                                              ConverterParameter={converters:ConditionalConverterParameter TrueValue='0.5',
+                                                                                                           FalseValue='1'}}" />
                 <ActivityIndicator
-                    HeightRequest="100"
+                    Grid.Row="0"
+                    HeightRequest="150"
                     HorizontalOptions="CenterAndExpand"
                     IsRunning="True"
+                    IsVisible="{TemplateBinding RootViewModel.IsBusy}"
                     VerticalOptions="CenterAndExpand"
-                    WidthRequest="100"
+                    WidthRequest="400"
                     Color="Orange" />
-            </StackLayout>
-
+            </Grid>
         </AbsoluteLayout>
     </ControlTemplate>
 </ResourceDictionary>

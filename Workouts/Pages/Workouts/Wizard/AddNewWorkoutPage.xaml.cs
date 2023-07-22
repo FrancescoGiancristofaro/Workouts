@@ -1,4 +1,3 @@
-using WorkoutsApp.Models.Dtos;
 
 namespace WorkoutsApp.Pages.Workouts;
 

@@ -33,9 +33,9 @@ namespace WorkoutsApp
 
         }
 
-        public virtual void NavigateBack()
+        public virtual async Task NavigateBack()
         {
-            Shell.Current.GoToAsync("..");
+            await Shell.Current.GoToAsync("..");
         }
 
         public async Task ManageException(object ex)

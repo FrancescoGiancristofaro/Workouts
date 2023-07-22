@@ -7,7 +7,7 @@ using SQLite;
 
 namespace Repositories.Models
 {
-    public class WorkoutDetail : IAmAModel
+    public class WorkoutExercises : IAmAModel
     {
         [PrimaryKey, AutoIncrement]
         public int? Id { get; set; }

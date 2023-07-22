@@ -97,10 +97,10 @@
 	  <Compile Update="Pages\Templates\BasePageTemplate.xaml.cs">
 	    <DependentUpon>BasePageTemplate.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Pages\Workouts\AddNewWorkoutPage.xaml.cs">
+	  <Compile Update="Pages\Workouts\Wizard\AddNewWorkoutPage.xaml.cs">
 	    <DependentUpon>AddNewWorkoutPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Pages\Workouts\AddSeriesPopup.xaml.cs">
+	  <Compile Update="Pages\Workouts\Wizard\AddSeriesPopup.xaml.cs">
 	    <DependentUpon>AddSeriesPopup.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Pages\Workouts\Wizard\ExerciseConfigurationPage.xaml.cs">
@@ -116,6 +116,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\Exercises\ExercisesListPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Schedules\SchedulesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\Settings\Settings.xaml">
@@ -136,13 +139,13 @@
 	  <MauiXaml Update="Pages\Templates\Components\WorkoutsPicker.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\Workouts\AddNewWorkoutPage.xaml">
+	  <MauiXaml Update="Pages\Workouts\Wizard\AddNewWorkoutPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\Workouts\AddSeriesPopup.xaml">
+	  <MauiXaml Update="Pages\Workouts\Wizard\AddSeriesPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\Workouts\SelectExercisesPage.xaml">
+	  <MauiXaml Update="Pages\Workouts\Wizard\SelectExercisesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\Workouts\Wizard\ExerciseConfigurationPage.xaml">

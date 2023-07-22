@@ -3,15 +3,19 @@
     x:Class="WorkoutsApp.Pages.Workouts.WorkoutsPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:Repositories.Models;assembly=Repositories"
     xmlns:templates="clr-namespace:WorkoutsApp.Pages.Templates"
     xmlns:workouts="clr-namespace:WorkoutsApp.Pages.Workouts"
-    xmlns:models="clr-namespace:Repositories.Models;assembly=Repositories"
     x:DataType="workouts:WorkoutsViewModel"
     BindingContext="{Binding}"
-    PageTitle="Lista Allenamenti"
     RootViewModel="{Binding}">
 
     <StackLayout BackgroundColor="Transparent">
+        <Label
+            FontAttributes="Bold"
+            FontSize="25"
+            Text="Lista Allenamenti"
+            TextColor="{StaticResource Secondary}" />
         <Frame
             Padding="10"
             BackgroundColor="Transparent"
@@ -61,7 +65,8 @@
             </ListView.ItemTemplate>
         </ListView>
         <Label
-            FontSize="10" HorizontalOptions="Center"
+            FontSize="10"
+            HorizontalOptions="Center"
             IsVisible="{Binding IsWorkoutsListEmpty}"
             Text="Nessun allenamento trovato" />
 

@@ -10,9 +10,13 @@
     xmlns:workouts="clr-namespace:WorkoutsApp.Pages.Workouts"
     x:DataType="workouts:SelectExercisesViewModel"
     BindingContext="{Binding}"
-    PageTitle="Seleziona Esercizi"
     RootViewModel="{Binding}">
-    <StackLayout VerticalOptions="End">
+    <StackLayout>
+        <Label
+            FontAttributes="Bold"
+            FontSize="25"
+            Text="Seleziona Esercizi"
+            TextColor="{StaticResource Secondary}" />
         <Grid RowDefinitions="*,Auto" RowSpacing="20">
             <ScrollView
                 Grid.Row="0"

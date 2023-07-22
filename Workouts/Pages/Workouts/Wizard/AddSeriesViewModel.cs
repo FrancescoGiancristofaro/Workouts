@@ -7,8 +7,9 @@ using System.Windows.Input;
 using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Services.Dtos;
 using WorkoutsApp.Extensions;
-using WorkoutsApp.Models.Dtos;
+using WorkoutsApp.Dtos;
 using WorkoutsApp.Services;
 
 namespace WorkoutsApp.Pages.Workouts

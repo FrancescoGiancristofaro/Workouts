@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using Services.Services;
 using WorkoutsApp.Extensions;
 using Repositories.Models;
+using Services.Constants;
 using Services.Dtos;
 using WorkoutsApp.Services;
 
@@ -13,27 +14,37 @@ namespace WorkoutsApp.Pages.Workouts
     public partial class WorkoutsViewModel : BaseViewModel
     {
         private readonly IWorkoutService _workoutService;
+        private readonly ICacheService _cacheService;
 
         [ObservableProperty] ObservableCollection<WorkoutsDto> _workouts;
 
         [ObservableProperty] bool _isWorkoutsListEmpty;
+
+
+        public WorkoutsViewModel(IWorkoutService workoutService,ICacheService cacheService)
+        {
+            _workoutService = workoutService;
+            _cacheService = cacheService;
+        }
+
 
         [RelayCommand]
         public async void AddNewWorkout()
         {
             await Shell.Current.GoToAsync(AppRoutes.AddNewWorkoutPage);
         }
-
-        public WorkoutsViewModel(IWorkoutService workoutService) 
-        {
-            _workoutService = workoutService;
-        }
-
         public override async void OnAppearing()
         {
             IsBusy = true;
             try
             {
+                var cachedWorkoutWizard = _cacheService.Get<WorkoutWizardDto>(CacheKeys.WorkoutWizardProgression);
+                if (cachedWorkoutWizard is not null)
+                {
+                    var res = await Shell.Current.DisplayAlert("Attenzione",
+                        "C'è una creazione di allenamento in sospeso vuoi prosieguirla?", "Ok", "Annulla");
+                    _cacheService.Remove(CacheKeys.WorkoutWizardProgression);
+                }
                 await RefreshWorkoutsList();
 
             }

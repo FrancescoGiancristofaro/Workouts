@@ -21,37 +21,49 @@ namespace WorkoutsApp.Pages.Workouts.Wizard
     {
         private readonly IPopupService _popupService;
         private readonly ICacheService _cacheService;
+        private readonly IWorkoutService _workoutService;
 
         public List<SelectableExerciseDto> ExerciseList { get; set; }
-        public WorkoutWizardDto CachedWorkoutWizardDto { get; set; }
+        public WorkoutWizardDto WorkoutWizardDto { get; set; }
         [ObservableProperty] private SelectableExerciseDto _currentExercise;
         [ObservableProperty] private ObservableCollection<SeriesDto> _series = new();
         [ObservableProperty] private bool _isLastExercise;
 
-        public ExerciseConfigurationViewModel(IPopupService popupService,ICacheService cacheService)
+        public ExerciseConfigurationViewModel(IPopupService popupService,ICacheService cacheService,IWorkoutService workoutService)
         {
             _popupService = popupService;
             _cacheService = cacheService;
+            _workoutService = workoutService;
         }
 
         [RelayCommand]
         public async void Next()
         {
-            if (IsLastExercise)
+            try
             {
-                await Shell.Current.DisplayAlert("Attenzione", "Funzionalita in arrivo", "Ok");
-                return;
+                IsBusy = true;
+                if (IsLastExercise)
+                {
+                    await _workoutService.CreateWorkoutsAsync(WorkoutWizardDto);
+                    _cacheService.Remove(CacheKeys.WorkoutWizardProgression);
+                }
 
-                _cacheService.Remove(CacheKeys.WorkoutWizardProgression);
+                var index = ExerciseList.IndexOf(CurrentExercise);
+                CurrentExercise.IsSelected = false;
+                ExerciseList[index + 1].IsSelected = true;
+
+                _cacheService.Add(CacheKeys.WorkoutWizardProgression, WorkoutWizardDto);
+
+                await Shell.Current.GoToAsync(AppRoutes.ExerciseConfigurationPage, "exercises", ExerciseList);
             }
-            var index = ExerciseList.IndexOf(CurrentExercise);
-            CurrentExercise.IsSelected = false;
-            ExerciseList[index+1].IsSelected = true;
-            
-            _cacheService.Add(CacheKeys.WorkoutWizardProgression, CachedWorkoutWizardDto);
-
-            await Shell.Current.GoToAsync(AppRoutes.ExerciseConfigurationPage, "exercises", ExerciseList);
-
+            catch (Exception ex)
+            {
+                await ManageException(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         [RelayCommand]
@@ -61,7 +73,7 @@ namespace WorkoutsApp.Pages.Workouts.Wizard
             if (res is SeriesDto series)
             {
                 Series.Add(series);
-                CachedWorkoutWizardDto.InsertSeries(CurrentExercise.Exercise,series);
+                WorkoutWizardDto.InsertSeries(CurrentExercise.Exercise,series);
             }
         }
 
@@ -72,7 +84,7 @@ namespace WorkoutsApp.Pages.Workouts.Wizard
             if (!res)
                 return;
             Series.Remove(series as SeriesDto);
-            CachedWorkoutWizardDto.DeleteSeries(CurrentExercise.Exercise,series as SeriesDto);
+            WorkoutWizardDto.DeleteSeries(CurrentExercise.Exercise,series as SeriesDto);
         }
 
         public override async void PrepareModel()
@@ -83,7 +95,7 @@ namespace WorkoutsApp.Pages.Workouts.Wizard
                 var exercise = ExerciseList.FirstOrDefault(x => x.IsSelected);
                 CurrentExercise = exercise is null ? ExerciseList.First() : exercise;
                 IsLastExercise = CurrentExercise.Equals(ExerciseList.LastOrDefault());
-                CachedWorkoutWizardDto = _cacheService.Get<WorkoutWizardDto>(CacheKeys.WorkoutWizardProgression);
+                WorkoutWizardDto = _cacheService.Get<WorkoutWizardDto>(CacheKeys.WorkoutWizardProgression);
             }
             catch (Exception ex)
             {
@@ -101,7 +113,7 @@ namespace WorkoutsApp.Pages.Workouts.Wizard
             {
                 foreach (var item in Series)
                 {
-                    CachedWorkoutWizardDto.DeleteSeries(CurrentExercise.Exercise,item);
+                    WorkoutWizardDto.DeleteSeries(CurrentExercise.Exercise,item);
                 }
 
                 var index = ExerciseList.IndexOf(CurrentExercise);

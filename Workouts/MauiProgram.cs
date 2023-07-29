@@ -32,7 +32,7 @@ public static class MauiProgram
             });
 
         builder.Services.AddTransient<AppShell>();
-        RegisterDatabase(builder.Services);
+
         RegisterAutomapper(builder.Services);
         RegisterServices(builder.Services);
         RegisterRepositories(builder.Services);
@@ -55,16 +55,12 @@ public static class MauiProgram
         });
         serviceCollection.AddSingleton(s => config.CreateMapper());
     }
-
-    private static void RegisterDatabase(IServiceCollection serviceCollection)
-    {
-        serviceCollection.AddSingleton<DBManager>((s)=>new DBManager(FileSystem.AppDataDirectory));
-    }
     private static void RegisterServices(IServiceCollection serviceCollection)
     {
         serviceCollection.AddTransient<IWorkoutService, WorkoutService>();
         serviceCollection.AddTransient<IExerciseService, ExerciseService>();
         serviceCollection.AddSingleton<IPopupService, PopupService>();
+        serviceCollection.AddSingleton<IMigrationService, MigrationService>();
         serviceCollection.AddSingleton<ICacheService>(_ => new CacheService(FileSystem.Current.AppDataDirectory));
     }
     private static void RegisterRepositories(IServiceCollection serviceCollection)
@@ -73,6 +69,7 @@ public static class MauiProgram
         serviceCollection.AddTransient<IExerciseRepository, ExerciseRepository>();
         serviceCollection.AddTransient<ISeriesRepository, SeriesRepository>();
         serviceCollection.AddTransient<IWorkoutExerciseDetailsRepository, WorkoutExerciseDetailsRepository>();
+        serviceCollection.AddTransient<IMasterRepository, MasterRepository>();
     }
     private static void RegisterViewModels(IServiceCollection serviceCollection)
     {

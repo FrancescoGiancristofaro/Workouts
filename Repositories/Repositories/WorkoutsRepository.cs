@@ -9,8 +9,6 @@ namespace Repositories.Repositories
     }
     public class WorkoutsRepository : BaseRepository<Workouts>, IWorkoutsRepository
     {
-        public WorkoutsRepository(DBManager dbManager) : base(dbManager)
-        {
-        }
+       
     }
 }

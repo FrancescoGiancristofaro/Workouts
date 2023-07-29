@@ -14,8 +14,6 @@ namespace Repositories.Repositories
     }
     public class SeriesRepository : BaseRepository<Series> , ISeriesRepository
     {
-        public SeriesRepository(DBManager dbManager) : base(dbManager)
-        {
-        }
+        
     }
 }

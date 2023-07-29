@@ -1,10 +1,5 @@
-﻿#if __ANDROID__
-using Android.Content;
-using Android.Graphics.Drawables;
-using Android.InputMethodServices;
-using Android.Views.InputMethods;
-using Android.Widget;
-#endif
+﻿using Services.Services;
+
 namespace WorkoutsApp;
 public partial class App : Application
 {
@@ -14,9 +9,16 @@ public partial class App : Application
         MainPage = new AppShell();
     }
 
-    protected override void OnStart()
+    protected override async void OnStart()
     { 
         AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+        await InitDatabase();
+    }
+
+    private async Task InitDatabase()
+    {
+        var service = MauiApplication.Current.Services.GetRequiredService<IMigrationService>();
+        await service.Migrate();
     }
 
     private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

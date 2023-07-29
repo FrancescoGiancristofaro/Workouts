@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging.Messages;
 using Services.Services;
 using WorkoutsApp.Extensions;
 using Repositories.Models;
@@ -19,20 +21,35 @@ namespace WorkoutsApp.Pages.Workouts
         [ObservableProperty] ObservableCollection<WorkoutsDto> _workouts;
 
         [ObservableProperty] bool _isWorkoutsListEmpty;
+        [ObservableProperty] bool _isRefreshing;
 
 
         public WorkoutsViewModel(IWorkoutService workoutService,ICacheService cacheService)
         {
             _workoutService = workoutService;
             _cacheService = cacheService;
+            WeakReferenceMessenger.Default.Register<ValueChangedMessage<WorkoutOperation>>(this, async (r, m) =>
+            {
+                await RefreshWorkoutList();
+            });
         }
 
 
-        [RelayCommand]
-        public async void AddNewWorkout()
+        [RelayCommand(AllowConcurrentExecutions = false)]
+        public async Task RefreshWorkoutList()
+        {
+            IsBusy = true;
+            await RefreshWorkoutsList();
+            IsRefreshing = false;
+            IsBusy = false;
+        }
+
+        [RelayCommand(AllowConcurrentExecutions = false)]
+        public async Task AddNewWorkout()
         {
             await Shell.Current.GoToAsync(AppRoutes.AddNewWorkoutPage);
         }
+
         public override async void OnAppearing()
         {
             IsBusy = true;

@@ -1,4 +1,4 @@
-﻿namespace Repositories.Constants
+﻿namespace Services.Constants
 {
     public enum ExerciseCategory
     {

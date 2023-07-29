@@ -7,10 +7,11 @@ using SQLite;
 
 namespace Repositories.Models
 {
-    public class ExerciseDetails : IAmAModel
+    public class WorkoutExerciseDetails : IAmAModel
     {
         [PrimaryKey, AutoIncrement]
         public int? Id { get; set; }
+        public int IdWorkout { get; set; }
         public int IdExercise { get; set; }
         public string Note { get; set; }
     }

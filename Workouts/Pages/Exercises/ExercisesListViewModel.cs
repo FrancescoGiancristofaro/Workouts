@@ -6,7 +6,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Repositories.Constants;
 using Repositories.Models;
 using Services.Dtos;
 using Services.Services;
@@ -15,6 +14,7 @@ using WorkoutsApp.Extensions;
 using WorkoutsApp.Services;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.Mvvm.Messaging.Messages;
+using Services.Constants;
 
 namespace WorkoutsApp.Pages.Exercises
 {
@@ -30,23 +30,33 @@ namespace WorkoutsApp.Pages.Exercises
         [ObservableProperty] ObservableCollection<ExerciseDto> _exercises;
 
         [ObservableProperty] bool _isExercisesListEmpty;
+        [ObservableProperty] private bool _isRefreshing;
         [ObservableProperty] string _textToSearch = string.Empty;
 
-        [RelayCommand]
-        public async void AddNewExercise()
+        [RelayCommand(AllowConcurrentExecutions = false)]
+        public async Task AddNewExercise()
         {
             await Shell.Current.GoToAsync(AppRoutes.AddNewExercisePage);
         }
 
-        [RelayCommand]
-        public async void Filter()
+        [RelayCommand(AllowConcurrentExecutions = false)]
+        public async Task RefreshExerciseList()
+        {
+            IsBusy = true;
+            await RefreshExercisesList(Filters);
+            IsRefreshing = false;
+            IsBusy = false;
+        }
+
+        [RelayCommand(AllowConcurrentExecutions = false)]
+        public async Task Filter()
         {
             Filters = new ExerciseFiltersDto() { TextToSearch = TextToSearch, Category = SelectedCategory };
             await RefreshExercisesList(Filters);
         }
 
-        [RelayCommand]
-        public async void DeleteExercise(object data)
+        [RelayCommand(AllowConcurrentExecutions = false)]
+        public async Task DeleteExercise(object data)
         {
             try
             {

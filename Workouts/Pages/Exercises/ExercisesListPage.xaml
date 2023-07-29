@@ -82,8 +82,11 @@
                 Grid.Row="1"
                 Margin="0,10,0,0"
                 HasUnevenRows="True"
+                IsPullToRefreshEnabled="True"
+                IsRefreshing="{Binding IsRefreshing}"
                 ItemsSource="{Binding Exercises}"
                 MaximumHeightRequest="450"
+                RefreshCommand="{Binding RefreshExerciseListCommand}"
                 SeparatorVisibility="None"
                 VerticalOptions="Center"
                 VerticalScrollBarVisibility="Never">

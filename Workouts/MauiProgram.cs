@@ -71,6 +71,8 @@ public static class MauiProgram
     {
         serviceCollection.AddTransient<IWorkoutsRepository, WorkoutsRepository>();
         serviceCollection.AddTransient<IExerciseRepository, ExerciseRepository>();
+        serviceCollection.AddTransient<ISeriesRepository, SeriesRepository>();
+        serviceCollection.AddTransient<IWorkoutExerciseDetailsRepository, WorkoutExerciseDetailsRepository>();
     }
     private static void RegisterViewModels(IServiceCollection serviceCollection)
     {

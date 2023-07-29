@@ -36,16 +36,21 @@ namespace WorkoutsApp.Pages.Workouts.Wizard
             _workoutService = workoutService;
         }
 
-        [RelayCommand]
-        public async void Next()
+        [RelayCommand(AllowConcurrentExecutions = false)]
+        public async Task Next()
         {
             try
             {
                 IsBusy = true;
+                var ex = WorkoutWizardDto.ExerciseList.First(x => x.Id.Value == CurrentExercise.Exercise.Id);
+                ex.Note = CurrentExercise.Exercise.Note;
+
                 if (IsLastExercise)
                 {
                     await _workoutService.CreateWorkoutsAsync(WorkoutWizardDto);
                     _cacheService.Remove(CacheKeys.WorkoutWizardProgression);
+                    await Shell.Current.Navigation.PopToRootAsync();
+                    return;
                 }
 
                 var index = ExerciseList.IndexOf(CurrentExercise);
@@ -66,8 +71,8 @@ namespace WorkoutsApp.Pages.Workouts.Wizard
             }
         }
 
-        [RelayCommand]
-        async void OpenAddSeriesPopup()
+        [RelayCommand(AllowConcurrentExecutions = false)]
+        async Task OpenAddSeriesPopup()
         {
             var res = await _popupService.ShowPopup(typeof(AddSeriesPopup), Series.LastOrDefault());
             if (res is SeriesDto series)
@@ -77,8 +82,8 @@ namespace WorkoutsApp.Pages.Workouts.Wizard
             }
         }
 
-        [RelayCommand]
-        async void DeleteSeries(object series)
+        [RelayCommand(AllowConcurrentExecutions = false)]
+        async Task DeleteSeries(object series)
         {
             var res = await Shell.Current.DisplayAlert("Attenzione", "Sei sicuro di voler eliminare la serie", "Ok", "Annulla");
             if (!res)

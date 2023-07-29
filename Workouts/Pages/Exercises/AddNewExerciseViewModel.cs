@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Repositories.Constants;
 using Repositories.Models;
+using Services.Constants;
 using Services.Dtos;
 using Services.Services;
 using WorkoutsApp.Services;
@@ -16,8 +16,8 @@ namespace WorkoutsApp.Pages.Exercises
         [ObservableProperty] string _selectedCategory;
         [ObservableProperty] IList<string> _categories;
 
-        [RelayCommand]
-        async void SaveExercise()
+        [RelayCommand(AllowConcurrentExecutions = false)]
+        async Task SaveExercise()
         {
             try
             {

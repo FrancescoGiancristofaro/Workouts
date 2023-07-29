@@ -30,8 +30,8 @@ namespace WorkoutsApp.Pages.Workouts
             exercise.IsSelected = !exercise.IsSelected;
         }
 
-        [RelayCommand]
-        async void AddSelectedExercises()
+        [RelayCommand(AllowConcurrentExecutions = false)]
+        async Task AddSelectedExercises()
         {
             await Shell.Current.GoToAsync("..", "exercises", ExercisesList.Where(x=>x.IsSelected).ToList());
         }

@@ -57,9 +57,11 @@
 
             <CollectionView
                 x:Name="ListView"
-                Grid.Row="1" HeightRequest="400"
+                Grid.Row="1"
                 IsGrouped="true"
-                ItemsSource="{Binding ExercisesList}">
+                ItemsSource="{Binding ExercisesList}"
+                MaximumHeightRequest="300"
+                VerticalOptions="Center">
                 <CollectionView.GroupHeaderTemplate>
                     <DataTemplate x:DataType="dtos1:ExercisesCategoryGroupedDto">
                         <Label
@@ -119,7 +121,7 @@
                 Command="{Binding NextCommand}"
                 IsEnabled="{Binding ExercisesList, Converter={StaticResource IsCollectionEmptyConverter}}"
                 Text="Avanti"
-                VerticalOptions="EndAndExpand" />
+                VerticalOptions="End" />
         </Grid>
     </StackLayout>
 

@@ -1,4 +1,5 @@
-﻿using Repositories.Constants;
+﻿using Services.Constants;
+
 namespace WorkoutsApp.Dtos
 {
     public class ExerciseFiltersDto

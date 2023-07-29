@@ -13,8 +13,11 @@ namespace Services.Automapper
     {
         public SeriesProfile()
         {
-            CreateMap<SeriesDetail, SeriesDto>()
-                .ReverseMap();
+            CreateMap<Series, SeriesDto>();
+            CreateMap<SeriesDto, Series>()
+                .ForMember(x=>x.RecoveryTime,x=>x.MapFrom(s=>s.SecondsRecoveryTime))
+                .ForMember(x => x.IdExercise, x => x.Ignore())
+                .ForMember(x => x.IdWorkout, x => x.Ignore());
         }
     }
 }

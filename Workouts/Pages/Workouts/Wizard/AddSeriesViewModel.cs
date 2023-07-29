@@ -25,8 +25,8 @@ namespace WorkoutsApp.Pages.Workouts
         {
         }
 
-        [RelayCommand]
-        async void AddSeries()
+        [RelayCommand(AllowConcurrentExecutions = false)]
+        async Task AddSeries()
         {
             Unfocused();
 

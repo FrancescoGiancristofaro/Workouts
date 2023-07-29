@@ -31,14 +31,14 @@ namespace WorkoutsApp.Pages.Workouts
             _cacheService = cacheService;
         }
 
-        [RelayCommand]
-        async void SelectExercise()
+        [RelayCommand(AllowConcurrentExecutions = false)]
+        async Task SelectExercise()
         {
             await Shell.Current.GoToAsync(AppRoutes.SelectExercisesPage, "exercises", ExercisesList.SelectMany(x => x.Select(z => z.Exercise.Id.Value)).ToList());
         }
 
-        [RelayCommand]
-        async void Next()
+        [RelayCommand(AllowConcurrentExecutions = false)]
+        async Task Next()
         {
             if (string.IsNullOrEmpty(Name))
             {

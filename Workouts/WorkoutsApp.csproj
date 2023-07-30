@@ -106,6 +106,12 @@
 	  <Compile Update="Pages\Workouts\Wizard\ExerciseConfigurationPage.xaml.cs">
 	    <DependentUpon>ExerciseConfigurationPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Pages\Workouts\WorkoutDetailsPage.xaml.cs">
+	    <DependentUpon>WorkoutDetailsPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\Workouts\WorkoutSession\ExerciseSessionPage.xaml.cs">
+	    <DependentUpon>ExerciseSessionPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\Workouts\WorkoutsPage.xaml.cs">
 	    <DependentUpon>WorkoutsPage.xaml</DependentUpon>
 	  </Compile>
@@ -149,6 +155,12 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\Workouts\Wizard\ExerciseConfigurationPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Workouts\WorkoutDetailsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Workouts\WorkoutSession\ExerciseSessionPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

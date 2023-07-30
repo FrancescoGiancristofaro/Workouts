@@ -50,6 +50,12 @@ namespace WorkoutsApp.Pages.Workouts
             await Shell.Current.GoToAsync(AppRoutes.AddNewWorkoutPage);
         }
 
+        [RelayCommand(AllowConcurrentExecutions = false)]
+        public async Task OpenDetailWorkout(WorkoutsDto workout)
+        {
+            await Shell.Current.GoToAsync(AppRoutes.WorkoutDetailPage,"workout", workout);
+        }
+
         public override async void OnAppearing()
         {
             IsBusy = true;

@@ -40,6 +40,7 @@ namespace WorkoutsApp.Pages.Workouts
         {
             _exerciseService = exerciseService;
         }
+
         public override async void PrepareModel()
         {
             IsBusy = true;

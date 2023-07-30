@@ -56,14 +56,14 @@ namespace Services.Services
                 var exerciseDto = dto.ExerciseList[i];
 
                 var ex = new WorkoutExerciseDetails()
-                    { IdExercise = exerciseDto.Id.Value, IdWorkout = workout.Id.Value, Note = exerciseDto.Note };
+                    { IdExercise = exerciseDto.Id.Value, IdWorkout = workout.Id.Value, Note = exerciseDto.Note,OrderInWorkout = i};
                 await _workoutExerciseDetailsRepository.Insert(ex);
 
                 foreach (var item in dto.SeriesList[i])
                 {
                     var series = _mapper.Map<Series>(item);
                     series.IdWorkout = workout.Id.Value;
-                    series.IdExercise = exerciseDto.Id.Value;
+                    series.IdWorkoutExerciseDetails = ex.Id.Value;
 
                     await _seriesRepository.Insert(series);
                 }

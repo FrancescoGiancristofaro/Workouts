@@ -19,6 +19,8 @@ namespace Services.Services
         Task<ExerciseDto> GetExerciseByIdAsync(int id);
         Task DeleteExerciseByIdAsync(int id);
         Task<ExerciseDto> InsertExerciseAsync(ExerciseDto dto);
+
+        Task<IEnumerable<WorkoutExerciseDetailsDto>> GetAllExerciseDetailsByWorkoutIdAsync(int id);
         
     }
 
@@ -26,11 +28,13 @@ namespace Services.Services
     {
         private readonly IExerciseRepository _exerciseRepository;
         private readonly IMapper _mapper;
+        private readonly IWorkoutExerciseDetailsRepository _workoutExerciseDetailsRepository;
 
-        public ExerciseService(IExerciseRepository exerciseRepository,IMapper mapper)
+        public ExerciseService(IExerciseRepository exerciseRepository,IMapper mapper, IWorkoutExerciseDetailsRepository workoutExerciseDetailsRepository)
         {
             _exerciseRepository = exerciseRepository;
             _mapper = mapper;
+            _workoutExerciseDetailsRepository = workoutExerciseDetailsRepository;
         }
 
         public async Task<IEnumerable<ExerciseDto>> GetExerciseListAsync()
@@ -58,5 +62,10 @@ namespace Services.Services
             return _mapper.Map<ExerciseDto>(res);
         }
 
+        public async Task<IEnumerable<WorkoutExerciseDetailsDto>> GetAllExerciseDetailsByWorkoutIdAsync(int id)
+        {
+            var exDetails = await _workoutExerciseDetailsRepository.GetAll();
+            return _mapper.Map<IEnumerable<WorkoutExerciseDetailsDto>>(exDetails);
+        }
     }
 }

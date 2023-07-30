@@ -12,7 +12,7 @@ namespace Repositories.Models
         [PrimaryKey, AutoIncrement]
         public int? Id { get; set; }
         public int IdWorkout { get; set; }
-        public int IdExercise { get; set; }
+        public int IdWorkoutExerciseDetails { get; set; }
         public int Repetitions { get; set; }
         public int RecoveryTime { get; set; }
         public double Weight { get; set; }

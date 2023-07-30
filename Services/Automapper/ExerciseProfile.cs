@@ -18,6 +18,9 @@ namespace Services.Automapper
                 .ForMember(x=>x.Category,opt=>opt.MapFrom(d=>Enum.Parse(typeof(ExerciseCategory),d.Category)))
                 .ForMember(x=>x.Note,x=>x.Ignore())
                 .ReverseMap();
+
+            CreateMap<WorkoutExerciseDetails, WorkoutExerciseDetailsDto>();
+
         }
     }
 }

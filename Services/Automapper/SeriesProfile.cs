@@ -16,7 +16,7 @@ namespace Services.Automapper
             CreateMap<Series, SeriesDto>();
             CreateMap<SeriesDto, Series>()
                 .ForMember(x=>x.RecoveryTime,x=>x.MapFrom(s=>s.SecondsRecoveryTime))
-                .ForMember(x => x.IdExercise, x => x.Ignore())
+                .ForMember(x => x.IdWorkoutExerciseDetails, x => x.Ignore())
                 .ForMember(x => x.IdWorkout, x => x.Ignore());
         }
     }

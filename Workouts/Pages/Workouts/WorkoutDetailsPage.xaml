@@ -35,7 +35,7 @@
             Text="Dettaglio allenamento"
             VerticalOptions="Center" />
         <Button
-            Grid.Row="4"
+            Grid.Row="4" Command="{Binding StartWorkoutCommand}"
             Text="Inizia"
             VerticalOptions="Center" />
     </Grid>

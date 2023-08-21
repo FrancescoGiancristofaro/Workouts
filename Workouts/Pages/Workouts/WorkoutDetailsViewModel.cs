@@ -7,6 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Services.Dtos;
 using Services.Services;
+using WorkoutsApp.Dtos;
 
 namespace WorkoutsApp.Pages.Workouts
 {
@@ -19,7 +20,10 @@ namespace WorkoutsApp.Pages.Workouts
         [RelayCommand(AllowConcurrentExecutions = false)]
         async Task StartWorkout()
         {
-
+            var exDetails = (await _exerciseService.GetAllExerciseDetailsByWorkoutIdAsync(WorkoutsDto.Id.Value))
+                .Select(x => new SelectableWorkoutsExerciseDetailsDto() { IsSelected = false, ExerciseDetail = x })
+                .ToList();
+           await GoToAsync(AppRoutes.ExerciseSessionPage, "exsessionlist", exDetails);
         }
 
         public WorkoutDetailsViewModel(IExerciseService exerciseService)

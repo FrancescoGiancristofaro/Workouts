@@ -4,11 +4,12 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:exercises="clr-namespace:WorkoutsApp.Pages.Exercises"
+    xmlns:schedules="clr-namespace:WorkoutsApp.Pages.Schedules"
     xmlns:settings="clr-namespace:WorkoutsApp.Pages.Settings"
     xmlns:workouts="clr-namespace:WorkoutsApp.Pages.Workouts"
-    xmlns:schedules="clr-namespace:WorkoutsApp.Pages.Schedules"
     FlyoutBehavior="Disabled"
-    NavBarIsVisible="False">
+    NavBarIsVisible="False"
+    Shell.TabBarBackgroundColor="{StaticResource Primary}">
     <TabBar IsEnabled="{Binding IsBusy}">
         <Tab Title="Schedules" Route="Schedules">
             <Tab.Icon>

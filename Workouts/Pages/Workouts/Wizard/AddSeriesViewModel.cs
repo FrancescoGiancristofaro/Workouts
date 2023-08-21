@@ -36,7 +36,7 @@ namespace WorkoutsApp.Pages.Workouts
                 !Int32.TryParse(Weight, out int weight) ||
                 !Int32.TryParse(splittedRecovery[0], out int minutes) ||
                 !Int32.TryParse(splittedRecovery[1], out int seconds) ||
-                reps <=0 || weight <=0)
+                reps <=0 || weight <=0 || (minutes <=0 && seconds <=0))
             {
                 await Shell.Current.DisplayAlert("Attenzione",
                     "Le ripetizioni,peso e tempo di recupero devono essere numeri maggiori di zero", "Ok");

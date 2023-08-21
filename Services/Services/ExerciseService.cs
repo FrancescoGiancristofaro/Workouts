@@ -19,9 +19,10 @@ namespace Services.Services
         Task<ExerciseDto> GetExerciseByIdAsync(int id);
         Task DeleteExerciseByIdAsync(int id);
         Task<ExerciseDto> InsertExerciseAsync(ExerciseDto dto);
-
         Task<IEnumerable<WorkoutExerciseDetailsDto>> GetAllExerciseDetailsByWorkoutIdAsync(int id);
-        
+        Task<IEnumerable<SeriesDto>> GetSeriesByExerciseDetailAsync(int exDetailId, int workoutId);
+
+
     }
 
     public class ExerciseService :  IExerciseService
@@ -29,12 +30,18 @@ namespace Services.Services
         private readonly IExerciseRepository _exerciseRepository;
         private readonly IMapper _mapper;
         private readonly IWorkoutExerciseDetailsRepository _workoutExerciseDetailsRepository;
+        private readonly ISeriesRepository _seriesRepository;
 
-        public ExerciseService(IExerciseRepository exerciseRepository,IMapper mapper, IWorkoutExerciseDetailsRepository workoutExerciseDetailsRepository)
+        public ExerciseService(
+            IExerciseRepository exerciseRepository,
+            IMapper mapper, 
+            IWorkoutExerciseDetailsRepository workoutExerciseDetailsRepository,
+            ISeriesRepository seriesRepository)
         {
             _exerciseRepository = exerciseRepository;
             _mapper = mapper;
             _workoutExerciseDetailsRepository = workoutExerciseDetailsRepository;
+            _seriesRepository = seriesRepository;
         }
 
         public async Task<IEnumerable<ExerciseDto>> GetExerciseListAsync()
@@ -44,7 +51,8 @@ namespace Services.Services
 
         public async Task<ExerciseDto> GetExerciseByIdAsync(int id)
         {
-            return _mapper.Map<ExerciseDto>(await _exerciseRepository.GetById(id));
+            var ex = await _exerciseRepository.GetById(id);
+            return _mapper.Map<ExerciseDto>(ex);
         }
 
         public async Task DeleteExerciseByIdAsync(int id)
@@ -64,8 +72,14 @@ namespace Services.Services
 
         public async Task<IEnumerable<WorkoutExerciseDetailsDto>> GetAllExerciseDetailsByWorkoutIdAsync(int id)
         {
-            var exDetails = await _workoutExerciseDetailsRepository.GetAll();
+            var exDetails = await _workoutExerciseDetailsRepository.GetByWorkoutId(id);
             return _mapper.Map<IEnumerable<WorkoutExerciseDetailsDto>>(exDetails);
+        }
+
+        public async Task<IEnumerable<SeriesDto>> GetSeriesByExerciseDetailAsync(int exDetailId, int workoutId)
+        {
+            var res = await _seriesRepository.GetSeriesByExerciseDetailId(exDetailId, workoutId);
+            return _mapper.Map<IEnumerable<SeriesDto>>(res);
         }
     }
 }

@@ -24,18 +24,7 @@ public class MainActivity : MauiAppCompatActivity
             popup.Window.SetBackgroundDrawable(drawable);
 
         });
-        //Microsoft.Maui.Handlers.PageHandler.Mapper.AppendToMapping("CloseKeyboard", (handler, view) =>
-        //{
-        //    var viewGroup = handler.PlatformView as Android.Views.ViewGroup;
-        //    viewGroup.ViewAttachedToWindow += (sender, args) =>
-        //    {
-
-        //    };
-        //    viewGroup.ViewDetachedFromWindow += (sender, args) =>
-        //    {
-
-        //    };
-        //});
+        
         Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("Focused", (handler, view) =>
         {
             
@@ -53,5 +42,12 @@ public class MainActivity : MauiAppCompatActivity
 
             };
         });
+    }
+
+    protected override void OnCreate(Bundle savedInstanceState)
+    {
+        Window.SetStatusBarColor(Android.Graphics.Color.ParseColor("#32322C"));
+        Window.SetNavigationBarColor(Android.Graphics.Color.ParseColor("#32322C"));
+        base.OnCreate(savedInstanceState);
     }
 }

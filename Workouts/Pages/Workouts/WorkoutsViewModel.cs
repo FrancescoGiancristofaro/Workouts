@@ -53,7 +53,7 @@ namespace WorkoutsApp.Pages.Workouts
         [RelayCommand(AllowConcurrentExecutions = false)]
         public async Task OpenDetailWorkout(WorkoutsDto workout)
         {
-            await Shell.Current.GoToAsync(AppRoutes.WorkoutDetailPage,"workout", workout);
+            await GoToAsync(AppRoutes.WorkoutDetailPage,"workout", workout);
         }
 
         public override async void OnAppearing()

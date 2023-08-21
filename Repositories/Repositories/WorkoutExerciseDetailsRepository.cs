@@ -10,10 +10,13 @@ namespace Repositories.Repositories
 {
     public interface IWorkoutExerciseDetailsRepository : IRepository<WorkoutExerciseDetails>
     {
-
+        Task<IEnumerable<WorkoutExerciseDetails>> GetByWorkoutId(int id);
     }
     public class WorkoutExerciseDetailsRepository : BaseRepository<WorkoutExerciseDetails>, IWorkoutExerciseDetailsRepository
     {
-        
+        public async Task<IEnumerable<WorkoutExerciseDetails>> GetByWorkoutId(int id)
+        {
+            return (await GetAll()).Where(x => x.IdWorkout.Equals(id));
+        }
     }
 }

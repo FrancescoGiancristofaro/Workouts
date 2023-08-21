@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CommunityToolkit.Maui;
+using Plugin.Maui.Audio;
 using Repositories.Repositories;
 using Repositories.Settings;
 using Services.Automapper;
@@ -33,6 +34,7 @@ public static class MauiProgram
             });
 
         builder.Services.AddTransient<AppShell>();
+        builder.Services.AddSingleton(AudioManager.Current);
 
         RegisterAutomapper(builder.Services);
         RegisterServices(builder.Services);

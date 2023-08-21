@@ -33,7 +33,7 @@ namespace WorkoutsApp.Pages.Workouts
         [RelayCommand(AllowConcurrentExecutions = false)]
         async Task AddSelectedExercises()
         {
-            await Shell.Current.GoToAsync("..", "exercises", ExercisesList.Where(x=>x.IsSelected).ToList());
+            await GoToAsync("..", "exercises", ExercisesList.Where(x=>x.IsSelected).ToList());
         }
 
         public SelectExercisesViewModel(IExerciseService exerciseService)

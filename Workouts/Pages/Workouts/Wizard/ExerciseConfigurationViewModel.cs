@@ -59,7 +59,7 @@ namespace WorkoutsApp.Pages.Workouts.Wizard
 
                 _cacheService.Add(CacheKeys.WorkoutWizardProgression, WorkoutWizardDto);
 
-                await Shell.Current.GoToAsync(AppRoutes.ExerciseConfigurationPage, "exercises", ExerciseList);
+                await GoToAsync(AppRoutes.ExerciseConfigurationPage, "exercises", ExerciseList);
             }
             catch (Exception ex)
             {
@@ -124,13 +124,13 @@ namespace WorkoutsApp.Pages.Workouts.Wizard
                 var index = ExerciseList.IndexOf(CurrentExercise);
                 if (index is 0)
                 {
-                    await Shell.Current.GoToAsync("..");
+                    await base.NavigateBack();
                     return;
                 }
 
                 CurrentExercise.IsSelected = false;
                 ExerciseList[index - 1].IsSelected = true;
-                await Shell.Current.GoToAsync("..", "exercises", ExerciseList);
+                await GoToAsync("..", "exercises", ExerciseList);
             }
             catch (Exception ex)
             {

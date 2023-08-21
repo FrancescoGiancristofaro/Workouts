@@ -8,7 +8,7 @@ namespace Services.Dtos
 {
     public class WorkoutExerciseDetailsDto
     {
-        public int? Id { get; set; }
+        public int Id { get; set; }
         public int IdWorkout { get; set; }
         public int IdExercise { get; set; }
         public int OrderInWorkout { get; set; }

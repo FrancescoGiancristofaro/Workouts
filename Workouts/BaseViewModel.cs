@@ -7,7 +7,7 @@ namespace WorkoutsApp
     {
 
         [ObservableProperty]
-        static bool isBusy;
+        bool isBusy;
 
         public BaseViewModel()
         {
@@ -41,6 +41,12 @@ namespace WorkoutsApp
         public async Task ManageException(object ex)
         {
             await Shell.Current.DisplayAlert("Attenzione", ex.ToString(), "OK");
+        }
+
+        protected async Task GoToAsync<T>( string route, string key, T dataToPass)
+        {
+            var parameters = new Dictionary<string, object>() { { key, dataToPass } };
+            await Shell.Current.GoToAsync(route, parameters);
         }
     }
 }

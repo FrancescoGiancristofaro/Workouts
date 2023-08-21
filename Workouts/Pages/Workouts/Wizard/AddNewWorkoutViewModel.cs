@@ -34,7 +34,7 @@ namespace WorkoutsApp.Pages.Workouts
         [RelayCommand(AllowConcurrentExecutions = false)]
         async Task SelectExercise()
         {
-            await Shell.Current.GoToAsync(AppRoutes.SelectExercisesPage, "exercises", ExercisesList.SelectMany(x => x.Select(z => z.Exercise.Id.Value)).ToList());
+            await GoToAsync(AppRoutes.SelectExercisesPage, "exercises", ExercisesList.SelectMany(x => x.Select(z => z.Exercise.Id.Value)).ToList());
         }
 
         [RelayCommand(AllowConcurrentExecutions = false)]
@@ -53,7 +53,7 @@ namespace WorkoutsApp.Pages.Workouts
             
             _cacheService.Add(CacheKeys.WorkoutWizardProgression, cachedWorkouts);
 
-            await Shell.Current.GoToAsync(AppRoutes.ExerciseConfigurationPage, "exercises", copy.ToList());
+            await GoToAsync(AppRoutes.ExerciseConfigurationPage, "exercises", copy.ToList());
         }
 
 

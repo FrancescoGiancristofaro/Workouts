@@ -58,6 +58,7 @@
             <CollectionView
                 x:Name="ListView"
                 Grid.Row="1"
+                CanReorderItems="True"
                 IsGrouped="true"
                 ItemsSource="{Binding ExercisesList}"
                 MaximumHeightRequest="300"

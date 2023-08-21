@@ -23,7 +23,7 @@
             Text="{Binding CurrentExercise.Exercise.Note}"
             TopLabel="Note" />
 
-        <ScrollView Margin="20">
+        <StackLayout Margin="20">
             <CollectionView
                 x:Name="ListView"
                 Header="{Binding .}"
@@ -64,7 +64,7 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-        </ScrollView>
+        </StackLayout>
 
 
         <StackLayout>

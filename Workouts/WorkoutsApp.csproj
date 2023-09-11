@@ -42,7 +42,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android|AnyCPU'">
-	  <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+	  <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
 	  <DebugType>embedded</DebugType>
 	</PropertyGroup>
 
@@ -103,6 +103,12 @@
 	  <Compile Update="Pages\Templates\BasePageTemplate.xaml.cs">
 	    <DependentUpon>BasePageTemplate.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="Pages\Templates\Components\WorkoutsRecoveryTimeEntry.xaml.cs">
+	    <DependentUpon>WorkoutsRecoveryTimeEntry.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Pages\Templates\DisableControlTemplate.xaml.cs">
+	    <DependentUpon>DisableControlTemplate.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Pages\Workouts\Wizard\AddNewWorkoutPage.xaml.cs">
 	    <DependentUpon>AddNewWorkoutPage.xaml</DependentUpon>
 	  </Compile>
@@ -145,10 +151,25 @@
 	  <MauiXaml Update="Pages\Templates\BasePopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\Templates\Components\DisableControlComponent.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Templates\Components\WorkoutsRecoveryTimeEntry.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\Templates\Components\WorkoutsEntry.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\Templates\Components\WorkoutsPicker.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Templates\DisableControlTemplate.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Templates\EditorPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Pages\Templates\InfoPopup.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\Workouts\Wizard\AddNewWorkoutPage.xaml">

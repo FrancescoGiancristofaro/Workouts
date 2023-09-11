@@ -3,6 +3,7 @@
     x:Class="WorkoutsApp.Pages.Workouts.WorkoutSession.ExerciseSessionPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:components="clr-namespace:WorkoutsApp.Pages.Templates.Components"
     xmlns:dtos="clr-namespace:Services.Dtos;assembly=Services"
     xmlns:templates="clr-namespace:WorkoutsApp.Pages.Templates"
     xmlns:workoutSession="clr-namespace:WorkoutsApp.Pages.Workouts.WorkoutSession"
@@ -10,13 +11,13 @@
     x:DataType="workoutSession:ExerciseSessionViewModel"
     BindingContext="{Binding}"
     RootViewModel="{Binding}">
-    <Grid RowSpacing="20" Margin="10,0">
+    <Grid Margin="10,0" RowSpacing="20">
         <Grid.GestureRecognizers>
-            <SwipeGestureRecognizer Direction="Left" Command="{Binding NextCommand}"></SwipeGestureRecognizer>
-            <SwipeGestureRecognizer Direction="Right" Command="{Binding BackCommand}"></SwipeGestureRecognizer>
+            <SwipeGestureRecognizer Command="{Binding NextCommand}" Direction="Left" />
+            <SwipeGestureRecognizer Command="{Binding BackCommand}" Direction="Right" />
         </Grid.GestureRecognizers>
-        <Grid RowDefinitions="Auto,Auto,2*,Auto,Auto,*" RowSpacing="20">
-            <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,*" RowSpacing="30">
+            <Grid Grid.Row="0" ColumnSpacing="30" ColumnDefinitions="*,Auto,Auto">
                 <Label
                     Grid.Column="0"
                     FontAttributes="Bold"
@@ -24,66 +25,67 @@
                     HorizontalOptions="StartAndExpand"
                     Text="{Binding ExerciseDto.Name}"
                     TextColor="{StaticResource Secondary}" />
+                <components:DisableControlComponent Grid.Column="1" IsDisabled="{Binding ExerciseDto.Description, Converter={StaticResource IsNullOrEmptyStringConverter}}">
+                    <Label
+                        FlowDirection="RightToLeft"
+                        FontFamily="FAS"
+                        FontSize="20"
+                        HorizontalOptions="End"
+                        IsEnabled="{Binding ExerciseDto.Description, Converter={StaticResource IsNotNullOrEmptyStringConverter}}"
+                        Text="{StaticResource InfoIcon}"
+                        TextColor="{StaticResource Secondary}"
+                        VerticalTextAlignment="Center">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ShowExerciseInfoCommand}" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                </components:DisableControlComponent>
                 <Label
-                    Grid.Column="1"
-                    FlowDirection="RightToLeft"
-                    FontFamily="FAS"
-                    FontSize="20"
-                    HorizontalOptions="End"
-                    Text="{StaticResource InfoIcon}"
-                    TextColor="{StaticResource Secondary}"
-                    VerticalTextAlignment="Center" />
-            </Grid>
-            <Grid Grid.Row="1" ColumnDefinitions="*,Auto">
-                <Label
-                    Grid.Column="0"
-                    FontAttributes="Bold"
-                    FontSize="Small"
-                    HorizontalOptions="StartAndExpand"
-                    Text="{Binding ExerciseDto.Description}"
-                    TextColor="{StaticResource Secondary}" />
-                <Label
-                    Grid.Column="1"
+                    Grid.Column="2"
                     FlowDirection="RightToLeft"
                     FontFamily="FAS"
                     FontSize="20"
                     HorizontalOptions="End"
                     Text="{StaticResource NoteIcon}"
                     TextColor="{StaticResource Secondary}"
-                    VerticalTextAlignment="Center" />
+                    VerticalTextAlignment="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding EditNoteCommand}" />
+                    </Label.GestureRecognizers>
+                </Label>
             </Grid>
-            <StackLayout Grid.Row="2">
+            <StackLayout Grid.Row="1">
+                <Grid ColumnDefinitions="*,*,*,*">
+                    <Label
+                        Grid.Column="0"
+                        FontSize="17"
+                        HorizontalTextAlignment="Center"
+                        Text="# Reps" />
+                    <Label
+                        Grid.Column="1"
+                        FontSize="17"
+                        HorizontalTextAlignment="Center"
+                        Text="Weight" />
+                    <Label
+                        Grid.Column="2"
+                        FontSize="17"
+                        HorizontalTextAlignment="Center"
+                        Text="Recovery" />
+                </Grid>
+
                 <CollectionView
                     x:Name="ListView"
-                    Margin="0,20"
-                    Header="{Binding .}"
-                    ItemsSource="{Binding Series}">
-                    <CollectionView.HeaderTemplate>
-                        <DataTemplate>
-                            <StackLayout BackgroundColor="Transparent">
-                                <Grid ColumnDefinitions="*,*,*,*">
-                                    <Label
-                                        Grid.Column="0"
-                                        FontSize="17"
-                                        Text="# Reps" />
-                                    <Label
-                                        Grid.Column="1"
-                                        FontSize="17"
-                                        Text="Weight" />
-                                    <Label
-                                        Grid.Column="2"
-                                        FontSize="17"
-                                        Text="Recovery" />
-                                </Grid>
-                            </StackLayout>
-                        </DataTemplate>
-                    </CollectionView.HeaderTemplate>
+                    Margin="0,5,0,0"
+                    ItemsSource="{Binding Series}"
+                    MaximumHeightRequest="180"
+                    MinimumHeightRequest="50">
                     <CollectionView.ItemTemplate>
                         <DataTemplate x:DataType="dtos:ExecutableSeriesDto">
-                            <Grid Margin="0,10,0,0" BackgroundColor="Transparent">
+                            <Grid Margin="0,0,0,0" BackgroundColor="Transparent">
                                 <Grid
                                     BackgroundColor="Transparent"
                                     ColumnDefinitions="Auto,*,Auto"
+                                    HeightRequest="40"
                                     IsVisible="{Binding RecoveryStatus, Converter={StaticResource IsRecoveryTimeRunningConverter}}">
                                     <Grid.Background>
                                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
@@ -109,6 +111,7 @@
                                     </Grid.Background>
                                     <Label
                                         Grid.Column="0"
+                                        Margin="35,0,0,0"
                                         FontFamily="FAS"
                                         FontSize="17"
                                         HorizontalOptions="Start"
@@ -132,6 +135,7 @@
                                         VerticalTextAlignment="Center" />
                                     <Label
                                         Grid.Column="2"
+                                        Margin="0,0,20,0"
                                         FontFamily="FAS"
                                         FontSize="17"
                                         HorizontalOptions="Start"
@@ -147,6 +151,7 @@
                                     </Label>
                                     <Label
                                         Grid.Column="2"
+                                        Margin="0,0,15,0"
                                         FontFamily="FAS"
                                         FontSize="17"
                                         HorizontalOptions="Start"
@@ -161,19 +166,32 @@
                                         </Label.GestureRecognizers>
                                     </Label>
                                 </Grid>
-                                <Grid ColumnDefinitions="*,*,*,*" IsVisible="{Binding RecoveryStatus, Converter={StaticResource IsRecoveryTimeNotRunningConverter}}">
-                                    <Label
+                                <Grid
+                                    ColumnDefinitions="*,*,*,*,*"
+                                    HeightRequest="40"
+                                    IsVisible="{Binding RecoveryStatus, Converter={StaticResource IsRecoveryTimeNotRunningConverter}}">
+                                    <Entry
                                         Grid.Column="0"
                                         FontSize="17"
-                                        Text="{Binding Series.Repetitions}" />
-                                    <Label
+                                        HorizontalTextAlignment="Center"
+                                        Keyboard="Numeric"
+                                        Text="{Binding Series.Repetitions}"
+                                        TextColor="White" />
+                                    <Entry
                                         Grid.Column="1"
                                         FontSize="17"
-                                        Text="{Binding Series.Weight}" />
-                                    <Label
+                                        HorizontalTextAlignment="Center"
+                                        Keyboard="Numeric"
+                                        Text="{Binding Series.Weight}"
+                                        TextColor="White" />
+
+                                    <components:WorkoutsRecoveryTimeEntry
                                         Grid.Column="2"
                                         FontSize="17"
+                                        Seconds="{Binding Series.SecondsRecoveryTime}"
+                                        SecondsStart="{Binding Series.SecondsRecoveryTime}"
                                         Text="{Binding Series.SecondsRecoveryTime, Converter={StaticResource SecondsRecoveryToStringConverter}}" />
+
                                     <Label
                                         Grid.Column="3"
                                         FontFamily="FAS"
@@ -188,29 +206,136 @@
                                             <TapGestureRecognizer Command="{Binding Source={x:Reference ListView}, Path=BindingContext.StartTimerCommand}" CommandParameter="{Binding}" />
                                         </Label.GestureRecognizers>
                                     </Label>
+                                    <Label
+                                        Grid.Column="4"
+                                        Margin="0,0,15,0"
+                                        FontFamily="FAS"
+                                        FontSize="17"
+                                        HorizontalOptions="End"
+                                        HorizontalTextAlignment="Center"
+                                        Text="{StaticResource TrashIcon}"
+                                        TextColor="{StaticResource Tertiary}"
+                                        VerticalOptions="Center"
+                                        VerticalTextAlignment="Center">
+                                        <Label.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={x:Reference ListView}, Path=BindingContext.DeleteSeriesCommand}" CommandParameter="{Binding .}" />
+                                        </Label.GestureRecognizers>
+                                    </Label>
                                 </Grid>
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </StackLayout>
+
             <Label
-                TextColor="{StaticResource Secondary}"
-                Grid.Row="3"
-                HorizontalOptions="Start"
-                Text="Storico"
-                FontSize="Medium"
-                FontAttributes="Bold"
-                VerticalOptions="Center" />
-            <BoxView
-                Grid.Row="4" Color="{StaticResource Secondary}"
-                HeightRequest="1" />
-            <StackLayout Grid.Row="5">
+                Grid.Row="2"
+                FontFamily="FAS"
+                FontSize="20"
+                HorizontalOptions="Center"
+                Text="{StaticResource AddCircleButton}"
+                TextColor="{StaticResource Tertiary}"
+                VerticalTextAlignment="Center">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding AddSeriesCommand}" />
+                </Label.GestureRecognizers>
+            </Label>
+
+            <StackLayout Grid.Row="3">
                 <Label
-                    HorizontalOptions="Center"
-                    Text="SSSSS"
+                    FontAttributes="Bold"
+                    FontSize="Medium"
+                    HorizontalOptions="Start"
+                    Text="Storico"
+                    TextColor="{StaticResource Secondary}"
                     VerticalOptions="Center" />
+                <BoxView HeightRequest="1" Color="{StaticResource Secondary}" />
             </StackLayout>
+
+
+            <ScrollView
+                Grid.Row="4"
+                Margin="10,0"
+                VerticalScrollBarVisibility="Never">
+                <CollectionView
+                    x:Name="ListViewHistory"
+                    IsGrouped="true"
+                    ItemsSource="{Binding SeriesHistory}"
+                    VerticalOptions="Center"
+                    VerticalScrollBarVisibility="Never">
+                    <CollectionView.GroupHeaderTemplate>
+                        <DataTemplate x:DataType="dtos:SeriesHistoryGroupedDto">
+                            <StackLayout Spacing="5">
+                                <Grid ColumnDefinitions="Auto,Auto" ColumnSpacing="10">
+                                    <Label
+                                        Grid.Column="0"
+                                        FontAttributes="Bold"
+                                        FontSize="Small"
+                                        HorizontalTextAlignment="Start"
+                                        Text="{Binding Date}"
+                                        TextColor="{StaticResource Secondary}" />
+                                    <Label
+                                        Grid.Column="1"
+                                        FontAttributes="Bold"
+                                        FontSize="Micro"
+                                        HorizontalTextAlignment="Start"
+                                        Text="{Binding WorkoutName}"
+                                        TextColor="{StaticResource Orange}"
+                                        VerticalTextAlignment="Center" />
+                                </Grid>
+
+                                <Grid ColumnDefinitions="*,*,*">
+                                    <Label
+                                        Grid.Column="0"
+                                        FontSize="Small"
+                                        HorizontalTextAlignment="Start"
+                                        Text="# Reps" />
+                                    <Label
+                                        Grid.Column="1"
+                                        FontSize="Small"
+                                        HorizontalTextAlignment="Start"
+                                        Text="Weight" />
+                                    <Label
+                                        Grid.Column="2"
+                                        FontSize="Small"
+                                        HorizontalTextAlignment="Start"
+                                        Text="Recovery" />
+                                </Grid>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.GroupHeaderTemplate>
+                    <CollectionView.GroupFooterTemplate>
+                        <DataTemplate>
+                            <BoxView Margin="20,20" HeightRequest="1" />
+                        </DataTemplate>
+                    </CollectionView.GroupFooterTemplate>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="dtos:SeriesHistoryDto">
+                            <StackLayout Margin="0,10,0,0" BackgroundColor="Transparent">
+                                <Grid ColumnDefinitions="*,*,*">
+                                    <Label
+                                        Grid.Column="0"
+                                        FontSize="Micro"
+                                        HorizontalTextAlignment="Start"
+                                        Text="{Binding Repetitions}" />
+                                    <Label
+                                        Grid.Column="1"
+                                        FontSize="Micro"
+                                        HorizontalTextAlignment="Start"
+                                        Text="{Binding Weight}" />
+                                    <Label
+                                        Grid.Column="2"
+                                        FontSize="Micro"
+                                        HorizontalTextAlignment="Start"
+                                        Text="{Binding SecondsRecoveryTime, Converter={StaticResource SecondsRecoveryToStringConverter}}" />
+                                </Grid>
+
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+            </ScrollView>
         </Grid>
 
     </Grid>

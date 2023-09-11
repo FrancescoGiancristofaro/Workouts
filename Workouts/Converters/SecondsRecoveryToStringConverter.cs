@@ -20,7 +20,10 @@ namespace WorkoutsApp.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            var values = value.ToString().Split(':');
+            var minutesInSeconds = Int32.Parse(values[0])*60;
+            var seconds = Int32.Parse(values[1]);
+            return minutesInSeconds + seconds;
         }
     }
 }

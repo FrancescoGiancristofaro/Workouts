@@ -7,6 +7,7 @@ using Services.Automapper;
 using Services.Services;
 using WorkoutsApp.Pages.Exercises;
 using WorkoutsApp.Pages.Schedules;
+using WorkoutsApp.Pages.Templates;
 using WorkoutsApp.Pages.Workouts;
 using WorkoutsApp.Pages.Workouts.Wizard;
 using WorkoutsApp.Pages.Workouts.WorkoutSession;
@@ -73,6 +74,8 @@ public static class MauiProgram
         serviceCollection.AddTransient<ISeriesRepository, SeriesRepository>();
         serviceCollection.AddTransient<IWorkoutExerciseDetailsRepository, WorkoutExerciseDetailsRepository>();
         serviceCollection.AddTransient<IMasterRepository, MasterRepository>();
+        serviceCollection.AddTransient<ISeriesHistoryRepository, SeriesHistoryRepository>();
+        serviceCollection.AddTransient<IWorkoutSessionRepository, WorkoutSessionRepository>();
     }
     private static void RegisterViewModels(IServiceCollection serviceCollection)
     {
@@ -86,6 +89,8 @@ public static class MauiProgram
         serviceCollection.AddTransient<SchedulesViewModel>();
         serviceCollection.AddTransient<WorkoutDetailsViewModel>();
         serviceCollection.AddTransient<ExerciseSessionViewModel>();
+        serviceCollection.AddTransient<InfoPopupViewModel>();
+        serviceCollection.AddTransient<EditorPopupViewModel>();
     }
     private static void RegisterPages(IServiceCollection serviceCollection)
     {
@@ -96,6 +101,8 @@ public static class MauiProgram
         serviceCollection.AddTransient<SelectExercisesPage>();
         serviceCollection.AddTransient<AddNewWorkoutPage>();
         serviceCollection.AddTransient<AddSeriesPopup>();
+        serviceCollection.AddTransient<InfoPopup>();
+        serviceCollection.AddTransient<EditorPopup>();
         serviceCollection.AddTransient<ExerciseConfigurationPage>();
         serviceCollection.AddTransient<WorkoutDetailsPage>();
         serviceCollection.AddTransient<ExerciseSessionPage>();

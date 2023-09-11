@@ -1,10 +1,13 @@
 ﻿using CommunityToolkit.Maui.Views;
+using WorkoutsApp.Dtos;
 using WorkoutsApp.Pages.Templates;
 
 namespace WorkoutsApp.Services
 {
     public interface IPopupService
     {
+        Task DisplayAlert(string title, string message);
+        Task<string> DisplayEditorPopup(string title,string text);
         Task<object> ShowPopup(Type pageToShow, object data=null);
         object GetPopupData();
         void DismissPopup(object data);
@@ -64,6 +67,64 @@ namespace WorkoutsApp.Services
             {
 
             }
+        }
+
+        public async Task DisplayAlert(string title, string message)
+        {
+            try
+            {
+                if (_currentPopup is not null)
+                {
+                    _currentPopup.Close(new InfoPopupDto()
+                    {
+                        Title = title,
+                        Message = message
+                    });
+                    _currentPopup = null;
+                }
+            }
+            catch (ObjectDisposedException ex)
+            {
+                _currentPopup = null;
+            }
+            var popup = (BasePopup)_serviceProvider.GetRequiredService(typeof(InfoPopup));
+            popup.Data = new InfoPopupDto()
+            {
+                Title = title,
+                Message = message
+            };
+            _currentPopup = popup;
+
+            await Shell.Current.CurrentPage.ShowPopupAsync(popup);
+        }
+
+        public async Task<string> DisplayEditorPopup(string title, string text)
+        {
+            try
+            {
+                if (_currentPopup is not null)
+                {
+                    _currentPopup.Close(new EditorPopupDto()
+                    {
+                        Title = title,
+                        Text = text
+                    });
+                    _currentPopup = null;
+                }
+            }
+            catch (ObjectDisposedException ex)
+            {
+                _currentPopup = null;
+            }
+            var popup = (BasePopup)_serviceProvider.GetRequiredService(typeof(EditorPopup));
+            popup.Data = new EditorPopupDto()
+            {
+                Title = title,
+                Text = text
+            };
+            _currentPopup = popup;
+
+            return await Shell.Current.CurrentPage.ShowPopupAsync(popup) as string;
         }
     }
 }

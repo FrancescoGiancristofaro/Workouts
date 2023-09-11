@@ -47,7 +47,7 @@ namespace WorkoutsApp.Pages.Workouts.Wizard
 
                 if (IsLastExercise)
                 {
-                    await _workoutService.CreateWorkoutsAsync(WorkoutWizardDto);
+                    await _workoutService.CreateWorkoutAsync(WorkoutWizardDto);
                     _cacheService.Remove(CacheKeys.WorkoutWizardProgression);
                     await Shell.Current.Navigation.PopToRootAsync();
                     return;

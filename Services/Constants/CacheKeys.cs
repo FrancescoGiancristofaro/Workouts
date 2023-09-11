@@ -9,5 +9,6 @@ namespace Services.Constants
     public static class CacheKeys
     {
         public const string WorkoutWizardProgression = "WorkoutWizardProgression";
+        public const string WorkoutSessionProgression = "WorkoutSessionProgression";
     }
 }

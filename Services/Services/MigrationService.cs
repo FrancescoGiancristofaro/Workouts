@@ -20,6 +20,8 @@ namespace Services.Services
         private readonly ISeriesRepository _seriesRepository;
         private readonly IWorkoutExerciseDetailsRepository _workoutExerciseDetailsRepository;
         private readonly IWorkoutsRepository _workoutsRepository;
+        private readonly IWorkoutSessionRepository _workoutSessionRepository;
+        private readonly ISeriesHistoryRepository _seriesHistoryRepository;
         private readonly IMasterRepository _masterRepository;
 
         #region constructor
@@ -29,13 +31,17 @@ namespace Services.Services
             ISeriesRepository seriesRepository,
             IWorkoutExerciseDetailsRepository workoutExerciseDetailsRepository,
             IWorkoutsRepository workoutsRepository,
-            IMasterRepository masterRepository)
+            IMasterRepository masterRepository,
+            IWorkoutSessionRepository workoutSessionRepository,
+            ISeriesHistoryRepository seriesHistoryRepository)
         {
             _exerciseRepository = exerciseRepository;
             _seriesRepository = seriesRepository;
             _workoutExerciseDetailsRepository = workoutExerciseDetailsRepository;
             _workoutsRepository = workoutsRepository;
             _masterRepository = masterRepository;
+            _workoutSessionRepository = workoutSessionRepository;
+            _seriesHistoryRepository = seriesHistoryRepository;
         }
 
         #endregion
@@ -53,6 +59,8 @@ namespace Services.Services
             await _seriesRepository.TryDeleteAllAsync();
             await _workoutExerciseDetailsRepository.TryDeleteAllAsync();
             await _workoutsRepository.TryDeleteAllAsync();
+            await _workoutSessionRepository.TryDeleteAllAsync();
+            await _seriesHistoryRepository.TryDeleteAllAsync();
         }
 
         #endregion
@@ -65,11 +73,15 @@ namespace Services.Services
             await _seriesRepository.Init();
             await _workoutExerciseDetailsRepository.Init();
             await _workoutsRepository.Init();
+            await _workoutSessionRepository.Init();
+            await _seriesHistoryRepository.Init();
 
             await VerifyIntegrity<Exercise>();
             await VerifyIntegrity<Series>();
             await VerifyIntegrity<Workouts>();
             await VerifyIntegrity<WorkoutExerciseDetails>();
+            await VerifyIntegrity<WorkoutSession>();
+            await VerifyIntegrity<SeriesHistory>();
         }
 
         private async Task VerifyIntegrity<T>() where T : IAmAModel
@@ -156,6 +168,16 @@ namespace Services.Services
                 await _workoutExerciseDetailsRepository.DeleteTable();
                 await _workoutExerciseDetailsRepository.Init();
             }
+            if (typeof(T) == typeof(SeriesHistory))
+            {
+                await _seriesHistoryRepository.DeleteTable();
+                await _seriesHistoryRepository.Init();
+            }
+            if (typeof(T) == typeof(WorkoutSession))
+            {
+                await _workoutSessionRepository.DeleteTable();
+                await _workoutSessionRepository.Init();
+            }
         }
 
         private async Task RecreateTableWithData<T>()
@@ -175,6 +197,14 @@ namespace Services.Services
             if (typeof(T) == typeof(WorkoutExerciseDetails))
             {
                 await _workoutExerciseDetailsRepository.RecreateTableWithData();
+            }
+            if (typeof(T) == typeof(SeriesHistory))
+            {
+                await _seriesHistoryRepository.RecreateTableWithData();
+            }
+            if (typeof(T) == typeof(WorkoutSession))
+            {
+                await _workoutSessionRepository.RecreateTableWithData();
             }
 
         }
@@ -198,7 +228,14 @@ namespace Services.Services
             {
                 tableMapping = await _workoutExerciseDetailsRepository.GetMapping();
             }
-
+            if (typeof(T) == typeof(SeriesHistory))
+            {
+                tableMapping = await _seriesHistoryRepository.GetMapping();
+            }
+            if (typeof(T) == typeof(WorkoutSession))
+            {
+                tableMapping = await _workoutSessionRepository.GetMapping();
+            }
             return tableMapping;
         }
 

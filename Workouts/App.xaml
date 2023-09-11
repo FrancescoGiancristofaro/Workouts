@@ -10,7 +10,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
-                <ResourceDictionary Source="Pages/Templates/BasePageTemplate.xaml" />
+                <ResourceDictionary Source="Pages/Templates/BasePageTemplate.xaml" /> 
+                <ResourceDictionary Source="Pages/Templates/DisableControlTemplate.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <x:String x:Key="GymIcon">&#xf44b;</x:String>
             <x:String x:Key="AddButton">&#x2b;</x:String>
@@ -27,6 +28,8 @@
             <x:String x:Key="NoteIcon">&#xf249;</x:String>
             <x:String x:Key="InfoIcon">&#xf05a;</x:String>
             <converters:InverseBooleanConverter x:Key="InverseBooleanConverter" />
+            <converters:IsNotNullOrEmptyStringConverter x:Key="IsNotNullOrEmptyStringConverter" />
+            <converters:IsNullOrEmptyStringConverter x:Key="IsNullOrEmptyStringConverter" />
             <converters:ConditionalConverter x:Key="ConditionalConverter" />
             <converters:SecondsRecoveryToStringConverter x:Key="SecondsRecoveryToStringConverter" />
             <converters:IsCollectionEmptyConverter x:Key="IsCollectionEmptyConverter" />
@@ -35,7 +38,7 @@
             <converters:SeriesExerciseConverter x:Key="SeriesExerciseConverter" />
             <converters:IsRecoveryTimePausedConverter x:Key="IsRecoveryTimePausedConverter" />
             <converters:IsRecoveryTimeNotPausedConverter x:Key="IsRecoveryTimeNotPausedConverter" />
-            <converters:BackgroundRecoveryConverter x:Key="BackgroundRecoveryConverter" /> 
+            <converters:BackgroundRecoveryConverter x:Key="BackgroundRecoveryConverter" />
             <x:Double x:Key="opacity20">0.2</x:Double>
             <x:Double x:Key="opacity50">0.5</x:Double>
             <x:Double x:Key="opacityFull">1</x:Double>

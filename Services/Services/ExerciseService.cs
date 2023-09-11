@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections.Concurrent;
+using AutoMapper;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.Mvvm.Messaging.Messages;
 using Repositories.Models;
@@ -20,8 +21,8 @@ namespace Services.Services
         Task DeleteExerciseByIdAsync(int id);
         Task<ExerciseDto> InsertExerciseAsync(ExerciseDto dto);
         Task<IEnumerable<WorkoutExerciseDetailsDto>> GetAllExerciseDetailsByWorkoutIdAsync(int id);
-        Task<IEnumerable<SeriesDto>> GetSeriesByExerciseDetailAsync(int exDetailId, int workoutId);
-
+        Task<IEnumerable<SeriesDto>> GetSeriesByExerciseDetailAsync(int exDetailId);
+        Task<IEnumerable<SeriesHistoryDto>> GetSeriesHistoryByExerciseDetailAsync(int exDetailId);
 
     }
 
@@ -31,17 +32,20 @@ namespace Services.Services
         private readonly IMapper _mapper;
         private readonly IWorkoutExerciseDetailsRepository _workoutExerciseDetailsRepository;
         private readonly ISeriesRepository _seriesRepository;
+        private readonly ISeriesHistoryRepository _seriesHistoryRepository;
 
         public ExerciseService(
             IExerciseRepository exerciseRepository,
             IMapper mapper, 
             IWorkoutExerciseDetailsRepository workoutExerciseDetailsRepository,
-            ISeriesRepository seriesRepository)
+            ISeriesRepository seriesRepository,
+            ISeriesHistoryRepository seriesHistoryRepository)
         {
             _exerciseRepository = exerciseRepository;
             _mapper = mapper;
             _workoutExerciseDetailsRepository = workoutExerciseDetailsRepository;
             _seriesRepository = seriesRepository;
+            _seriesHistoryRepository = seriesHistoryRepository;
         }
 
         public async Task<IEnumerable<ExerciseDto>> GetExerciseListAsync()
@@ -76,10 +80,30 @@ namespace Services.Services
             return _mapper.Map<IEnumerable<WorkoutExerciseDetailsDto>>(exDetails);
         }
 
-        public async Task<IEnumerable<SeriesDto>> GetSeriesByExerciseDetailAsync(int exDetailId, int workoutId)
+        public async Task<IEnumerable<SeriesDto>> GetSeriesByExerciseDetailAsync(int exDetailId)
         {
-            var res = await _seriesRepository.GetSeriesByExerciseDetailId(exDetailId, workoutId);
+            var res = await _seriesRepository.GetSeriesByExerciseDetailId(exDetailId);
             return _mapper.Map<IEnumerable<SeriesDto>>(res);
+        }
+
+        public async Task<IEnumerable<SeriesHistoryDto>> GetSeriesHistoryByExerciseDetailAsync(int exId)
+        {
+            var exDetailsInWorkout = await _workoutExerciseDetailsRepository.GetAll();
+            var list = new ConcurrentBag<SeriesHistory>();
+
+            var opt = new ParallelOptions
+            {
+                MaxDegreeOfParallelism = Environment.ProcessorCount
+            };
+
+            await Parallel.ForEachAsync(exDetailsInWorkout, opt, async (item, cancellationToken) =>
+            {
+                var series = await _seriesHistoryRepository.GetSeriesHistoryByExerciseDetailId(item.Id.Value);
+                foreach (var s in series)
+                    list.Add(s);
+            });
+
+            return _mapper.Map<IEnumerable<SeriesHistoryDto>>(list);
         }
     }
 }

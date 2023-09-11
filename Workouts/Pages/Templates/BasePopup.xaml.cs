@@ -23,7 +23,10 @@ public partial class BasePopup
         this.Opened += BasePopup_OnOpened;
         InitializeComponent();
     }
-
+    protected override void OnDismissedByTappingOutsideOfPopup()
+    {
+        RootViewModel.Dismissed();
+    }
     private void BasePopup_OnOpened(object sender, PopupOpenedEventArgs e)
     {
         RootViewModel.Opened();

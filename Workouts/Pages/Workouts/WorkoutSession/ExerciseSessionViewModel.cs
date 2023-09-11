@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -13,6 +14,7 @@ using Services.Constants;
 using Services.Dtos;
 using Services.Services;
 using WorkoutsApp.Dtos;
+using WorkoutsApp.Services;
 
 namespace WorkoutsApp.Pages.Workouts.WorkoutSession
 {
@@ -22,21 +24,60 @@ namespace WorkoutsApp.Pages.Workouts.WorkoutSession
     {
         private readonly IExerciseService _exerciseService;
         private readonly IAudioManager _audioManager;
+        private readonly ICacheService _cacheService;
+        private readonly IWorkoutService _workoutService;
+        private readonly IPopupService _popupService;
 
         public List<SelectableWorkoutsExerciseDetailsDto> WorkoutExerciseDetailsList { get; set; }
+
         [ObservableProperty] ExerciseDto _exerciseDto;
         [ObservableProperty] private SelectableWorkoutsExerciseDetailsDto _currentWorkoutExerciseDetails;
         [ObservableProperty] private bool _isLastExercise;
         [ObservableProperty] private ObservableCollection<ExecutableSeriesDto> _series;
+        [ObservableProperty] private ObservableCollection<SeriesHistoryGroupedDto> _seriesHistory;
 
-        public ExerciseSessionViewModel(IExerciseService exerciseService,IAudioManager audioManager)
+        public ExerciseSessionViewModel(
+            IExerciseService exerciseService,
+            IAudioManager audioManager,
+            ICacheService cacheService,
+            IWorkoutService workoutService,
+            IPopupService popupService)
         {
             _exerciseService = exerciseService;
             _audioManager = audioManager;
+            _cacheService = cacheService;
+            _workoutService = workoutService;
+            _popupService = popupService;
             WeakReferenceMessenger.Default.Register<ValueChangedMessage<RecoveryStatus>>(this, async (r, m) =>
             {
                 await PlayAlertSound();
             });
+        }
+
+        [RelayCommand(AllowConcurrentExecutions = false)]
+        public async Task ShowExerciseInfo()
+        {
+            try
+            {
+                await _popupService.DisplayAlert("Info", ExerciseDto.Description);
+            }
+            catch (Exception ex)
+            {
+                await ManageException(ex);
+            }
+        }
+
+        [RelayCommand(AllowConcurrentExecutions = false)]
+        public async Task EditNote()
+        {
+            try
+            {
+                CurrentWorkoutExerciseDetails.ExerciseDetail.Note = await _popupService.DisplayEditorPopup("Note", CurrentWorkoutExerciseDetails.ExerciseDetail.Note);
+            }
+            catch (Exception ex)
+            {
+                await ManageException(ex);
+            }
         }
 
         [RelayCommand(AllowConcurrentExecutions = false)]
@@ -96,16 +137,72 @@ namespace WorkoutsApp.Pages.Workouts.WorkoutSession
         }
 
         [RelayCommand(AllowConcurrentExecutions = false)]
+        public async Task AddSeries()
+        {
+            try
+            {
+                var lastSeries = Series.LastOrDefault();
+                if(lastSeries == null)
+                {
+                    Series.Add(new ExecutableSeriesDto()
+                    {
+                        RecoveryStatus = RecoveryStatus.Stopped,
+                        SecondsLeft = 0,
+                        Series = new SeriesDto()
+                        {
+                            Weight = 0,
+                            SecondsRecoveryTime = 0,
+                            Repetitions = 0
+                        }
+                    });
+                    return;
+                }
+                Series.Add(new ExecutableSeriesDto()
+                {
+                    RecoveryStatus = RecoveryStatus.Stopped,
+                    SecondsLeft = lastSeries.SecondsLeft,
+                    Series = new SeriesDto()
+                    {
+                        Weight = lastSeries.Series.Weight,
+                        SecondsRecoveryTime = lastSeries.Series.SecondsRecoveryTime,
+                        Repetitions = lastSeries.Series.Repetitions
+                    }
+                });
+            }
+            catch (Exception ex)
+            {
+                await ManageException(ex);
+            }
+        }
+
+        [RelayCommand(AllowConcurrentExecutions = false)]
+        public async Task DeleteSeries(ExecutableSeriesDto dto)
+        {
+            try
+            {
+                Series.Remove(dto);
+            }
+            catch (Exception ex)
+            {
+                await ManageException(ex);
+            }
+        }
+
+        [RelayCommand(AllowConcurrentExecutions = false)]
         public async Task Next()
         {
             try
             {
                 IsBusy = true;
 
+                var cachedSessionWorkout = _cacheService.Get<WorkoutSessionWizardDto>(CacheKeys.WorkoutSessionProgression);
+                cachedSessionWorkout.InsertExercise(CurrentWorkoutExerciseDetails.ExerciseDetail, Series.Select(x=>x.Series));
+                _cacheService.Add(CacheKeys.WorkoutSessionProgression, cachedSessionWorkout);
 
                 if (IsLastExercise)
                 {
-                    await Shell.Current.DisplayAlert("Attenzione", "Funzionalita in arrivo", "OK");
+                    await _workoutService.CreateWorkoutSessionAsync(cachedSessionWorkout);
+                    await Shell.Current.Navigation.PopToRootAsync();
                     return;
                 }
 
@@ -139,8 +236,7 @@ namespace WorkoutsApp.Pages.Workouts.WorkoutSession
                 var exercise = WorkoutExerciseDetailsList.FirstOrDefault(x => x.IsSelected);
                 CurrentWorkoutExerciseDetails = exercise is null ? WorkoutExerciseDetailsList.First() : exercise;
                 IsLastExercise = CurrentWorkoutExerciseDetails.Equals(WorkoutExerciseDetailsList.LastOrDefault());
-                var series = await _exerciseService.GetSeriesByExerciseDetailAsync(CurrentWorkoutExerciseDetails.ExerciseDetail.Id,
-                    CurrentWorkoutExerciseDetails.ExerciseDetail.IdWorkout);
+                var series = await _exerciseService.GetSeriesByExerciseDetailAsync(CurrentWorkoutExerciseDetails.ExerciseDetail.Id);
                 
                 Series = new ObservableCollection<ExecutableSeriesDto>(series.Select(x=>new ExecutableSeriesDto()
                 {
@@ -149,6 +245,9 @@ namespace WorkoutsApp.Pages.Workouts.WorkoutSession
                 }));
 
                 ExerciseDto = await _exerciseService.GetExerciseByIdAsync(CurrentWorkoutExerciseDetails.ExerciseDetail.IdExercise);
+
+                await LoadHistoryData();
+
             }
             catch (Exception ex)
             {
@@ -184,13 +283,45 @@ namespace WorkoutsApp.Pages.Workouts.WorkoutSession
         {
             try
             {
-                var file = await FileSystem.OpenAppPackageFileAsync("alert_end_recovery.mp3");
-                using var player = _audioManager.CreatePlayer(file);
+                using var file = await FileSystem.OpenAppPackageFileAsync("alert_end_recovery.mp3");
+                var player = _audioManager.CreatePlayer(file);
                 player.Play();
             }
             catch (Exception ex)
             {
                 await ManageException(ex);
+            }
+        }
+
+        private async Task LoadHistoryData()
+        {
+            try
+            {
+                IsBusy = true;
+
+                var history = await _exerciseService.GetSeriesHistoryByExerciseDetailAsync(CurrentWorkoutExerciseDetails.ExerciseDetail.IdExercise);
+                var list = new ConcurrentBag<SeriesHistoryGroupedDto>();
+                
+                var opt = new ParallelOptions
+                {
+                    MaxDegreeOfParallelism = Environment.ProcessorCount
+                };
+
+                await Parallel.ForEachAsync(history.GroupBy(x => x.IdWorkoutSession), opt, async (item, cancellationToken) =>
+                {
+                    var workoutSessionInfo = await _workoutService.GetWorkoutBySessionIdAsync(item.Key);
+                    var workout = await _workoutService.GetWorkoutByIdAsync(workoutSessionInfo.IdWorkout);
+                    list.Add(new SeriesHistoryGroupedDto(item.Key, workoutSessionInfo.StartDate, workout.Name, item.ToList()));
+                });
+
+                SeriesHistory = new ObservableCollection<SeriesHistoryGroupedDto>(list.OrderByDescending(x=>x.IdWorkoutSession));
+            }catch(Exception ex)
+            {
+                await ManageException(ex);
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
     }

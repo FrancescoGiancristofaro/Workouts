@@ -7,6 +7,9 @@ using SQLite;
 
 namespace Repositories.Models
 {
+    /// <summary>
+    /// Represent an exercise instance inside a workout 
+    /// </summary>
     public class WorkoutExerciseDetails : IAmAModel
     {
         [PrimaryKey, AutoIncrement]

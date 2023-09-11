@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView
+    x:Class="WorkoutsApp.Pages.Templates.Components.WorkoutsRecoveryTimeEntry"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Name="WorkoutsRecoveryTimeEntryControl">
+    <Entry
+        x:Name="Entry"
+        BindingContext="{x:Reference WorkoutsRecoveryTimeEntryControl}"
+        FontSize="{Binding FontSize}"
+        HorizontalTextAlignment="Center"
+        Keyboard="Numeric"
+        MaxLength="5"
+        Placeholder="0:00"
+        PlaceholderColor="LightGray"
+        Text="{Binding Text}"
+        TextChanged="Entry_TextChanged"
+        TextColor="White"
+        Unfocused="Entry_Unfocused" />
+</ContentView>

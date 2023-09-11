@@ -10,14 +10,14 @@ namespace Repositories.Repositories
 {
     public interface ISeriesRepository : IRepository<Series>
     {
-        Task<List<Series>> GetSeriesByExerciseDetailId(int exId, int idWorkout);
+        Task<List<Series>> GetSeriesByExerciseDetailId(int exId);
     }
     public class SeriesRepository : BaseRepository<Series> , ISeriesRepository
     {
-        public Task<List<Series>> GetSeriesByExerciseDetailId(int exId, int idWorkout)
+        public Task<List<Series>> GetSeriesByExerciseDetailId(int exId)
         {
             return Database.Table<Series>()
-                .Where(x => x.IdWorkout.Equals(idWorkout) && x.IdWorkoutExerciseDetails.Equals(exId)).ToListAsync();
+                .Where(x => x.IdWorkoutExerciseDetails.Equals(exId)).ToListAsync();
         }
     }
 }

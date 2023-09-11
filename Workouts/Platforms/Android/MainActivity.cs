@@ -24,16 +24,18 @@ public class MainActivity : MauiAppCompatActivity
             popup.Window.SetBackgroundDrawable(drawable);
 
         });
-        
+
         Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("Focused", (handler, view) =>
         {
-            
+            //if(view.Parent is Pages.Templates.Components.WorkoutsRecoveryTimeEntry)
+            handler.PlatformView.SetSelectAllOnFocus(true);
+
             handler.PlatformView.FocusChange += (sender, args) =>
             {
                 InputMethodManager inputMethodManager = GetSystemService(InputMethodService) as InputMethodManager;
                 if (args.HasFocus)
                 {
-                    inputMethodManager?.ShowSoftInput(handler.PlatformView,ShowFlags.Forced);
+                    inputMethodManager?.ShowSoftInput(handler.PlatformView, ShowFlags.Forced);
                 }
                 else
                 {
@@ -42,7 +44,13 @@ public class MainActivity : MauiAppCompatActivity
 
             };
         });
+
+        //Microsoft.Maui.Handlers.ElementHandler.ElementMapper.AppendToMapping("swipeGrid", (handler, view) =>
+        //{
+            
+        //});
     }
+
 
     protected override void OnCreate(Bundle savedInstanceState)
     {

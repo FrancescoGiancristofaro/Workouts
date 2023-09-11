@@ -14,5 +14,6 @@ namespace Services.Dtos
         public ExerciseCategory Category { get; set; }
         public string Description { get; set; }
         public string Note { get; set; }
+
     }
 }

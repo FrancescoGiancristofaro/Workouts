@@ -20,6 +20,7 @@ namespace WorkoutsApp.Converters
                 return null;
 
             var a = (double)secondsLeft / secondsRecoveryTime;
+
             return a.Value.ToString(CultureInfo.InvariantCulture);
         }
 

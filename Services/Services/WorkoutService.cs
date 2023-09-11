@@ -100,6 +100,9 @@ namespace Services.Services
                 };
                 await Parallel.ForEachAsync(dto.SessionExercises, opt, async (ex, cancellationToken) =>
                 {
+                    var exDetail = await _workoutExerciseDetailsRepository.GetById(ex.IdWorkoutExercise);
+                    exDetail.Note = ex.Note;
+                    await _workoutExerciseDetailsRepository.Update(exDetail);
                     var oldSeries = await _seriesRepository.GetSeriesByExerciseDetailId(ex.IdWorkoutExercise);
 
                     await Parallel.ForEachAsync(oldSeries, opt, async (series, cancellationToken) =>

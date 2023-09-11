@@ -9,6 +9,7 @@ namespace Services.Dtos
     public class ExerciseSeriesDto
     {
         public int IdWorkoutExercise { get; set; }
+        public string  Note { get; set; }
         public List<SeriesDto> Series { get; set; }
     }
 }

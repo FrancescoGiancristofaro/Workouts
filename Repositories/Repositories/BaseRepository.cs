@@ -8,6 +8,7 @@ namespace Repositories.Repositories
     {
         Task<IList<T>> GetAll();
         Task<T> Insert(T item);
+        Task Update(T item);
         Task Delete(T item);
         Task<T> GetById(int id);
         Task TryDeleteAllAsync();
@@ -90,6 +91,11 @@ namespace Repositories.Repositories
         public Task<TableMapping> GetMapping()
         {
             return Database.GetMappingAsync(typeof(T));
+        }
+
+        public async Task Update(T item)
+        {
+            await Database.UpdateAsync(item);
         }
     }
 }

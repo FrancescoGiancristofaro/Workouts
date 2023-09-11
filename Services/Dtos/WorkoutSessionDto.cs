@@ -21,7 +21,7 @@ namespace Services.Dtos
             var ex = SessionExercises.FirstOrDefault(x => x.IdWorkoutExercise == exDto.Id);
             if (ex is null)
             {
-                SessionExercises.Add(new ExerciseSeriesDto { IdWorkoutExercise = exDto.Id, Series = new List<SeriesDto>(series) });
+                SessionExercises.Add(new ExerciseSeriesDto { IdWorkoutExercise = exDto.Id, Note = exDto.Note, Series = new List<SeriesDto>(series) });
                 return;
             }
             ex = new ExerciseSeriesDto { IdWorkoutExercise = exDto.Id, Series = new List<SeriesDto>(series) };

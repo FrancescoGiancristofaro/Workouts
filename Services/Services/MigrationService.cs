@@ -22,6 +22,7 @@ namespace Services.Services
         private readonly IWorkoutsRepository _workoutsRepository;
         private readonly IWorkoutSessionRepository _workoutSessionRepository;
         private readonly ISeriesHistoryRepository _seriesHistoryRepository;
+        private readonly IWorkoutsScheduledRepository _workoutsScheduledRepository;
         private readonly IMasterRepository _masterRepository;
 
         #region constructor
@@ -33,7 +34,8 @@ namespace Services.Services
             IWorkoutsRepository workoutsRepository,
             IMasterRepository masterRepository,
             IWorkoutSessionRepository workoutSessionRepository,
-            ISeriesHistoryRepository seriesHistoryRepository)
+            ISeriesHistoryRepository seriesHistoryRepository,
+            IWorkoutsScheduledRepository workoutsScheduledRepository)
         {
             _exerciseRepository = exerciseRepository;
             _seriesRepository = seriesRepository;
@@ -42,6 +44,7 @@ namespace Services.Services
             _masterRepository = masterRepository;
             _workoutSessionRepository = workoutSessionRepository;
             _seriesHistoryRepository = seriesHistoryRepository;
+            _workoutsScheduledRepository = workoutsScheduledRepository;
         }
 
         #endregion
@@ -61,6 +64,7 @@ namespace Services.Services
             await _workoutsRepository.TryDeleteAllAsync();
             await _workoutSessionRepository.TryDeleteAllAsync();
             await _seriesHistoryRepository.TryDeleteAllAsync();
+            await _workoutsScheduledRepository.TryDeleteAllAsync();
         }
 
         #endregion
@@ -75,6 +79,7 @@ namespace Services.Services
             await _workoutsRepository.Init();
             await _workoutSessionRepository.Init();
             await _seriesHistoryRepository.Init();
+            await _workoutsScheduledRepository.Init();
 
             await VerifyIntegrity<Exercise>();
             await VerifyIntegrity<Series>();
@@ -82,6 +87,7 @@ namespace Services.Services
             await VerifyIntegrity<WorkoutExerciseDetails>();
             await VerifyIntegrity<WorkoutSession>();
             await VerifyIntegrity<SeriesHistory>();
+            await VerifyIntegrity<WorkoutsScheduled>();
         }
 
         private async Task VerifyIntegrity<T>() where T : IAmAModel
@@ -178,10 +184,19 @@ namespace Services.Services
                 await _workoutSessionRepository.DeleteTable();
                 await _workoutSessionRepository.Init();
             }
+            if (typeof(T) == typeof(WorkoutsScheduled))
+            {
+                await _workoutsScheduledRepository.DeleteTable();
+                await _workoutsScheduledRepository.Init();
+            }
         }
 
         private async Task RecreateTableWithData<T>()
         {
+            if (typeof(T) == typeof(WorkoutsScheduled))
+            {
+                await _workoutsScheduledRepository.RecreateTableWithData();
+            }
             if (typeof(T) == typeof(Exercise))
             {
                 await _exerciseRepository.RecreateTableWithData();
@@ -212,6 +227,10 @@ namespace Services.Services
         private async Task<TableMapping?> GetMapping<T>()
         {
             TableMapping? tableMapping = null;
+            if (typeof(T) == typeof(WorkoutsScheduled))
+            {
+                tableMapping = await _workoutsScheduledRepository.GetMapping();
+            }
             if (typeof(T) == typeof(Exercise))
             {
                 tableMapping = await _exerciseRepository.GetMapping();

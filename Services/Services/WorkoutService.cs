@@ -17,6 +17,7 @@ namespace Services.Services
     public interface IWorkoutService 
     {
         Task<IEnumerable<WorkoutsDto>> GetWorkoutsAsync();
+        Task<IEnumerable<WorkoutSessionDto>> GetWorkoutSessionsAsync();
         Task<WorkoutsDto> GetWorkoutByIdAsync(int id);
         Task<WorkoutSessionDto> GetWorkoutBySessionIdAsync(int id);
         Task CreateWorkoutAsync(WorkoutWizardDto dto);
@@ -137,6 +138,12 @@ namespace Services.Services
         {
             return _mapper.Map<WorkoutsDto>(await _workoutsRepository.GetById(id));
 
+        }
+
+        public async Task<IEnumerable<WorkoutSessionDto>> GetWorkoutSessionsAsync()
+        {
+            var res = await _workoutSessionRepository.GetAll();
+            return _mapper.Map<IEnumerable<WorkoutSessionDto>>(res);    
         }
     }
 }

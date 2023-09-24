@@ -3,10 +3,13 @@
 namespace WorkoutsApp;
 public partial class App : Application
 {
-	public App()
+    private readonly IMigrationService _migrationService;
+
+    public App(IMigrationService migrationService)
 	{
 		InitializeComponent();
         MainPage = new AppShell();
+        _migrationService = migrationService;
     }
 
     protected override async void OnStart()
@@ -17,8 +20,7 @@ public partial class App : Application
 
     private async Task InitDatabase()
     {
-        var service = MauiApplication.Current.Services.GetRequiredService<IMigrationService>();
-        await service.Migrate();
+        await _migrationService.Migrate();
     }
 
     private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)

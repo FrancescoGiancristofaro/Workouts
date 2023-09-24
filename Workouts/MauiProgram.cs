@@ -5,6 +5,8 @@ using Repositories.Repositories;
 using Repositories.Settings;
 using Services.Automapper;
 using Services.Services;
+using Syncfusion.Maui.Core.Hosting;
+using WorkoutsApp.Handlers;
 using WorkoutsApp.Pages.Exercises;
 using WorkoutsApp.Pages.Schedules;
 using WorkoutsApp.Pages.Templates;
@@ -23,6 +25,7 @@ public static class MauiProgram
 	{
 		var builder = MauiApp.CreateBuilder();
 		builder
+            .ConfigureSyncfusionCore()
 			.UseMauiApp<App>()
             .UseMauiCommunityToolkit()
             .ConfigureFonts(fonts =>
@@ -42,6 +45,7 @@ public static class MauiProgram
         RegisterRepositories(builder.Services);
         RegisterViewModels(builder.Services);
         RegisterPages(builder.Services);
+        RegisterHandlers(builder);
 
         AppRoutes.RegisterRoutes();
 
@@ -49,6 +53,14 @@ public static class MauiProgram
         cache.SetScope("Workouts");
         return builder.Build();
 	}
+
+    private static void RegisterHandlers(MauiAppBuilder builder)
+    {
+        //builder.Services.ConfigureMauiHandlers(handlers =>
+        //{
+        //    //handlers.AddHandler(typeof(BasePopup), typeof(PopupHandler));
+        //});
+    }
 
     private static void RegisterAutomapper(IServiceCollection serviceCollection)
     {
@@ -76,6 +88,7 @@ public static class MauiProgram
         serviceCollection.AddTransient<IMasterRepository, MasterRepository>();
         serviceCollection.AddTransient<ISeriesHistoryRepository, SeriesHistoryRepository>();
         serviceCollection.AddTransient<IWorkoutSessionRepository, WorkoutSessionRepository>();
+        serviceCollection.AddTransient<IWorkoutsScheduledRepository, WorkoutsScheduledRepository>();
     }
     private static void RegisterViewModels(IServiceCollection serviceCollection)
     {

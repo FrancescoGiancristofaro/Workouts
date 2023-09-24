@@ -3,16 +3,55 @@
     x:Class="WorkoutsApp.Pages.Schedules.SchedulesPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:scheduler="clr-namespace:Syncfusion.Maui.Scheduler;assembly=Syncfusion.Maui.Scheduler"
     xmlns:schedules="clr-namespace:WorkoutsApp.Pages.Schedules"
     xmlns:templates="clr-namespace:WorkoutsApp.Pages.Templates"
     x:DataType="schedules:SchedulesViewModel"
     BindingContext="{Binding}"
     RootViewModel="{Binding}">
-    <StackLayout BackgroundColor="Transparent">
-        <Label
+    <Grid BackgroundColor="Transparent" RowDefinitions="Auto,Auto,*">
+        <Label 
+            Grid.Row="0"
             FontAttributes="Bold"
             FontSize="25"
             Text="Programma"
-            TextColor="{StaticResource Secondary}" />
-    </StackLayout>
+            TextColor="{StaticResource Secondary}" >
+            <FlyoutBase.ContextFlyout>
+                <MenuFlyout x:Name="MyContextMenus">
+                    <MenuFlyoutItem Text="Menu1"/>
+                    <MenuFlyoutItem Text="Menu2"/>
+                </MenuFlyout>
+            </FlyoutBase.ContextFlyout>
+        </Label>
+        <Entry AnchorX="0.5" AnchorY="0.5" Grid.Row="1">
+            <FlyoutBase.ContextFlyout>
+                <MenuFlyout x:Name="MyContejxtMenus">
+                    <MenuFlyoutItem Text="Menu1"/>
+                    <MenuFlyoutItem Text="Menu2"/>
+                </MenuFlyout>
+            </FlyoutBase.ContextFlyout>
+        </Entry>
+        <scheduler:SfScheduler
+            Grid.Row="2"
+            AppointmentsSource="{Binding Appointments}"
+            TodayHighlightBrush="{StaticResource Secondary}"
+            View="Agenda">
+            <scheduler:SfScheduler.AgendaView>
+                <scheduler:SchedulerAgendaView>
+                    <scheduler:SchedulerAgendaView.MonthHeaderSettings>
+                        <scheduler:SchedulerMonthHeaderSettings 
+                                                        Height="100"/>
+                    </scheduler:SchedulerAgendaView.MonthHeaderSettings>
+                </scheduler:SchedulerAgendaView>
+            </scheduler:SfScheduler.AgendaView>
+            <scheduler:SfScheduler.Behaviors>
+                <behaviors:EventToCommandBehavior
+                    Command="{Binding LongPressedCommand}"
+                    EventArgsConverter="{StaticResource LongPressArgsConverter}"
+                    EventName="LongPressed" />
+            </scheduler:SfScheduler.Behaviors>
+        </scheduler:SfScheduler>
+
+    </Grid>
 </templates:BasePage>

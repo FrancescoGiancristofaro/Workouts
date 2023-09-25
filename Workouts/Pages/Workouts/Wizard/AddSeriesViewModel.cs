@@ -146,7 +146,11 @@ namespace WorkoutsApp.Pages.Workouts
             }
 
         }
-        
+
+        public override void Dismissed()
+        {
+            _popupService.DismissPopup();
+        }
 
     }
 }

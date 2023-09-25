@@ -36,11 +36,12 @@ namespace WorkoutsApp.Pages.Schedules
             _popupService = popupService;
             LongPressedCommand = new AsyncRelayCommand<SchedulerLongPressedEventArgs>(InnerLongPressed);
         }
-
+       
 
         public override async void OnAppearing()
         {
             base.PrepareModel();
+            await MauiProgram.InitialStartupTask;
             var sessions = await _workoutService.GetWorkoutSessionsAsync();
 
             var woDic = (await _workoutService.GetWorkoutsAsync()).ToDictionary(x=>x.Id);

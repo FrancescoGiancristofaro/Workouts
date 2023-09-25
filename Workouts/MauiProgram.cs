@@ -6,7 +6,6 @@ using Repositories.Settings;
 using Services.Automapper;
 using Services.Services;
 using Syncfusion.Maui.Core.Hosting;
-using WorkoutsApp.Handlers;
 using WorkoutsApp.Pages.Exercises;
 using WorkoutsApp.Pages.Schedules;
 using WorkoutsApp.Pages.Templates;
@@ -20,7 +19,8 @@ namespace WorkoutsApp;
 
 public static class MauiProgram
 {
-    
+    public static Task InitialStartupTask;
+
 	public static MauiApp CreateMauiApp()
 	{
 		var builder = MauiApp.CreateBuilder();
@@ -49,8 +49,11 @@ public static class MauiProgram
 
         AppRoutes.RegisterRoutes();
 
-        var cache = builder.Services.BuildServiceProvider().GetRequiredService<ICacheService>();
-        cache.SetScope("Workouts");
+        var serviceProvider = builder.Services.BuildServiceProvider();
+        serviceProvider.GetRequiredService<ICacheService>().SetScope("Workouts");
+
+        InitialStartupTask = serviceProvider.GetRequiredService<IMigrationService>().Migrate();
+
         return builder.Build();
 	}
 

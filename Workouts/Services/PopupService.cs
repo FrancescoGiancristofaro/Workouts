@@ -10,7 +10,7 @@ namespace WorkoutsApp.Services
         Task<string> DisplayEditorPopup(string title,string text);
         Task<object> ShowPopup(Type pageToShow, object data=null);
         object GetPopupData();
-        void DismissPopup(object data);
+        void DismissPopup(object data = null);
     }
 
     public class PopupService : IPopupService
@@ -53,7 +53,7 @@ namespace WorkoutsApp.Services
             return _currentPopup?.Data;
         }
 
-        public void DismissPopup(object data)
+        public void DismissPopup(object data = null)
         {
             try
             {

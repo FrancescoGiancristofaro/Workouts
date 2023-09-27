@@ -255,13 +255,12 @@
 
             <ScrollView
                 Grid.Row="4"
-                Margin="10,0"
                 VerticalScrollBarVisibility="Never">
                 <CollectionView
                     x:Name="ListViewHistory"
                     IsGrouped="true"
                     ItemsSource="{Binding SeriesHistory}"
-                    VerticalOptions="Center"
+                    VerticalOptions="Start"
                     VerticalScrollBarVisibility="Never">
                     <CollectionView.GroupHeaderTemplate>
                         <DataTemplate x:DataType="dtos:SeriesHistoryGroupedDto">

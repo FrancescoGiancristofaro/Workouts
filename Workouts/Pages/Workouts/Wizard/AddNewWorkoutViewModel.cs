@@ -6,7 +6,6 @@ using Services.Services;
 using System.Collections.ObjectModel;
 using WorkoutsApp.Dtos;
 using WorkoutsApp.Extensions;
-using WorkoutsApp.Services;
 using SelectableExerciseDto = WorkoutsApp.Dtos.SelectableExerciseDto;
 
 namespace WorkoutsApp.Pages.Workouts
@@ -16,7 +15,6 @@ namespace WorkoutsApp.Pages.Workouts
     {
         public List<SelectableExerciseDto> SelectedExercises { get; set; }
 
-        private readonly IPopupService _popupService;
         private readonly IExerciseService _exerciseService;
         private readonly ICacheService _cacheService;
 
@@ -24,9 +22,8 @@ namespace WorkoutsApp.Pages.Workouts
         [ObservableProperty] string _description;
         [ObservableProperty] ObservableCollection<ExercisesCategoryGroupedDto> _exercisesList = new();
 
-        public AddNewWorkoutViewModel(IPopupService popupService, IExerciseService exerciseService, ICacheService cacheService)
+        public AddNewWorkoutViewModel(IExerciseService exerciseService, ICacheService cacheService, IServiceProvider serviceProvider) : base(serviceProvider)
         {
-            _popupService = popupService;
             _exerciseService = exerciseService;
             _cacheService = cacheService;
         }
@@ -57,7 +54,7 @@ namespace WorkoutsApp.Pages.Workouts
         }
 
 
-        public override async void ReversePrepareModel()
+        public override async void ReversePrepareModel(object data = null)
         {
             try
             {

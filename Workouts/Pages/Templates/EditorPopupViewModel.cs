@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using WorkoutsApp.Dtos;
-using WorkoutsApp.Services;
 
 namespace WorkoutsApp.Pages.Templates
 {
@@ -14,31 +13,20 @@ namespace WorkoutsApp.Pages.Templates
     {
         [ObservableProperty] string _title;
         [ObservableProperty] string _text;
-        [ObservableProperty] string _input;
-        public EditorPopupViewModel(IPopupService popupService) : base(popupService)
+        public EditorPopupViewModel()
         {
         }
 
-        [RelayCommand]
-        void EditNote()
+        [RelayCommand(AllowConcurrentExecutions = false)]
+        async Task EditNote()
         {
-           _popupService.DismissPopup(Text);
-            return;
+            await Popup.CloseAsync(Text);
         }
 
         public override void Opened()
         {
-
-            var dto = _popupService.GetPopupData() as EditorPopupDto;
-            Title = dto.Title;
-            Text = dto.Text;
-            Input = dto.Text;
+            Title = this.Popup.Data as string;
         }
 
-        public override void Dismissed()
-        {
-            _popupService.DismissPopup(Input);
-            return;
-        }
     }
 }

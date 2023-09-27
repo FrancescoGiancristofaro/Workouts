@@ -8,7 +8,6 @@ using WorkoutsApp.Extensions;
 using Repositories.Models;
 using Services.Constants;
 using Services.Dtos;
-using WorkoutsApp.Services;
 
 
 namespace WorkoutsApp.Pages.Workouts
@@ -24,7 +23,7 @@ namespace WorkoutsApp.Pages.Workouts
         [ObservableProperty] bool _isRefreshing;
 
 
-        public WorkoutsViewModel(IWorkoutService workoutService,ICacheService cacheService)
+        public WorkoutsViewModel(IWorkoutService workoutService,ICacheService cacheService, IServiceProvider serviceProvider) : base(serviceProvider) 
         {
             _workoutService = workoutService;
             _cacheService = cacheService;

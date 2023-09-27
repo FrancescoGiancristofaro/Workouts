@@ -11,7 +11,6 @@ using Services.Dtos;
 using Services.Services;
 using WorkoutsApp.Dtos;
 using WorkoutsApp.Extensions;
-using WorkoutsApp.Services;
 
 namespace WorkoutsApp.Pages.Workouts.Wizard
 {
@@ -19,7 +18,6 @@ namespace WorkoutsApp.Pages.Workouts.Wizard
     [QueryProperty(nameof(ExerciseList), "exercises")]
     public partial class ExerciseConfigurationViewModel : BaseViewModel
     {
-        private readonly IPopupService _popupService;
         private readonly ICacheService _cacheService;
         private readonly IWorkoutService _workoutService;
 
@@ -29,9 +27,8 @@ namespace WorkoutsApp.Pages.Workouts.Wizard
         [ObservableProperty] private ObservableCollection<SeriesDto> _series = new();
         [ObservableProperty] private bool _isLastExercise;
 
-        public ExerciseConfigurationViewModel(IPopupService popupService,ICacheService cacheService,IWorkoutService workoutService)
+        public ExerciseConfigurationViewModel(ICacheService cacheService, IWorkoutService workoutService, IServiceProvider serviceProvider) : base(serviceProvider)
         {
-            _popupService = popupService;
             _cacheService = cacheService;
             _workoutService = workoutService;
         }
@@ -74,12 +71,7 @@ namespace WorkoutsApp.Pages.Workouts.Wizard
         [RelayCommand(AllowConcurrentExecutions = false)]
         async Task OpenAddSeriesPopup()
         {
-            var res = await _popupService.ShowPopup(typeof(AddSeriesPopup), Series.LastOrDefault());
-            if (res is SeriesDto series)
-            {
-                Series.Add(series);
-                WorkoutWizardDto.InsertSeries(CurrentExercise.Exercise,series);
-            }
+            ShowPopup(typeof(AddSeriesPopup), Series.LastOrDefault());
         }
 
         [RelayCommand(AllowConcurrentExecutions = false)]
@@ -137,5 +129,15 @@ namespace WorkoutsApp.Pages.Workouts.Wizard
                 await ManageException(ex);
             }
         }
+
+        public override void ReversePrepareModel(object data = null)
+        {
+            if (data is SeriesDto series)
+            {
+                Series.Add(series);
+                WorkoutWizardDto.InsertSeries(CurrentExercise.Exercise, series);
+            }
+        }
+    
     }
 }

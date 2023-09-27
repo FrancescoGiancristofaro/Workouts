@@ -1,4 +1,5 @@
 using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Views;
 
 namespace WorkoutsApp.Pages.Templates;
 
@@ -25,18 +26,22 @@ public partial class BasePopup
     }
     protected override async Task OnDismissedByTappingOutsideOfPopup()
     {
-        RootViewModel.Dismissed();
-        return;
+        this.Closed -= BasePopup_OnClosed;
+        this.Opened -= BasePopup_OnOpened;
+        MainThread.BeginInvokeOnMainThread(RootViewModel.Dismissed);
     }
     private void BasePopup_OnOpened(object sender, PopupOpenedEventArgs e)
     {
-        RootViewModel.Opened();
+        MainThread.BeginInvokeOnMainThread(RootViewModel.Opened);
     }
 
     private void BasePopup_OnClosed(object sender, PopupClosedEventArgs e)
     {
         this.Closed -= BasePopup_OnClosed;
         this.Opened -= BasePopup_OnOpened;
-        RootViewModel.Dismissed();
+        MainThread.BeginInvokeOnMainThread(RootViewModel.Dismissed);
+        MainThread.BeginInvokeOnMainThread(()=> { 
+            (Shell.Current.Navigation.NavigationStack.Last().BindingContext as IBaseViewModel).ReversePrepareModel(e.Result);
+        });
     }
 }

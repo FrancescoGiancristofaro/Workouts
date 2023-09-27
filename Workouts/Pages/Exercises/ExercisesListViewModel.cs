@@ -11,7 +11,6 @@ using Services.Dtos;
 using Services.Services;
 using WorkoutsApp.Dtos;
 using WorkoutsApp.Extensions;
-using WorkoutsApp.Services;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.Mvvm.Messaging.Messages;
 using Services.Constants;
@@ -76,7 +75,7 @@ namespace WorkoutsApp.Pages.Exercises
             }
         }
 
-        public ExercisesListViewModel(IExerciseService exerciseService)
+        public ExercisesListViewModel(IExerciseService exerciseService, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _exerciseService = exerciseService;
             WeakReferenceMessenger.Default.Register<ValueChangedMessage<ExerciseOperation>>(this, async (r, m) =>

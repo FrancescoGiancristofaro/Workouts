@@ -32,7 +32,7 @@ namespace WorkoutsApp.Pages.Workouts
            await GoToAsync(AppRoutes.ExerciseSessionPage, "exsessionlist", exDetails);
         }
 
-        public WorkoutDetailsViewModel(IExerciseService exerciseService, ICacheService cacheService)
+        public WorkoutDetailsViewModel(IExerciseService exerciseService, ICacheService cacheService, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _exerciseService = exerciseService;
             _cacheService = cacheService;

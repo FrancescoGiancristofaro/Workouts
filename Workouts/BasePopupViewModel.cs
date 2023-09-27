@@ -1,24 +1,19 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WorkoutsApp.Services;
+﻿using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Mvvm.ComponentModel;
+using WorkoutsApp.Pages.Templates;
 
 namespace WorkoutsApp
 {
-    public partial class BasePopupViewModel : ObservableObject , IBaseViewModel
+    public partial class BasePopupViewModel : ObservableObject
     {
-        protected readonly IPopupService _popupService;
 
         [ObservableProperty]
         bool isBusy;
 
-        public BasePopupViewModel(IPopupService popupService)
+        public BasePopup Popup { get; set; }
+
+        public BasePopupViewModel()
         {
-            _popupService = popupService;
         }
 
         public virtual void Opened()

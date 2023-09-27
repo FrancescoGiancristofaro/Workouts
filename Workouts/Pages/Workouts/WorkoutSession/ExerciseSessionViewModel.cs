@@ -14,7 +14,7 @@ using Services.Constants;
 using Services.Dtos;
 using Services.Services;
 using WorkoutsApp.Dtos;
-using WorkoutsApp.Services;
+using WorkoutsApp.Pages.Templates;
 
 namespace WorkoutsApp.Pages.Workouts.WorkoutSession
 {
@@ -26,7 +26,6 @@ namespace WorkoutsApp.Pages.Workouts.WorkoutSession
         private readonly IAudioManager _audioManager;
         private readonly ICacheService _cacheService;
         private readonly IWorkoutService _workoutService;
-        private readonly IPopupService _popupService;
 
         public List<SelectableWorkoutsExerciseDetailsDto> WorkoutExerciseDetailsList { get; set; }
 
@@ -40,14 +39,12 @@ namespace WorkoutsApp.Pages.Workouts.WorkoutSession
             IExerciseService exerciseService,
             IAudioManager audioManager,
             ICacheService cacheService,
-            IWorkoutService workoutService,
-            IPopupService popupService)
+            IWorkoutService workoutService, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _exerciseService = exerciseService;
             _audioManager = audioManager;
             _cacheService = cacheService;
             _workoutService = workoutService;
-            _popupService = popupService;
             WeakReferenceMessenger.Default.Register<ValueChangedMessage<RecoveryStatus>>(this, async (r, m) =>
             {
                 await PlayAlertSound();
@@ -59,7 +56,7 @@ namespace WorkoutsApp.Pages.Workouts.WorkoutSession
         {
             try
             {
-                await _popupService.DisplayAlert("Info", ExerciseDto.Description);
+                await DisplayAlert("Info", ExerciseDto.Description);
             }
             catch (Exception ex)
             {
@@ -72,7 +69,7 @@ namespace WorkoutsApp.Pages.Workouts.WorkoutSession
         {
             try
             {
-                CurrentWorkoutExerciseDetails.ExerciseDetail.Note = await _popupService.DisplayEditorPopup("Note", CurrentWorkoutExerciseDetails.ExerciseDetail.Note);
+                CurrentWorkoutExerciseDetails.ExerciseDetail.Note = await ShowEditorPopup("Note");
             }
             catch (Exception ex)
             {

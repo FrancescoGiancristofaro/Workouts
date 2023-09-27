@@ -19,10 +19,8 @@ public class MainActivity : MauiAppCompatActivity
             var popup = (Android.App.Dialog)handler.PlatformView;
             var drawable = new GradientDrawable();
             drawable.SetShape(ShapeType.Rectangle);
-            drawable.SetCornerRadii(new float[] { 25, 25, 25, 25, 0, 0, 0, 0 });
-            drawable.SetPadding(10, 10, 10, 10);
+            drawable.SetCornerRadius(25);
             popup.Window.SetBackgroundDrawable(drawable);
-
         });
 
         Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("Focused", (handler, view) =>

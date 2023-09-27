@@ -1,5 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Views;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using WorkoutsApp.Pages.Templates;
 
 namespace WorkoutsApp
 {
@@ -8,17 +10,39 @@ namespace WorkoutsApp
 
         [ObservableProperty]
         bool isBusy;
+        private readonly IServiceProvider _serviceProvider;
 
-        public BaseViewModel()
+        public BaseViewModel(IServiceProvider serviceProvider)
         {
+            _serviceProvider = serviceProvider;
         }
 
+        protected void ShowPopup(Type pageToShow, object data = null)
+        {
+            var popup = (BasePopup)_serviceProvider.GetRequiredService(pageToShow);
+            popup.Data = data;
+            Shell.Current.ShowPopup(popup);
+        }
+
+        protected async Task<string> ShowEditorPopup(string title)
+        {
+            var popup = (BasePopup)_serviceProvider.GetRequiredService(typeof(EditorPopup));
+            popup.Data = title;
+            return await Shell.Current.ShowPopupAsync(popup) as string;
+        }
+
+        protected async Task DisplayAlert(string title, string description)
+        {
+            var popup = (BasePopup)_serviceProvider.GetRequiredService(typeof(InfoPopup));
+            popup.Data = "prova";
+            await Shell.Current.ShowPopupAsync(popup);
+        }
         public virtual void PrepareModel()
         {
         }
 
 
-        public virtual void ReversePrepareModel()
+        public virtual void ReversePrepareModel(object data = null)
         {
 
         }

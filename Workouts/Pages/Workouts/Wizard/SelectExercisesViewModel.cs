@@ -9,7 +9,6 @@ using CommunityToolkit.Mvvm.Input;
 using Services.Services;
 using WorkoutsApp.Dtos;
 using WorkoutsApp.Extensions;
-using WorkoutsApp.Services;
 using SelectableExerciseDto = WorkoutsApp.Dtos.SelectableExerciseDto;
 
 namespace WorkoutsApp.Pages.Workouts
@@ -36,7 +35,7 @@ namespace WorkoutsApp.Pages.Workouts
             await GoToAsync("..", "exercises", ExercisesList.Where(x=>x.IsSelected).ToList());
         }
 
-        public SelectExercisesViewModel(IExerciseService exerciseService)
+        public SelectExercisesViewModel(IExerciseService exerciseService, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _exerciseService = exerciseService;
         }

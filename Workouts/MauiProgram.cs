@@ -12,7 +12,6 @@ using WorkoutsApp.Pages.Templates;
 using WorkoutsApp.Pages.Workouts;
 using WorkoutsApp.Pages.Workouts.Wizard;
 using WorkoutsApp.Pages.Workouts.WorkoutSession;
-using WorkoutsApp.Services;
 
 
 namespace WorkoutsApp;
@@ -78,7 +77,6 @@ public static class MauiProgram
     {
         serviceCollection.AddTransient<IWorkoutService, WorkoutService>();
         serviceCollection.AddTransient<IExerciseService, ExerciseService>();
-        serviceCollection.AddSingleton<IPopupService, PopupService>();
         serviceCollection.AddSingleton<IMigrationService, MigrationService>();
         serviceCollection.AddSingleton<ICacheService>(_ => new CacheService(FileSystem.Current.AppDataDirectory));
     }

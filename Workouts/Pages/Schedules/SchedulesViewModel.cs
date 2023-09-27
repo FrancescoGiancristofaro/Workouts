@@ -13,7 +13,6 @@ using CommunityToolkit.Mvvm.Input;
 using Services.Services;
 using Syncfusion.Maui.Scheduler;
 using WorkoutsApp.Extensions;
-using WorkoutsApp.Services;
 using Font = Microsoft.Maui.Font;
 
 namespace WorkoutsApp.Pages.Schedules
@@ -21,19 +20,15 @@ namespace WorkoutsApp.Pages.Schedules
     public partial class SchedulesViewModel : BaseViewModel
     {
         private readonly IWorkoutService _workoutService;
-        private readonly IPopupService _popupService;
 
         public IAsyncRelayCommand<SchedulerLongPressedEventArgs> LongPressedCommand { get; set; }
 
         [ObservableProperty] ObservableCollection<SchedulerAppointment> _appointments = new ();
         [ObservableProperty] View _relativeView;
         [ObservableProperty] bool _displayPopup;
-        public SchedulesViewModel(
-            IWorkoutService workoutService,
-            IPopupService popupService)
+        public SchedulesViewModel(IWorkoutService workoutService, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _workoutService = workoutService;
-            _popupService = popupService;
             LongPressedCommand = new AsyncRelayCommand<SchedulerLongPressedEventArgs>(InnerLongPressed);
         }
        

@@ -10,7 +10,6 @@ using CommunityToolkit.Mvvm.Input;
 using Services.Dtos;
 using WorkoutsApp.Extensions;
 using WorkoutsApp.Dtos;
-using WorkoutsApp.Services;
 
 namespace WorkoutsApp.Pages.Workouts
 {
@@ -21,7 +20,7 @@ namespace WorkoutsApp.Pages.Workouts
         [ObservableProperty] private string _weight;
 
         private bool _notExecuteTextChanged = false;
-        public AddSeriesViewModel(IPopupService popupService) : base(popupService)
+        public AddSeriesViewModel()
         {
         }
 
@@ -43,7 +42,7 @@ namespace WorkoutsApp.Pages.Workouts
                 ;
                 return;
             }
-            _popupService.DismissPopup(new SeriesDto(){Repetitions = reps,Weight = weight,SecondsRecoveryTime = (minutes * 60)+seconds });
+            Popup.Close(new SeriesDto() { Repetitions = reps, Weight = weight, SecondsRecoveryTime = (minutes * 60) + seconds });
         }
 
 
@@ -136,7 +135,7 @@ namespace WorkoutsApp.Pages.Workouts
         public override void Opened()
         {
             _notExecuteTextChanged = true;
-            var data = _popupService.GetPopupData();
+            var data = this.Popup.Data;
             if (data is SeriesDto dto)
             {
                 Reps = dto.Repetitions.ToString();
@@ -145,11 +144,6 @@ namespace WorkoutsApp.Pages.Workouts
                 Unfocused();
             }
 
-        }
-
-        public override void Dismissed()
-        {
-            _popupService.DismissPopup();
         }
 
     }

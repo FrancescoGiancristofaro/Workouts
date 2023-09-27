@@ -4,7 +4,6 @@ using Repositories.Models;
 using Services.Constants;
 using Services.Dtos;
 using Services.Services;
-using WorkoutsApp.Services;
 
 namespace WorkoutsApp.Pages.Exercises
 {
@@ -51,7 +50,7 @@ namespace WorkoutsApp.Pages.Exercises
             SelectedCategory = Categories.First();
         }
 
-        public AddNewExerciseViewModel(IExerciseService exerciseService)
+        public AddNewExerciseViewModel(IExerciseService exerciseService, IServiceProvider serviceProvider) : base(serviceProvider)
         {
             _exerciseService = exerciseService;
         }

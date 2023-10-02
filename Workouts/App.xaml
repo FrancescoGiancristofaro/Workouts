@@ -39,6 +39,7 @@
             <converters:IsRecoveryTimePausedConverter x:Key="IsRecoveryTimePausedConverter" />
             <converters:IsRecoveryTimeNotPausedConverter x:Key="IsRecoveryTimeNotPausedConverter" />
             <converters:BackgroundRecoveryConverter x:Key="BackgroundRecoveryConverter" />
+            <converters:TappedArgsConverter x:Key="TappedArgsConverter" />
             <converters:LongPressArgsConverter x:Key="LongPressArgsConverter" />
             <x:Double x:Key="opacity20">0.2</x:Double>
             <x:Double x:Key="opacity50">0.5</x:Double>

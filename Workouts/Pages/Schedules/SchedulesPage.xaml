@@ -10,29 +10,41 @@
     x:DataType="schedules:SchedulesViewModel"
     BindingContext="{Binding}"
     RootViewModel="{Binding}">
-    <Grid BackgroundColor="Transparent" RowDefinitions="Auto,Auto,*">
-        <Label 
+    <Grid
+        BackgroundColor="Transparent"
+        RowDefinitions="Auto,Auto,*"
+        RowSpacing="20">
+        <Label
             Grid.Row="0"
             FontAttributes="Bold"
             FontSize="25"
             Text="Programma"
-            TextColor="{StaticResource Secondary}" >
-            <FlyoutBase.ContextFlyout>
-                <MenuFlyout x:Name="MyContextMenus">
-                    <MenuFlyoutItem Text="Menu1"/>
-                    <MenuFlyoutItem Text="Menu2"/>
-                </MenuFlyout>
-            </FlyoutBase.ContextFlyout>
-        </Label>
-        <Entry AnchorX="0.5" AnchorY="0.5" Grid.Row="1">
-            <FlyoutBase.ContextFlyout>
-                <MenuFlyout x:Name="MyContejxtMenus">
-                    <MenuFlyoutItem Text="Menu1"/>
-                    <MenuFlyoutItem Text="Menu2"/>
-                </MenuFlyout>
-            </FlyoutBase.ContextFlyout>
-        </Entry>
-        <scheduler:SfScheduler
+            TextColor="{StaticResource Secondary}" />
+        <Frame
+            Grid.Row="1"
+            Padding="10"
+            BackgroundColor="Transparent"
+            BorderColor="Transparent"
+            HorizontalOptions="End">
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding AddScheduledWorkoutCommand}" />
+            </Frame.GestureRecognizers>
+            <Grid ColumnDefinitions="*,Auto">
+                <Label
+                    Grid.Column="0"
+                    Margin="0,0,5,0"
+                    HorizontalOptions="End"
+                    Text="Aggiungi" />
+                <Label
+                    Grid.Column="1"
+                    FontFamily="FAS"
+                    FontSize="20"
+                    HorizontalOptions="End"
+                    Text="{StaticResource AddButton}"
+                    TextColor="{StaticResource Secondary}" />
+            </Grid>
+        </Frame>
+        <scheduler:SfScheduler 
             Grid.Row="2"
             AppointmentsSource="{Binding Appointments}"
             TodayHighlightBrush="{StaticResource Secondary}"
@@ -40,8 +52,7 @@
             <scheduler:SfScheduler.AgendaView>
                 <scheduler:SchedulerAgendaView>
                     <scheduler:SchedulerAgendaView.MonthHeaderSettings>
-                        <scheduler:SchedulerMonthHeaderSettings 
-                                                        Height="100"/>
+                        <scheduler:SchedulerMonthHeaderSettings Height="50" />
                     </scheduler:SchedulerAgendaView.MonthHeaderSettings>
                 </scheduler:SchedulerAgendaView>
             </scheduler:SfScheduler.AgendaView>
@@ -50,6 +61,10 @@
                     Command="{Binding LongPressedCommand}"
                     EventArgsConverter="{StaticResource LongPressArgsConverter}"
                     EventName="LongPressed" />
+                <behaviors:EventToCommandBehavior
+                    Command="{Binding TappedCommand}"
+                    EventArgsConverter="{StaticResource TappedArgsConverter}"
+                    EventName="Tapped" />
             </scheduler:SfScheduler.Behaviors>
         </scheduler:SfScheduler>
 

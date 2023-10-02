@@ -17,7 +17,10 @@
             <SwipeGestureRecognizer Command="{Binding BackCommand}" Direction="Right" />
         </Grid.GestureRecognizers>
         <Grid RowDefinitions="Auto,Auto,Auto,Auto,*" RowSpacing="30">
-            <Grid Grid.Row="0" ColumnSpacing="30" ColumnDefinitions="*,Auto,Auto">
+            <Grid
+                Grid.Row="0"
+                ColumnDefinitions="*,Auto,Auto"
+                ColumnSpacing="30">
                 <Label
                     Grid.Column="0"
                     FontAttributes="Bold"
@@ -253,9 +256,7 @@
             </StackLayout>
 
 
-            <ScrollView
-                Grid.Row="4"
-                VerticalScrollBarVisibility="Never">
+            <ScrollView Grid.Row="4" VerticalScrollBarVisibility="Never">
                 <CollectionView
                     x:Name="ListViewHistory"
                     IsGrouped="true"

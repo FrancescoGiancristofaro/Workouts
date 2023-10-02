@@ -7,4 +7,5 @@ public partial class SchedulesPage
 		BindingContext = vm;
 		InitializeComponent();
 	}
+
 }

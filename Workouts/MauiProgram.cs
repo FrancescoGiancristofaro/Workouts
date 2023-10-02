@@ -105,6 +105,7 @@ public static class MauiProgram
         serviceCollection.AddTransient<ExerciseSessionViewModel>();
         serviceCollection.AddTransient<InfoPopupViewModel>();
         serviceCollection.AddTransient<EditorPopupViewModel>();
+        serviceCollection.AddTransient<AddScheduledWorkoutViewModel>();
     }
     private static void RegisterPages(IServiceCollection serviceCollection)
     {
@@ -120,6 +121,7 @@ public static class MauiProgram
         serviceCollection.AddTransient<ExerciseConfigurationPage>();
         serviceCollection.AddTransient<WorkoutDetailsPage>();
         serviceCollection.AddTransient<ExerciseSessionPage>();
+        serviceCollection.AddTransient<AddScheduledWorkoutPage>();
     }
     
 }

@@ -45,7 +45,10 @@ public class MainActivity : MauiAppCompatActivity
 
         //Microsoft.Maui.Handlers.ElementHandler.ElementMapper.AppendToMapping("swipeGrid", (handler, view) =>
         //{
-            
+        //    if(view is SchedulerAppointment)
+        //    {
+
+        //    }
         //});
     }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorkoutsApp.Pages.Exercises;
+using WorkoutsApp.Pages.Schedules;
 using WorkoutsApp.Pages.Workouts;
 using WorkoutsApp.Pages.Workouts.Wizard;
 using WorkoutsApp.Pages.Workouts.WorkoutSession;
@@ -18,14 +19,16 @@ namespace WorkoutsApp
         public const string ExerciseConfigurationPage = "exerciseconfiguration";
         public const string WorkoutDetailPage = "workoutdetails";
         public const string ExerciseSessionPage = "exercisesession";
+        public const string AddScheduledWorkoutPage = "addscheduledworkout";
         public static void RegisterRoutes()
         {
-            Routing.RegisterRoute("addnewexercise", typeof(AddNewExercisePage));
-            Routing.RegisterRoute("addnewworkout", typeof(AddNewWorkoutPage));
-            Routing.RegisterRoute("selectexercise", typeof(SelectExercisesPage));
-            Routing.RegisterRoute("exerciseconfiguration", typeof(ExerciseConfigurationPage));
-            Routing.RegisterRoute("workoutdetails", typeof(WorkoutDetailsPage));
-            Routing.RegisterRoute("exercisesession", typeof(ExerciseSessionPage));
+            Routing.RegisterRoute(AddNewExercisePage, typeof(AddNewExercisePage));
+            Routing.RegisterRoute(AddNewWorkoutPage, typeof(AddNewWorkoutPage));
+            Routing.RegisterRoute(SelectExercisesPage, typeof(SelectExercisesPage));
+            Routing.RegisterRoute(ExerciseConfigurationPage, typeof(ExerciseConfigurationPage));
+            Routing.RegisterRoute(WorkoutDetailPage, typeof(WorkoutDetailsPage));
+            Routing.RegisterRoute(ExerciseSessionPage, typeof(ExerciseSessionPage));
+            Routing.RegisterRoute(AddScheduledWorkoutPage, typeof(AddScheduledWorkoutPage));
         }
     }
 }

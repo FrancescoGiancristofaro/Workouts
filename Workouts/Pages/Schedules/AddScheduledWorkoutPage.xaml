@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<templates:BasePage
+    x:Class="WorkoutsApp.Pages.Schedules.AddScheduledWorkoutPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behaviors="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:converters="clr-namespace:WorkoutsApp.Converters"
+    xmlns:inputs="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+    xmlns:scheduler="clr-namespace:Syncfusion.Maui.Scheduler;assembly=Syncfusion.Maui.Scheduler"
+    xmlns:schedules="clr-namespace:WorkoutsApp.Pages.Schedules"
+    xmlns:templates="clr-namespace:WorkoutsApp.Pages.Templates"
+    x:DataType="schedules:AddScheduledWorkoutViewModel"
+    x:Name="AddSchedule"
+    BindingContext="{Binding}"
+    RootViewModel="{Binding}">
+    <templates:BasePage.Resources>
+        <ControlTemplate x:Key="RadioButtonTemplate">
+            <StackLayout
+                Margin="0,5,0,5"
+                IsEnabled="{TemplateBinding IsChecked}"
+                Opacity="{TemplateBinding IsChecked,
+                                          Converter={StaticResource ConditionalConverter},
+                                          ConverterParameter={converters:ConditionalConverterParameter TrueValue='1',
+                                                                                                       FalseValue='0.5'}}"
+                Orientation="Horizontal">
+                <Grid
+                    Margin="0,0,4,0"
+                    HeightRequest="18"
+                    VerticalOptions="Start"
+                    WidthRequest="18">
+                    <Ellipse
+                        Fill="White"
+                        HeightRequest="16"
+                        HorizontalOptions="Center"
+                        Stroke="Blue"
+                        VerticalOptions="Center"
+                        WidthRequest="16" />
+                    <Ellipse
+                        x:Name="check"
+                        Fill="Blue"
+                        HeightRequest="8"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        WidthRequest="8" />
+                </Grid>
+                <!--<ContentPresenter BindingContext="{Binding Source={x:Reference AddSchedule}, Path=BindingContext}" />-->
+                <ContentPresenter />
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CheckedStates">
+                            <VisualState x:Name="Checked">
+                                <VisualState.Setters>
+                                    <Setter TargetName="check" Property="Opacity" Value="1" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="Unchecked">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="{StaticResource Primary}" />
+                                    <Setter TargetName="check" Property="Opacity" Value="0" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+            </StackLayout>
+        </ControlTemplate>
+
+        <Style TargetType="RadioButton">
+            <Setter Property="ControlTemplate" Value="{StaticResource RadioButtonTemplate}" />
+        </Style>
+    </templates:BasePage.Resources>
+    <Grid
+        BackgroundColor="Transparent"
+        RowDefinitions="Auto,Auto,Auto,Auto,Auto,*"
+        RowSpacing="20">
+        <Label
+            Grid.Row="0"
+            FontAttributes="Bold"
+            FontSize="25"
+            Text="Schedula allenamento"
+            TextColor="{StaticResource Secondary}" />
+        <Grid
+            Grid.Row="1"
+            RowDefinitions="Auto,Auto"
+            RowSpacing="10">
+            <Label
+                Grid.Row="0"
+                FontAttributes="Bold"
+                FontSize="Medium"
+                Text="Seleziona allenamento"
+                TextColor="{StaticResource Orange}" />
+            <inputs:SfAutocomplete
+                Grid.Row="1"
+                BackgroundColor="{StaticResource Primary}"
+                ClearButtonIconColor="{StaticResource Tertiary}"
+                DisplayMemberPath="Name"
+                HorizontalOptions="Start"
+                ItemsSource="{Binding Workouts}"
+                SelectedItem="{Binding SelectedWorkout}"
+                TextColor="{StaticResource Tertiary}"
+                TextMemberPath="Name"
+                TextSearchMode="Contains"
+                WidthRequest="200" />
+        </Grid>
+        <Grid
+            Grid.Row="2"
+            RowDefinitions="Auto,Auto"
+            RowSpacing="10">
+            <Label
+                Grid.Row="0"
+                FontAttributes="Bold"
+                FontSize="Medium"
+                Text="Criterio ricorrenza"
+                TextColor="{StaticResource Orange}" />
+            <StackLayout Grid.Row="1">
+                <RadioButton IsChecked="{Binding DailyRecurrence}">
+                    <RadioButton.Content>
+                        <Grid RowDefinitions="Auto,Auto">
+                            <Label
+                                Grid.Row="0"
+                                FontSize="Small"
+                                Text="Giornaliero"
+                                TextColor="{StaticResource Tertiary}"
+                                VerticalTextAlignment="Center" />
+                            <Grid Grid.Row="1" ColumnDefinitions="Auto,Auto,Auto">
+                                <Label
+                                    Grid.Column="0"
+                                    Text="Ogni"
+                                    VerticalTextAlignment="Center" />
+                                <Entry
+                                    Grid.Column="1"
+                                    Margin="5,0,5,0"
+                                    Keyboard="Numeric"
+                                    Text="{Binding DaysInterval}"
+                                    TextColor="{StaticResource Tertiary}"
+                                    VerticalTextAlignment="Center" />
+                                <Label
+                                    Grid.Column="2"
+                                    Text="giorni"
+                                    VerticalTextAlignment="Center" />
+                            </Grid>
+                        </Grid>
+                    </RadioButton.Content>
+                </RadioButton>
+                <RadioButton>
+                    <RadioButton.Content>
+                        <Grid RowDefinitions="Auto,Auto,Auto">
+                            <Label
+                                Grid.Row="0"
+                                FontSize="Small"
+                                Text="Settimanale"
+                                TextColor="{StaticResource Tertiary}" />
+                            <Grid Grid.Row="1" ColumnDefinitions="Auto,Auto,Auto">
+                                <Label
+                                    Grid.Column="0"
+                                    Text="Ogni"
+                                    VerticalTextAlignment="Center" />
+                                <Entry
+                                    Grid.Column="1"
+                                    Margin="5,0,5,0"
+                                    Keyboard="Numeric"
+                                    Text="{Binding WeeksInterval}"
+                                    TextColor="{StaticResource Tertiary}"
+                                    VerticalTextAlignment="Center" />
+                                <Label
+                                    Grid.Column="2"
+                                    Text="settimana/e e di"
+                                    VerticalTextAlignment="Center" />
+                            </Grid>
+                            <Picker
+                                Title="Seleziona giorno"
+                                Grid.Row="2"
+                                SelectedIndex="{Binding DayOfWeekIndex}"
+                                TextColor="{StaticResource Tertiary}"
+                                TitleColor="{StaticResource Tertiary}"
+                                VerticalOptions="Center"
+                                VerticalTextAlignment="Center">
+                                <Picker.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>Lunedi</x:String>
+                                        <x:String>Martedi</x:String>
+                                        <x:String>Mercoledi</x:String>
+                                        <x:String>Giovedi</x:String>
+                                        <x:String>Venerdi</x:String>
+                                        <x:String>Sabato</x:String>
+                                        <x:String>Domenica</x:String>
+                                    </x:Array>
+                                </Picker.ItemsSource>
+                            </Picker>
+                        </Grid>
+                    </RadioButton.Content>
+                </RadioButton>
+            </StackLayout>
+        </Grid>
+        <Grid Grid.Row="3" ColumnDefinitions="Auto,Auto">
+            <Label
+                Grid.Column="0"
+                FontAttributes="Bold"
+                FontSize="Medium"
+                Text="Data inizio"
+                TextColor="{StaticResource Orange}"
+                VerticalTextAlignment="Center" />
+            <DatePicker
+                Grid.Column="1"
+                Margin="10,0,0,0"
+                Date="{Binding StartDate}"
+                Format="dd/MM/yyyy"
+                TextColor="{StaticResource Tertiary}"
+                VerticalOptions="Center" />
+        </Grid>
+        <Grid
+            Grid.Row="4"
+            RowDefinitions="Auto,Auto"
+            RowSpacing="10">
+            <Label
+                Grid.Row="0"
+                FontAttributes="Bold"
+                FontSize="Medium"
+                Text="Fine ricorrenza"
+                TextColor="{StaticResource Orange}" />
+            <StackLayout Grid.Row="1">
+                <RadioButton IsChecked="{Binding RecurrenceEndByDate}">
+                    <RadioButton.Content>
+                        <Grid ColumnDefinitions="Auto,Auto">
+                            <Label
+                                Grid.Column="0"
+                                FontSize="Small"
+                                Text="Data fine"
+                                TextColor="{StaticResource Tertiary}"
+                                VerticalTextAlignment="Start" />
+                            <DatePicker
+                                Grid.Column="1"
+                                Margin="10,-10,0,0"
+                                Date="{Binding EndDate}"
+                                Format="dd/MM/yyyy"
+                                TextColor="{StaticResource Tertiary}"
+                                VerticalOptions="Start" />
+                        </Grid>
+                    </RadioButton.Content>
+                </RadioButton>
+                <RadioButton IsChecked="{Binding RecurrenceEndAfterOccurences}">
+                    <RadioButton.Content>
+                        <Grid ColumnDefinitions="Auto,Auto,Auto">
+                            <Label
+                                Grid.Column="0"
+                                Text="Fine dopo"
+                                VerticalTextAlignment="Start" />
+                            <Entry 
+                                Grid.Column="1"
+                                Margin="5,-10,5,0"
+                                Keyboard="Numeric"
+                                Text="{Binding OccurencesToEnd}"
+                                TextColor="{StaticResource Tertiary}"
+                                VerticalTextAlignment="Start" />
+                            <Label
+                                Grid.Column="2"
+                                Text="allenamenti"
+                                VerticalTextAlignment="Start" />
+                        </Grid>
+                    </RadioButton.Content>
+                </RadioButton>
+                <RadioButton Content="Nessun termine" IsChecked="{Binding RecurrenceNoEnd}" />
+            </StackLayout>
+        </Grid>
+        <Grid
+            Grid.Row="5"
+            ColumnDefinitions="*,*"
+            HorizontalOptions="Center"
+            VerticalOptions="End">
+            <Button
+                Margin="0,0,0,20"
+                Command="{Binding SaveCommand}"
+                Text="Salva"
+                WidthRequest="200" />
+        </Grid>
+    </Grid>
+</templates:BasePage>

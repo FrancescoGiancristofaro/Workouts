@@ -131,7 +131,7 @@
                                     Grid.Column="1"
                                     Margin="5,0,5,0"
                                     Keyboard="Numeric"
-                                    Text="{Binding DaysInterval}"
+                                    Text="{Binding Source={x:Reference AddSchedule}, Path=BindingContext.DaysInterval}"
                                     TextColor="{StaticResource Tertiary}"
                                     VerticalTextAlignment="Center" />
                                 <Label
@@ -159,7 +159,7 @@
                                     Grid.Column="1"
                                     Margin="5,0,5,0"
                                     Keyboard="Numeric"
-                                    Text="{Binding WeeksInterval}"
+                                    Text="{Binding Source={x:Reference AddSchedule}, Path=BindingContext.WeeksInterval}"
                                     TextColor="{StaticResource Tertiary}"
                                     VerticalTextAlignment="Center" />
                                 <Label
@@ -170,7 +170,7 @@
                             <Picker
                                 Title="Seleziona giorno"
                                 Grid.Row="2"
-                                SelectedIndex="{Binding DayOfWeekIndex}"
+                                SelectedIndex="{Binding Source={x:Reference AddSchedule}, Path=BindingContext.DayOfWeekIndex}"
                                 TextColor="{StaticResource Tertiary}"
                                 TitleColor="{StaticResource Tertiary}"
                                 VerticalOptions="Center"
@@ -203,7 +203,7 @@
             <DatePicker
                 Grid.Column="1"
                 Margin="10,0,0,0"
-                Date="{Binding StartDate}"
+                Date="{Binding Source={x:Reference AddSchedule}, Path=BindingContext.StartDate}"
                 Format="dd/MM/yyyy"
                 TextColor="{StaticResource Tertiary}"
                 VerticalOptions="Center" />
@@ -231,7 +231,7 @@
                             <DatePicker
                                 Grid.Column="1"
                                 Margin="10,-10,0,0"
-                                Date="{Binding EndDate}"
+                                Date="{Binding Source={x:Reference AddSchedule}, Path=BindingContext.EndDate}"
                                 Format="dd/MM/yyyy"
                                 TextColor="{StaticResource Tertiary}"
                                 VerticalOptions="Start" />
@@ -249,7 +249,7 @@
                                 Grid.Column="1"
                                 Margin="5,-10,5,0"
                                 Keyboard="Numeric"
-                                Text="{Binding OccurencesToEnd}"
+                                Text="{Binding Source={x:Reference AddSchedule}, Path=BindingContext.OccurencesToEnd}"
                                 TextColor="{StaticResource Tertiary}"
                                 VerticalTextAlignment="Start" />
                             <Label

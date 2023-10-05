@@ -17,37 +17,39 @@ namespace Services.Services
     public interface IWorkoutService 
     {
         Task<IEnumerable<WorkoutsDto>> GetWorkoutsAsync();
+        Task<IEnumerable<WorkoutsScheduledDto>> GetWorkoutsScheduledAsync();
         Task<IEnumerable<WorkoutSessionDto>> GetWorkoutSessionsAsync();
         Task<WorkoutsDto> GetWorkoutByIdAsync(int id);
         Task<WorkoutSessionDto> GetWorkoutBySessionIdAsync(int id);
         Task CreateWorkoutAsync(WorkoutWizardDto dto);
+        Task CreateWorkoutScheduleAsync(WorkoutsScheduledDto dto);
         Task CreateWorkoutSessionAsync(WorkoutSessionWizardDto dto);
+        Task RemoveWorkoutSchedule(int id);
     }
 
     public class WorkoutService : IWorkoutService
     {
+        private readonly IWorkoutsScheduledRepository _workoutsScheduledRepository;
         private readonly IWorkoutsRepository _workoutsRepository;
         private readonly IMapper _mapper;
-        private readonly IExerciseService _exerciseService;
         private readonly IWorkoutExerciseDetailsRepository _workoutExerciseDetailsRepository;
         private readonly ISeriesRepository _seriesRepository;
         private readonly IWorkoutSessionRepository _workoutSessionRepository;
         private readonly ISeriesHistoryRepository _seriesHistoryRepository;
         private readonly ICacheService _cacheService;
 
-        public WorkoutService(
+        public WorkoutService( IWorkoutsScheduledRepository workoutsScheduledRepository,
             IWorkoutsRepository workoutsRepository,
             IMapper mapper,
-            IExerciseService exerciseService,
             IWorkoutExerciseDetailsRepository workoutExerciseDetailsRepository,
             ISeriesRepository seriesRepository,
             IWorkoutSessionRepository workoutSessionRepository,
             ISeriesHistoryRepository seriesHistoryRepository,
             ICacheService cacheService)
         {
+            _workoutsScheduledRepository = workoutsScheduledRepository;
             _workoutsRepository = workoutsRepository;
             _mapper = mapper;
-            _exerciseService = exerciseService;
             _workoutExerciseDetailsRepository = workoutExerciseDetailsRepository;
             _seriesRepository = seriesRepository;
             _workoutSessionRepository = workoutSessionRepository;
@@ -144,6 +146,29 @@ namespace Services.Services
         {
             var res = await _workoutSessionRepository.GetAll();
             return _mapper.Map<IEnumerable<WorkoutSessionDto>>(res);    
+        }
+
+        public async Task CreateWorkoutScheduleAsync(WorkoutsScheduledDto dto)
+        {
+            var schedule = _mapper.Map<WorkoutsScheduled>(dto);
+            await _workoutsScheduledRepository.Insert(schedule);
+            WeakReferenceMessenger.Default.Send(new ValueChangedMessage<WorkoutOperation>(WorkoutOperation.Inserted));
+        }
+
+        public async Task<IEnumerable<WorkoutsScheduledDto>> GetWorkoutsScheduledAsync()
+        {
+            var schedules = await _workoutsScheduledRepository.GetAll();
+            return _mapper.Map<IEnumerable<WorkoutsScheduledDto>>(schedules);
+        }
+
+        public async Task RemoveWorkoutSchedule(int id)
+        {
+            var schedule = await _workoutsScheduledRepository.GetById(id);
+            if(schedule is not null)
+                await _workoutsScheduledRepository.Delete(schedule);
+
+            WeakReferenceMessenger.Default.Send(new ValueChangedMessage<WorkoutOperation>(WorkoutOperation.Deleted));
+
         }
     }
 }

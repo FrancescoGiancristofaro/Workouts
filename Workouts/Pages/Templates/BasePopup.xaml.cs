@@ -28,6 +28,7 @@ public partial class BasePopup
     {
         this.Closed -= BasePopup_OnClosed;
         this.Opened -= BasePopup_OnOpened;
+        await RootViewModel.Popup.CloseAsync();
         MainThread.BeginInvokeOnMainThread(RootViewModel.Dismissed);
     }
     private void BasePopup_OnOpened(object sender, PopupOpenedEventArgs e)

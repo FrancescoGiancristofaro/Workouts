@@ -27,6 +27,11 @@ namespace Services.Automapper
             CreateMap<WorkoutsScheduled, WorkoutsScheduledDto>()
                 .ForMember(x => x.StartDate, opt => opt.MapFrom(s => DateTimeOffset.FromUnixTimeMilliseconds(s.StartDate).LocalDateTime))
                 .ForMember(x => x.EndDate, opt => opt.MapFrom(s => s.EndDate == null ? default(DateTime?) : DateTimeOffset.FromUnixTimeMilliseconds(s.EndDate.Value).LocalDateTime));
+
+            CreateMap<WorkoutsScheduledDto, WorkoutsScheduled>()
+               .ForMember(x => x.StartDate, opt => opt.MapFrom(s => new DateTimeOffset(s.StartDate).ToUnixTimeMilliseconds()))
+               .ForMember(x => x.EndDate, opt => opt.MapFrom(s => s.EndDate == null ? default(long) : new DateTimeOffset(s.EndDate.Value).ToUnixTimeMilliseconds()));
+
         }
     }
 }

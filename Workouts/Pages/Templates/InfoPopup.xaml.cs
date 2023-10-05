@@ -6,6 +6,7 @@ public partial class InfoPopup
 {
 	public InfoPopup(InfoPopupViewModel vm)
 	{
+		vm.Popup = this;
 		BindingContext = vm;
 		InitializeComponent();
 	}

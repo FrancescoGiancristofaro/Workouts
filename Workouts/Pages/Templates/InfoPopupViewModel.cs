@@ -8,6 +8,7 @@ using WorkoutsApp.Dtos;
 
 namespace WorkoutsApp.Pages.Templates
 {
+   
     public partial class InfoPopupViewModel : BasePopupViewModel
     {
         [ObservableProperty] string _title;
@@ -18,7 +19,9 @@ namespace WorkoutsApp.Pages.Templates
 
         public override void Opened()
         {
-            
+            var data = this.Popup.Data as DisplayAlertDto;
+            Title = data.Title;
+            Message = data.Message;
 
         }
     }

@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using WorkoutsApp.Dtos;
 using WorkoutsApp.Pages.Templates;
 
 namespace WorkoutsApp
@@ -34,7 +35,11 @@ namespace WorkoutsApp
         protected async Task DisplayAlert(string title, string description)
         {
             var popup = (BasePopup)_serviceProvider.GetRequiredService(typeof(InfoPopup));
-            popup.Data = "prova";
+            popup.Data = new DisplayAlertDto()
+            {
+                Title = title,
+                Message = description
+            };
             await Shell.Current.ShowPopupAsync(popup);
         }
         public virtual void PrepareModel()

@@ -22,7 +22,7 @@ namespace WorkoutsApp.Helpers
             }
             else
             {
-                rule += $"UNTIL={DateTime.UtcNow.ToString("yyyyMMddTHHmmssZ")};";
+                rule += $"UNTIL={DateTime.UtcNow.AddDays(-1).ToString("yyyyMMddTHHmmssZ")};";
 
             }
             if (dto.RecurrenceType is RecurrenceType.Weekly)

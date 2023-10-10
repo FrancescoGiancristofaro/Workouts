@@ -58,7 +58,11 @@ namespace WorkoutsApp.Pages.Schedules
         {
             if (e.Element is SchedulerElement.Appointment)
             {
-                await this.DisplayAlert("ad", "vedere allenamento fatto + opzione inizia");
+                if (e.Appointments.First() is WorkoutDoneAppointment appointment)
+                {
+                    ShowPopup(typeof(WorkoutSessionDetailPopup), appointment.WorkoutTypeId);
+                }
+
                 return;
             }
         }
@@ -68,7 +72,7 @@ namespace WorkoutsApp.Pages.Schedules
             {
                 var res = await Shell.Current.DisplayAlert("Attenzione", "Vuoi cancellare la ricorrenza? L'operazione è irreversibile", "Ok", "Annulla");
                 if (res)
-                    await _workoutService.RemoveWorkoutSchedule(appointment.WorkoutId);
+                    await _workoutService.RemoveWorkoutSchedule(appointment.WorkoutTypeId);
                 return;
             }
         }
@@ -97,33 +101,50 @@ namespace WorkoutsApp.Pages.Schedules
                         Background = Colors.LightGreen,
                         StartTime = item.StartDate,
                         EndTime = item.EndDate,
-                        Subject = wo.Name
+                        Subject = wo.Name,
+                        WorkoutTypeId = item.Id
                     });
                 });
 
                 var schedules = await _workoutService.GetWorkoutsScheduledAsync();
                 Parallel.ForEach(schedules, (item, cancellationToken) =>
                 {
-                    //if(item.StartDate - DateTime.UtcNow < TimeSpan.Zero)
-                    //{
-                    //    list.Add(new WorkoutNotDoneAppointment
-                    //    {
-                    //        Background = Colors.Red,
-                    //        StartTime = item.StartDate,
-                    //        EndTime = item.StartDate.AddHours(1),
-                    //        Subject = item.WorkoutName,
-                    //        RecurrenceRule = SyncfusionSchedulerHelper.GetRecurrenceRule(item, true)
-                    //    });
-                    //}
+                    if (item.StartDate - DateTime.UtcNow < TimeSpan.Zero)
+                    {
+                        var pastRecurrence =(new WorkoutNotDoneAppointment
+                        {
+                            Background = Colors.Red,
+                            StartTime = item.StartDate,
+                            EndTime = DateTime.UtcNow.AddDays(-1),
+                            Subject = item.WorkoutName,
+                            RecurrenceRule = SyncfusionSchedulerHelper.GetRecurrenceRule(item, true),
+                            WorkoutTypeId = item.Id
+                        });
+                        var alreadyDone = sessions.Where(x => (x.StartDate - item.StartDate) > TimeSpan.Zero);
+                        if (alreadyDone.Any())
+                        {
+                            pastRecurrence.RecurrenceExceptionDates = new ObservableCollection<DateTime>();
+                            foreach (var session in alreadyDone)
+                                pastRecurrence.RecurrenceExceptionDates.Add(session.StartDate);
+                        }
+                        list.Add(pastRecurrence);
+                    }
+
+
                     var recurrence = new WorkoutToDoAppointment
                     {
                         Background = Colors.LightGray,
-                        StartTime = DateTime.UtcNow,
-                        EndTime = DateTime.UtcNow.AddHours(1),
+                        StartTime = DateTime.Now,
+                        EndTime = DateTime.Now.AddHours(1),
                         Subject = item.WorkoutName,
                         RecurrenceRule = SyncfusionSchedulerHelper.GetRecurrenceRule(item),
-                        WorkoutId = item.Id
+                        WorkoutTypeId = item.Id
                     };
+                    if (sessions.Any(x=>x.StartDate.IsSameDayThan(DateTime.Now)))
+                        recurrence.RecurrenceExceptionDates = new ObservableCollection<DateTime>()
+                        {
+                            DateTime.Now
+                        };
                     list.Add(recurrence);
                 });
 

@@ -161,6 +161,9 @@
 	  <MauiXaml Update="Pages\Schedules\SchedulesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Pages\Schedules\WorkoutSessionDetailPopup.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Pages\Settings\Settings.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

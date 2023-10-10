@@ -8,13 +8,15 @@ using Syncfusion.Maui.Scheduler;
 namespace WorkoutsApp.Pages.Templates.CustomViews
 {
     public class WorkoutAppointment
-    {
+    { 
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public string Subject { get; set; }
         public string RecurrenceRule { get; set; }
         public Brush Background { get; set; }
         public Color TextColor { get; set; }
+        public IList<DateTime> RecurrenceExceptionDates { get; set; }
+        public int WorkoutTypeId { get; set; } //session or scheduled workout id
     }
     public class WorkoutDoneAppointment : WorkoutAppointment
     {
@@ -26,6 +28,5 @@ namespace WorkoutsApp.Pages.Templates.CustomViews
 
     public class WorkoutToDoAppointment : WorkoutAppointment
     {
-        public int WorkoutId { get; set; }
     }
 }

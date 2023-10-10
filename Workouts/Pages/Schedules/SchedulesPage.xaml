@@ -44,28 +44,33 @@
                     TextColor="{StaticResource Secondary}" />
             </Grid>
         </Frame>
-        <scheduler:SfScheduler
+        <scheduler:SfScheduler 
             Grid.Row="2"
             AppointmentsSource="{Binding Appointments}"
             TodayHighlightBrush="{StaticResource Secondary}"
             View="Agenda">
             <scheduler:SfScheduler.AppointmentMapping>
-                <scheduler:SchedulerAppointmentMapping
-                Subject="Subject"
-                StartTime="StartTime"
-                EndTime="EndTime"
-                Background="Background"
-                RecurrenceRule="RecurrenceRule"
-                TextColorMapping="TextColor"/>
+                <scheduler:SchedulerAppointmentMapping 
+                    Background="Background"
+                    EndTime="EndTime"
+                    RecurrenceExceptionDates="RecurrenceExceptionDates"
+                    RecurrenceRule="RecurrenceRule"
+                    StartTime="StartTime"
+                    Id="WorkoutTypeId"
+                    Subject="Subject"
+                    TextColorMapping="TextColor" />
             </scheduler:SfScheduler.AppointmentMapping>
             <scheduler:SfScheduler.HeaderView>
                 <scheduler:SchedulerHeaderView>
                     <scheduler:SchedulerHeaderView.TextStyle>
-                        <scheduler:SchedulerTextStyle FontAttributes="Bold" FontSize="18" TextColor="{StaticResource Secondary}" />
+                        <scheduler:SchedulerTextStyle
+                            FontAttributes="Bold"
+                            FontSize="18"
+                            TextColor="{StaticResource Secondary}" />
                     </scheduler:SchedulerHeaderView.TextStyle>
                 </scheduler:SchedulerHeaderView>
             </scheduler:SfScheduler.HeaderView>
-            
+
             <scheduler:SfScheduler.AgendaView>
                 <scheduler:SchedulerAgendaView>
                     <scheduler:SchedulerAgendaView.MonthHeaderSettings>
